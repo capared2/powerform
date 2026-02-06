@@ -165,32 +165,74 @@ function calcularProximoSorteo() {
 }
 
 // ============================================
-// CARGAR RESULTADOS (desde JSON)
+// CARGAR RESULTADOS - CON DEBUGGING DETALLADO
 // ============================================
 async function cargarResultados() {
+  console.log('🔄 [PASO 1] Iniciando carga de resultados...');
+  
   try {
-    const res = await fetch(`${JSON_URL}?t=${Date.now()}`, {
+    const url = `${JSON_URL}?t=${Date.now()}`;
+    console.log('📡 [PASO 2] Haciendo fetch a:', url);
+    
+    const res = await fetch(url, {
       cache: 'no-store',
       headers: { 'Cache-Control': 'no-cache' }
     });
+    
+    console.log('📊 [PASO 3] Respuesta recibida:');
+    console.log('   - Status:', res.status);
+    console.log('   - OK:', res.ok);
     
     if (!res.ok) {
       throw new Error('HTTP ' + res.status);
     }
 
-    const data = await res.json();
+    const rawText = await res.text();
+    console.log('📄 [PASO 4] Texto crudo recibido (primeros 200 chars):', rawText.substring(0, 200));
+    
+    let data;
+    try {
+      data = JSON.parse(rawText);
+      console.log('✅ [PASO 5] JSON parseado exitosamente:', data);
+    } catch (parseError) {
+      console.error('❌ [PASO 5] Error al parsear JSON:', parseError);
+      throw new Error('JSON inválido: ' + parseError.message);
+    }
+    
     const s = data.sorteo;
+    console.log('📦 [PASO 6] Objeto sorteo extraído:', s);
 
     // Validar datos
-    if (!s || !s.blancos || !s.powerball) {
-      throw new Error('Datos incompletos');
+    if (!s) {
+      console.error('❌ [PASO 7] ERROR: data.sorteo no existe');
+      throw new Error('data.sorteo es undefined o null');
+    }
+    
+    console.log('✅ [PASO 7] data.sorteo existe');
+    
+    if (!s.blancos) {
+      console.error('❌ [PASO 8] ERROR: s.blancos no existe');
+      throw new Error('s.blancos es undefined o null');
+    }
+    
+    console.log('✅ [PASO 8] s.blancos existe:', s.blancos);
+    
+    if (!s.powerball && s.powerball !== 0) {
+      console.error('❌ [PASO 9] ERROR: s.powerball no existe');
+      throw new Error('s.powerball es undefined o null');
     }
 
-    // Ocultar skeleton, mostrar card real
+    console.log('✅ [PASO 9] s.powerball existe:', s.powerball);
+
+    // Obtener elementos del DOM
     const skeletonCard = document.getElementById('skeleton-card');
     const realCard = document.getElementById('real-card');
+    const errorCard = document.getElementById('error-card');
+    
+    console.log('🎴 [PASO 10] Mostrando resultados en pantalla...');
     
     if (skeletonCard) skeletonCard.style.display = 'none';
+    if (errorCard) errorCard.classList.add('hidden');
     if (realCard) realCard.classList.remove('hidden');
 
     // Fecha
@@ -236,10 +278,14 @@ async function cargarResultados() {
       ultimaActEl.textContent = 'Actualizado: ' + data.fecha_actualizacion;
     }
 
+    console.log('🎉 [ÉXITO] ¡Todos los resultados cargados exitosamente!');
+
   } catch (err) {
-    console.error('Error cargando resultados:', err);
+    console.error('❌ ====== ERROR CAPTURADO ======');
+    console.error('❌ Mensaje:', err.message);
+    console.error('❌ Stack:', err.stack);
+    console.error('❌ ============================');
     
-    // Ocultar skeleton y real, mostrar error
     const skeletonCard = document.getElementById('skeleton-card');
     const realCard = document.getElementById('real-card');
     const errorCard = document.getElementById('error-card');
@@ -250,9 +296,8 @@ async function cargarResultados() {
   }
 }
 
-// ============================================
-// MENÚ MÓVIL
-// ============================================
+// [... resto del código es igual ...]
+
 function initMobileMenu() {
   const menuBtn = document.getElementById('menuBtn');
   const mobileMenu = document.getElementById('mobileMenu');
@@ -262,7 +307,6 @@ function initMobileMenu() {
   menuBtn.addEventListener('click', () => {
     mobileMenu.classList.toggle('hidden');
     
-    // Cambiar icono
     const icon = menuBtn.querySelector('i');
     if (icon) {
       if (mobileMenu.classList.contains('hidden')) {
@@ -274,7 +318,6 @@ function initMobileMenu() {
     }
   });
 
-  // Cerrar menú al hacer clic en un enlace
   const mobileLinks = mobileMenu.querySelectorAll('a');
   mobileLinks.forEach(link => {
     link.addEventListener('click', () => {
@@ -288,9 +331,6 @@ function initMobileMenu() {
   });
 }
 
-// ============================================
-// SMOOTH SCROLL PARA ANCLAS
-// ============================================
 function initSmoothScroll() {
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
@@ -309,17 +349,12 @@ function initSmoothScroll() {
   });
 }
 
-// ============================================
-// SCROLL TO TOP BUTTON (NUEVO)
-// ============================================
 function initScrollToTop() {
   const scrollBtn = document.getElementById('scrollTop');
   if (!scrollBtn) return;
 
-  // Mostrar/ocultar botón según scroll
   let scrollTimeout;
   window.addEventListener('scroll', () => {
-    // Debounce para mejor performance
     clearTimeout(scrollTimeout);
     scrollTimeout = setTimeout(() => {
       if (window.scrollY > 300) {
@@ -330,7 +365,6 @@ function initScrollToTop() {
     }, 100);
   });
 
-  // Click para volver arriba
   scrollBtn.addEventListener('click', () => {
     window.scrollTo({
       top: 0,
@@ -339,9 +373,6 @@ function initScrollToTop() {
   });
 }
 
-// ============================================
-// AÑO DINÁMICO EN FOOTER (NUEVO)
-// ============================================
 function updateCurrentYear() {
   const yearEl = document.getElementById('current-year');
   if (yearEl) {
@@ -349,11 +380,7 @@ function updateCurrentYear() {
   }
 }
 
-// ============================================
-// PERFORMANCE: INTERSECTION OBSERVER PARA ANIMACIONES
-// ============================================
 function initIntersectionObserver() {
-  // Observar elementos con animación al entrar en viewport
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
@@ -365,84 +392,55 @@ function initIntersectionObserver() {
     rootMargin: '0px 0px -50px 0px'
   });
 
-  // Observar cards de pasos
   document.querySelectorAll('.step-card').forEach(card => {
     observer.observe(card);
   });
 }
 
-// ============================================
-// OPTIMIZACIÓN: LAZY LOAD DE ICONOS LUCIDE
-// ============================================
 function initLucideIcons() {
   if (typeof lucide !== 'undefined') {
     try {
       lucide.createIcons();
     } catch (error) {
-      console.warn('Error inicializando Lucide icons:', error);
+      console.warn('⚠️ Error inicializando Lucide icons:', error);
     }
   }
 }
 
-// ============================================
-// INICIALIZACIÓN
-// ============================================
 document.addEventListener('DOMContentLoaded', () => {
-  // Inicializar Lucide Icons
-  initLucideIcons();
-
-  // Actualizar año dinámico
-  updateCurrentYear();
-
-  // Renderizar FAQ
-  renderFaqs();
+  console.log('🚀 INICIANDO APLICACIÓN POWERBALL');
   
-  // Re-crear iconos después de generar FAQ
+  initLucideIcons();
+  updateCurrentYear();
+  renderFaqs();
   initLucideIcons();
 
-  // Actualizar próximo sorteo
   const proximoSorteoEl = document.getElementById('proximo-sorteo');
   if (proximoSorteoEl) {
     proximoSorteoEl.textContent = 'Próximo sorteo: ' + calcularProximoSorteo();
   }
 
-  // Cargar resultados
   cargarResultados();
-
-  // Auto-refresh cada 5 minutos
   setInterval(cargarResultados, 5 * 60 * 1000);
 
-  // Inicializar menú móvil
   initMobileMenu();
-
-  // Inicializar smooth scroll
   initSmoothScroll();
-
-  // Inicializar scroll to top
   initScrollToTop();
-
-  // Inicializar intersection observer para animaciones
   initIntersectionObserver();
+  
+  console.log('✅ APLICACIÓN INICIALIZADA');
 });
 
-// ============================================
-// MANEJO DE ERRORES GLOBAL
-// ============================================
 window.addEventListener('error', (e) => {
-  console.error('Error global:', e.error);
+  console.error('❌ [ERROR GLOBAL]:', e.error);
 });
 
 window.addEventListener('unhandledrejection', (e) => {
-  console.error('Promise rechazada:', e.reason);
+  console.error('❌ [PROMISE RECHAZADA]:', e.reason);
 });
 
-// ============================================
-// PERFORMANCE: PRELOAD CRÍTICO
-// ============================================
-// Precargar el JSON en background para mejorar velocidad
 if ('requestIdleCallback' in window) {
   requestIdleCallback(() => {
     fetch(JSON_URL, { cache: 'force-cache' }).catch(() => {});
   });
 }
-
