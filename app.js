@@ -1,7 +1,7 @@
 // ============================================
 // CONFIGURACIÓN
 // ============================================
-const JSON_URL = '/data/resultados.json';
+const JSON_URL = '/api/resultados-v2';
 
 // ============================================
 // DATOS FAQ (generados dinámicamente para DRY)

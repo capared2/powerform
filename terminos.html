@@ -2,335 +2,253 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>Términos y Condiciones | LotoHN Honduras</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 50%, #7e22ce 100%);
-            min-height: 100vh;
-            padding: 40px 20px;
-        }
-
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-            background: white;
-            border-radius: 25px;
-            padding: 50px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-            animation: fadeIn 0.6s ease;
-        }
-
-        .header {
-            text-align: center;
-            margin-bottom: 40px;
-            padding-bottom: 30px;
-            border-bottom: 3px solid #f0f0f0;
-        }
-
-        .header h1 {
-            font-size: 2.5em;
-            color: #2c3e50;
-            margin-bottom: 10px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .header p {
-            color: #666;
-            font-size: 1.1em;
-        }
-
-        .back-button {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 12px 25px;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: 600;
-            margin-bottom: 30px;
-            transition: transform 0.3s ease;
-            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
-        }
-
-        .back-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
-        }
-
-        .content {
-            color: #333;
-            line-height: 1.8;
-        }
-
-        .section {
-            margin-bottom: 35px;
-        }
-
-        .section h2 {
-            font-size: 1.8em;
-            color: #2c3e50;
-            margin-bottom: 15px;
-            padding-left: 15px;
-            border-left: 5px solid #667eea;
-        }
-
-        .section p {
-            margin-bottom: 15px;
-            text-align: justify;
-        }
-
-        .section ul {
-            margin: 15px 0;
-            padding-left: 40px;
-        }
-
-        .section li {
-            margin-bottom: 10px;
-        }
-
-        .highlight-box {
-            background: #fff3cd;
-            border-left: 4px solid #ffc107;
-            padding: 20px;
-            border-radius: 10px;
-            margin: 20px 0;
-        }
-
-        .contact-info {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 25px;
-            border-radius: 15px;
-            text-align: center;
-            margin-top: 40px;
-        }
-
-        .contact-info a {
-            color: white;
-            text-decoration: underline;
-            font-weight: 600;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @media (max-width: 768px) {
-            .container {
-                padding: 30px 20px;
-            }
-
-            .header h1 {
-                font-size: 2em;
-            }
-
-            .section h2 {
-                font-size: 1.5em;
-            }
-        }
-    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    
+    <title>Términos y Condiciones - ResultPowerball</title>
+    <meta name="description" content="Términos y condiciones de uso de ResultPowerball. Lee nuestras políticas antes de usar nuestro portal de resultados del Powerball.">
+    <meta name="robots" content="index, follow">
+    
+    <link rel="canonical" href="https://resultpowerball.com/terminos">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%23DC2626'/><circle cx='16' cy='16' r='9' fill='white'/><text x='16' y='21' text-anchor='middle' font-size='13' font-weight='bold' fill='%23DC2626'>PB</text></svg>">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="styles.css">
 </head>
-<body>
-    <div class="container">
-        <a href="index" class="back-button">
-            ← Volver al inicio
+<body class="bg-gray-950 min-h-screen">
+    
+    <!-- HEADER -->
+    <header class="sticky top-0 z-50 border-b border-gray-800 bg-gray-950/85 backdrop-blur-md">
+      <div class="max-w-6xl mx-auto px-4 py-3.5 flex items-center justify-between">
+        <a href="/" class="flex items-center gap-2.5">
+          <div class="bg-red-600 rounded-lg p-1.5">
+            <i data-lucide="star" class="w-5 h-5 text-white"></i>
+          </div>
+          <span class="font-display text-xl font-bold text-white tracking-tight">Result<span class="text-red-500">PB</span></span>
         </a>
+        
+        <nav class="flex items-center gap-6">
+          <a href="/" class="text-gray-400 hover:text-white text-sm font-medium transition-colors">Volver al inicio</a>
+        </nav>
+      </div>
+    </header>
 
-        <div class="header">
-            <h1>📜 Términos y Condiciones</h1>
-            <p>Última actualización: 8 de Diciembre de 2025</p>
+    <!-- CONTENIDO -->
+    <main class="py-16 px-4">
+      <div class="max-w-4xl mx-auto">
+        <div class="bg-gray-900 border border-gray-800 rounded-2xl p-8 md:p-12">
+          
+          <h1 class="font-display text-4xl font-bold text-white mb-4">Términos y Condiciones</h1>
+          <p class="text-gray-500 mb-8">Última actualización: 5 de febrero de 2026</p>
+
+          <!-- Introducción -->
+          <section class="mb-10">
+            <h2 class="text-2xl font-bold text-white mb-4">1. Aceptación de los Términos</h2>
+            <p class="text-gray-400 leading-relaxed mb-4">
+              Al acceder y utilizar <strong class="text-white">ResultPowerball.com</strong> (en adelante, "el Sitio"), 
+              aceptas cumplir con estos Términos y Condiciones. Si no estás de acuerdo con alguna parte de estos términos, 
+              te recomendamos que no uses nuestro sitio web.
+            </p>
+            <p class="text-gray-400 leading-relaxed">
+              El Sitio es operado por ResultPowerball y proporciona información sobre los resultados del sorteo Powerball 
+              con fines informativos únicamente.
+            </p>
+          </section>
+
+          <!-- Uso del Sitio -->
+          <section class="mb-10">
+            <h2 class="text-2xl font-bold text-white mb-4">2. Uso del Sitio</h2>
+            <h3 class="text-xl font-semibold text-white mb-3">2.1 Información Proporcionada</h3>
+            <p class="text-gray-400 leading-relaxed mb-4">
+              ResultPowerball proporciona información sobre los resultados del Powerball obtenida de fuentes públicas. 
+              Aunque hacemos nuestro mejor esfuerzo por mantener la información actualizada y precisa, 
+              <strong class="text-white">no garantizamos la exactitud, integridad o vigencia</strong> de la información publicada.
+            </p>
+            
+            <h3 class="text-xl font-semibold text-white mb-3">2.2 Verificación Oficial</h3>
+            <p class="text-gray-400 leading-relaxed mb-4">
+              Los usuarios deben <strong class="text-white">verificar siempre los resultados oficiales</strong> en 
+              <a href="https://www.powerball.com" class="text-red-500 hover:underline" target="_blank" rel="noopener">powerball.com</a> 
+              o con los retailers autorizados antes de reclamar cualquier premio.
+            </p>
+
+            <h3 class="text-xl font-semibold text-white mb-3">2.3 No Venta de Boletos</h3>
+            <p class="text-gray-400 leading-relaxed">
+              Este sitio <strong class="text-white">NO vende boletos de lotería</strong>. Solo proporcionamos información 
+              sobre resultados. Para comprar boletos oficiales, debes acudir físicamente a un retailer autorizado en 
+              Estados Unidos, Puerto Rico o Islas Vírgenes.
+            </p>
+          </section>
+
+          <!-- Limitación de Responsabilidad -->
+          <section class="mb-10">
+            <h2 class="text-2xl font-bold text-white mb-4">3. Limitación de Responsabilidad</h2>
+            <p class="text-gray-400 leading-relaxed mb-4">
+              <strong class="text-white">ResultPowerball NO se hace responsable</strong> por:
+            </p>
+            <ul class="list-disc list-inside text-gray-400 space-y-2 mb-4 ml-4">
+              <li>Errores u omisiones en la información publicada</li>
+              <li>Pérdidas económicas derivadas del uso de información incorrecta</li>
+              <li>Problemas técnicos, interrupciones del servicio o errores en el sitio web</li>
+              <li>Decisiones de juego tomadas basándose en nuestra información</li>
+              <li>Enlaces a sitios web de terceros</li>
+            </ul>
+            <p class="text-gray-400 leading-relaxed">
+              El uso de este sitio es bajo tu <strong class="text-white">propio riesgo</strong>.
+            </p>
+          </section>
+
+          <!-- Propiedad Intelectual -->
+          <section class="mb-10">
+            <h2 class="text-2xl font-bold text-white mb-4">4. Propiedad Intelectual</h2>
+            <p class="text-gray-400 leading-relaxed mb-4">
+              Todo el contenido del sitio (diseño, textos, gráficos, logotipos, código) es propiedad de ResultPowerball 
+              o de sus licenciantes y está protegido por las leyes de derechos de autor.
+            </p>
+            <p class="text-gray-400 leading-relaxed">
+              <strong class="text-white">No está permitido</strong>: copiar, reproducir, redistribuir o modificar 
+              el contenido sin autorización expresa por escrito.
+            </p>
+          </section>
+
+          <!-- Afiliación -->
+          <section class="mb-10">
+            <h2 class="text-2xl font-bold text-white mb-4">5. No Afiliación</h2>
+            <p class="text-gray-400 leading-relaxed">
+              ResultPowerball <strong class="text-white">NO está afiliado, asociado, patrocinado ni respaldado</strong> 
+              por la Multi-State Lottery Association (MUSL), Powerball, ni ninguna lotería estatal de Estados Unidos. 
+              Somos un sitio web independiente que proporciona información al público de forma gratuita.
+            </p>
+          </section>
+
+          <!-- Juego Responsable -->
+          <section class="mb-10">
+            <h2 class="text-2xl font-bold text-white mb-4">6. Juego Responsable</h2>
+            <p class="text-gray-400 leading-relaxed mb-4">
+              <strong class="text-white">Recomendamos encarecidamente</strong> que juegues de manera responsable:
+            </p>
+            <ul class="list-disc list-inside text-gray-400 space-y-2 mb-4 ml-4">
+              <li>Establece un presupuesto y no lo excedas</li>
+              <li>No gastes dinero destinado a necesidades básicas (renta, comida, salud)</li>
+              <li>El juego debe ser entretenimiento, no una forma de ganar dinero</li>
+              <li>Si crees que tienes un problema con el juego, busca ayuda: 
+                <a href="tel:1-800-522-4700" class="text-red-500 hover:underline">1-800-GAMBLER (1-800-522-4700)</a>
+              </li>
+            </ul>
+            <p class="text-gray-400 leading-relaxed">
+              Debes tener <strong class="text-white">18 años o más</strong> para jugar al Powerball 
+              (21+ en algunos estados).
+            </p>
+          </section>
+
+          <!-- Enlaces Externos -->
+          <section class="mb-10">
+            <h2 class="text-2xl font-bold text-white mb-4">7. Enlaces a Sitios Externos</h2>
+            <p class="text-gray-400 leading-relaxed">
+              Nuestro sitio puede contener enlaces a sitios web de terceros. No nos hacemos responsables del contenido, 
+              políticas de privacidad o prácticas de estos sitios. El acceso a sitios externos es bajo tu propia responsabilidad.
+            </p>
+          </section>
+
+          <!-- Modificaciones -->
+          <section class="mb-10">
+            <h2 class="text-2xl font-bold text-white mb-4">8. Modificaciones a los Términos</h2>
+            <p class="text-gray-400 leading-relaxed">
+              Nos reservamos el derecho de modificar estos Términos y Condiciones en cualquier momento. 
+              Los cambios entrarán en vigor inmediatamente después de su publicación en el sitio. 
+              Te recomendamos revisar esta página periódicamente.
+            </p>
+          </section>
+
+          <!-- Ley Aplicable -->
+          <section class="mb-10">
+            <h2 class="text-2xl font-bold text-white mb-4">9. Ley Aplicable y Jurisdicción</h2>
+            <p class="text-gray-400 leading-relaxed">
+              Estos Términos se regirán e interpretarán de acuerdo con las leyes de los Estados Unidos de América. 
+              Cualquier disputa relacionada con estos términos estará sujeta a la jurisdicción exclusiva de los 
+              tribunales competentes.
+            </p>
+          </section>
+
+          <!-- Contacto -->
+          <section class="mb-10">
+            <h2 class="text-2xl font-bold text-white mb-4">10. Contacto</h2>
+            <p class="text-gray-400 leading-relaxed mb-4">
+              Si tienes preguntas sobre estos Términos y Condiciones, puedes contactarnos en:
+            </p>
+            <div class="bg-gray-800/50 border border-gray-700 rounded-xl p-6">
+              <p class="text-gray-300">
+                <strong class="text-white">Email:</strong> 
+                <a href="mailto:contacto.porto@proton.me" class="text-red-500 hover:underline">contacto.porto@proton.me</a>
+              </p>
+              <p class="text-gray-300 mt-2">
+                <strong class="text-white">Sitio web:</strong> 
+                <a href="https://resultpowerball.com" class="text-red-500 hover:underline">resultpowerball.com</a>
+              </p>
+            </div>
+          </section>
+
+          <!-- Separación -->
+          <div class="border-t border-gray-800 pt-8 mt-8">
+            <p class="text-gray-500 text-sm leading-relaxed">
+              Al utilizar ResultPowerball.com, confirmas que has leído, comprendido y aceptado estos Términos y Condiciones.
+            </p>
+          </div>
+
         </div>
 
-        <div class="content">
-            <div class="section">
-                <h2>1. Aceptación de los Términos</h2>
-                <p>
-                    Al acceder y utilizar <strong>Resultados Loto Honduras</strong>, usted acepta estar sujeto a estos Términos y Condiciones. Si no está de acuerdo con alguna parte de estos términos, no debe utilizar nuestro sitio web.
-                </p>
-            </div>
-
-            <div class="section">
-                <h2>2. Descripción del Servicio</h2>
-                <p>
-                    Resultados Loto Honduras es un sitio web informativo que proporciona:
-                </p>
-                <ul>
-                    <li>Resultados de sorteos de lotería de Honduras</li>
-                    <li>Información sobre juegos: Jugá 3, Pega 3, Premia 2, La Diaria y Super Premio</li>
-                    <li>Herramienta de generación de números de la suerte</li>
-                    <li>Actualización de resultados 3 veces al día</li>
-                </ul>
-            </div>
-
-            <div class="section">
-                <h2>3. Disclaimer de Resultados</h2>
-                <div class="highlight-box">
-                    <p style="margin-bottom: 10px;">
-                        <strong>⚠️ IMPORTANTE:</strong> Los resultados mostrados en este sitio son <strong>únicamente informativos</strong> y no constituyen resultados oficiales.
-                    </p>
-                    <p>
-                        <strong>SIEMPRE</strong> verifique los resultados con los canales oficiales de Loto Honduras. No nos hacemos responsables por:
-                    </p>
-                    <ul style="margin-top: 10px;">
-                        <li>Errores en la publicación de resultados</li>
-                        <li>Retrasos en la actualización</li>
-                        <li>Omisiones o inexactitudes</li>
-                        <li>Pérdidas derivadas del uso de información incorrecta</li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="section">
-                <h2>4. Uso Aceptable</h2>
-                <p>Al utilizar nuestro sitio web, usted se compromete a:</p>
-                <ul>
-                    <li>No utilizar el sitio para fines ilegales o no autorizados</li>
-                    <li>No intentar acceder a áreas restringidas del sitio</li>
-                    <li>No interferir con la seguridad del sitio</li>
-                    <li>No copiar, reproducir o distribuir el contenido sin autorización</li>
-                    <li>No usar scrapers, bots o sistemas automatizados sin permiso</li>
-                    <li>No realizar ingeniería inversa del sitio</li>
-                </ul>
-            </div>
-
-            <div class="section">
-                <h2>5. Números de la Suerte</h2>
-                <p>
-                    La función de "Números de la Suerte" es una herramienta de <strong>entretenimiento</strong> que genera números aleatorios. Esta función:
-                </p>
-                <ul>
-                    <li>NO predice ni garantiza números ganadores</li>
-                    <li>NO tiene ninguna base matemática o estadística</li>
-                    <li>Es puramente recreativa y aleatoria</li>
-                </ul>
-                <p>
-                    El uso de estos números es bajo su propio riesgo. No somos responsables de ninguna pérdida derivada de su uso.
-                </p>
-            </div>
-
-            <div class="section">
-                <h2>6. Propiedad Intelectual</h2>
-                <p>
-                    Todo el contenido del sitio, incluyendo diseño, código, textos, gráficos y logotipos, es propiedad de Resultados Loto Honduras o sus licenciantes y está protegido por leyes de derechos de autor.
-                </p>
-                <p>
-                    Los logos y marcas de Loto Honduras son propiedad de sus respectivos dueños y se utilizan únicamente con fines informativos.
-                </p>
-            </div>
-
-            <div class="section">
-                <h2>7. Publicidad</h2>
-                <p>
-                    Nuestro sitio web muestra publicidad de terceros para mantener el servicio gratuito. Al utilizar nuestro sitio:
-                </p>
-                <ul>
-                    <li>Acepta la visualización de anuncios publicitarios</li>
-                    <li>Reconoce que no controlamos el contenido de los anuncios</li>
-                    <li>Entiende que los anunciantes pueden usar cookies y tecnologías de seguimiento</li>
-                </ul>
-                <p>
-                    No somos responsables del contenido, políticas o prácticas de anunciantes terceros.
-                </p>
-            </div>
-
-            <div class="section">
-                <h2>8. Enlaces a Sitios de Terceros</h2>
-                <p>
-                    Nuestro sitio puede contener enlaces a sitios web de terceros. Estos enlaces se proporcionan únicamente para su conveniencia. No tenemos control sobre estos sitios y no somos responsables de su contenido.
-                </p>
-            </div>
-
-            <div class="section">
-                <h2>9. Limitación de Responsabilidad</h2>
-                <p>
-                    En la máxima medida permitida por la ley, Resultados Loto Honduras y sus operadores NO serán responsables por:
-                </p>
-                <ul>
-                    <li>Daños directos, indirectos, incidentales o consecuentes</li>
-                    <li>Pérdida de beneficios o ingresos</li>
-                    <li>Pérdida de datos o información</li>
-                    <li>Interrupciones del servicio</li>
-                    <li>Errores u omisiones en el contenido</li>
-                </ul>
-            </div>
-
-            <div class="section">
-                <h2>10. Disponibilidad del Servicio</h2>
-                <p>
-                    Nos esforzamos por mantener el sitio disponible 24/7, pero:
-                </p>
-                <ul>
-                    <li>No garantizamos disponibilidad continua o ininterrumpida</li>
-                    <li>Podemos suspender el servicio para mantenimiento</li>
-                    <li>No somos responsables por interrupciones técnicas</li>
-                </ul>
-            </div>
-
-            <div class="section">
-                <h2>11. Edad Mínima</h2>
-                <p>
-                    Debe tener al menos <strong>18 años</strong> para utilizar este sitio web. Al acceder al sitio, confirma que cumple con este requisito de edad.
-                </p>
-            </div>
-
-            <div class="section">
-                <h2>12. Modificaciones</h2>
-                <p>
-                    Nos reservamos el derecho de modificar estos Términos y Condiciones en cualquier momento. Los cambios serán efectivos inmediatamente después de su publicación en el sitio. Su uso continuado constituye la aceptación de los nuevos términos.
-                </p>
-            </div>
-
-            <div class="section">
-                <h2>13. Terminación</h2>
-                <p>
-                    Podemos terminar o suspender su acceso al sitio inmediatamente, sin previo aviso, por cualquier razón, incluyendo la violación de estos Términos y Condiciones.
-                </p>
-            </div>
-
-            <div class="section">
-                <h2>14. Ley Aplicable</h2>
-                <p>
-                    Estos Términos se rigen por las leyes de Honduras. Cualquier disputa se resolverá en los tribunales competentes de Honduras.
-                </p>
-            </div>
-
-            <div class="section">
-                <h2>15. Separabilidad</h2>
-                <p>
-                    Si alguna disposición de estos términos se considera inválida o inaplicable, las disposiciones restantes continuarán en pleno vigor y efecto.
-                </p>
-            </div>
-
-            <div class="contact-info">
-                <h3 style="margin-bottom: 15px;">📧 Contacto</h3>
-                <p>
-                    Si tiene preguntas sobre estos Términos y Condiciones, contáctenos en:
-                </p>
-                <p style="font-size: 1.2em; margin-top: 10px;">
-                    <a href="mailto:codezun@gmail.com">codezun@gmail.com</a>
-                </p>
-            </div>
+        <!-- Botón Volver -->
+        <div class="text-center mt-8">
+          <a href="/" class="inline-flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-6 rounded-lg transition-colors">
+            <i data-lucide="arrow-left" class="w-5 h-5"></i>
+            <span>Volver a Resultados</span>
+          </a>
         </div>
-    </div>
+
+      </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="py-10 px-4 border-t border-gray-800 bg-gray-900/40">
+      <div class="max-w-5xl mx-auto">
+        <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+          <div>
+            <a href="/" class="flex items-center gap-2">
+              <div class="bg-red-600 rounded-lg p-1">
+                <i data-lucide="star" class="w-4 h-4 text-white"></i>
+              </div>
+              <span class="font-display text-lg font-bold text-white">Result<span class="text-red-500">PB</span></span>
+            </a>
+            <p class="text-gray-600 text-sm mt-1.5">Resultados del Powerball en español</p>
+          </div>
+        </div>
+        <div class="mt-8 pt-6 border-t border-gray-800">
+          <div class="flex justify-center gap-4 text-xs text-gray-700 mb-4">
+            <a href="/terminos" class="text-red-500 font-semibold">Términos</a>
+            <span>•</span>
+            <a href="/privacidad" class="hover:text-red-500 transition-colors">Privacidad</a>
+            <span>•</span>
+            <a href="/contacto" class="hover:text-red-500 transition-colors">Contacto</a>
+          </div>
+          <p class="text-gray-800 text-xs text-center">
+            © <span id="current-year">2026</span> ResultPowerball. Todos los derechos reservados.
+          </p>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Lucide Icons -->
+    <script src="https://cdn.jsdelivr.net/npm/lucide@latest/dist/umd/lucide.js"></script>
+    <script>
+      lucide.createIcons();
+      document.getElementById('current-year').textContent = new Date().getFullYear();
+    </script>
+
 </body>
 </html>
