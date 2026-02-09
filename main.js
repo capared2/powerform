@@ -227,16 +227,33 @@ async function cargarResultados() {
       ppValueEl.textContent = (s.powerplay || 2) + 'x';
     }
 
-    // Premios
-    const premioEstEl = document.getElementById('premio-est');
-    const premioEfEl = document.getElementById('premio-ef');
-    
-    if (premioEstEl) {
-      premioEstEl.textContent = formatearDinero(s.premio_estimado);
-    }
-    if (premioEfEl) {
-      premioEfEl.textContent = formatearDinero(s.premio_efectivo);
-    }
+// Premios
+const premioEstEl = document.getElementById('premio-est');
+const premioEfEl = document.getElementById('premio-ef');
+
+if (premioEstEl) {
+  // Limpiar clases previas
+  premioEstEl.classList.remove('text-gray-500', 'text-base');
+  
+  if (s.premio_estimado) {
+    premioEstEl.textContent = formatearDinero(s.premio_estimado);
+  } else {
+    premioEstEl.textContent = "Se actualizará pronto";
+    premioEstEl.classList.add('text-gray-500', 'text-base');
+  }
+}
+
+if (premioEfEl) {
+  // Limpiar clases previas
+  premioEfEl.classList.remove('text-gray-500', 'text-base');
+  
+  if (s.premio_efectivo) {
+    premioEfEl.textContent = formatearDinero(s.premio_efectivo);
+  } else {
+    premioEfEl.textContent = "Se actualizará pronto";
+    premioEfEl.classList.add('text-gray-500', 'text-base');
+  }
+}
 
     // Última actualización
     const ultimaActEl = document.getElementById('ultima-act');
