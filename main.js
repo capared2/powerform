@@ -93,7 +93,7 @@ function toggleFaq(index) {
 // FORMATEAR DINERO
 // ============================================
 function formatearDinero(n) {
-  if (!n || isNaN(n)) return '$0';
+  if (!n || isNaN(n)) return null;
   
   if (n >= 1e9) {
     return '$' + (n / 1e9).toFixed(1).replace(/\.0$/, '') + ' Mil Millones';
@@ -123,35 +123,24 @@ function formatearFecha(str) {
 }
 
 // ============================================
-// PRÓXIMO SORTEO
+// PRÓXIMO SORTEO (fallback si no viene en JSON)
 // ============================================
 function calcularProximoSorteo() {
   const ahora = new Date();
-  
-  // Convertir a Eastern Time (UTC-5, o UTC-4 en horario de verano)
   const utc = ahora.getTime() + ahora.getTimezoneOffset() * 60000;
-  const et = new Date(utc - 5 * 3600000); // Eastern Time (simplificado)
+  const et = new Date(utc - 5 * 3600000);
 
-  const dia = et.getDay();   // 0=Domingo, 1=Lunes, etc.
+  const dia = et.getDay();
   const hora = et.getHours();
   const diasSorteo = [1, 3, 6]; // Lun, Mie, Sab
 
   let offset = 0;
   
-  // Encontrar próximo día de sorteo
   for (let i = 0; i <= 7; i++) {
     const d = (dia + i) % 7;
     if (diasSorteo.includes(d)) {
-      // Si es hoy y aún no han dado las 23:00
-      if (i === 0 && hora < 23) {
-        offset = 0;
-        break;
-      }
-      // Si es un día futuro
-      if (i > 0) {
-        offset = i;
-        break;
-      }
+      if (i === 0 && hora < 23) { offset = 0; break; }
+      if (i > 0) { offset = i; break; }
     }
   }
 
@@ -165,7 +154,21 @@ function calcularProximoSorteo() {
 }
 
 // ============================================
-// CARGAR RESULTADOS (desde JSON)
+// HELPER: Mostrar texto con fallback
+// ============================================
+function setTextoOPendiente(el, valor, fallback = 'Se actualizará pronto') {
+  if (!el) return;
+  if (valor) {
+    el.textContent = valor;
+    el.classList.remove('text-gray-500', 'text-base');
+  } else {
+    el.textContent = fallback;
+    el.classList.add('text-gray-500', 'text-base');
+  }
+}
+
+// ============================================
+// CARGAR RESULTADOS (nueva estructura JSON)
 // ============================================
 async function cargarResultados() {
   try {
@@ -180,80 +183,97 @@ async function cargarResultados() {
       }
     });
     
-    if (!response.ok) {
-      throw new Error('No se pudieron cargar los resultados. Por favor, intenta de nuevo más tarde.');
-    }
+    if (!response.ok) throw new Error('No se pudieron cargar los resultados.');
     
     const data = await response.json();
-    const s = data.sorteo;
 
-    // Validar datos
-    if (!s || !s.blancos || (s.powerball === undefined && s.powerball !== 0)) {
+    // ── Desestructurar nueva estructura ──────────────────
+    const s = data.sorteo;           // Sorteo actual (números ganadores)
+    const p = data.proximo_sorteo;   // Próximo sorteo (jackpot acumulado)
+
+    if (!s || !Array.isArray(s.blancos) || s.powerball === undefined) {
       throw new Error('Datos incompletos en la respuesta');
     }
 
-    // Ocultar skeleton, mostrar card real
+    // Mostrar card real, ocultar skeleton/error
     const skeletonCard = document.getElementById('skeleton-card');
-    const realCard = document.getElementById('real-card');
-    const errorCard = document.getElementById('error-card');
+    const realCard     = document.getElementById('real-card');
+    const errorCard    = document.getElementById('error-card');
     
     if (skeletonCard) skeletonCard.style.display = 'none';
-    if (errorCard) errorCard.classList.add('hidden');
-    if (realCard) realCard.classList.remove('hidden');
+    if (errorCard)    errorCard.classList.add('hidden');
+    if (realCard)     realCard.classList.remove('hidden');
 
-    // Fecha
+    // ── SORTEO ACTUAL ─────────────────────────────────────
+
+    // Fecha del sorteo
     const fechaSorteoEl = document.getElementById('fecha-sorteo');
-    if (fechaSorteoEl) {
-      fechaSorteoEl.textContent = formatearFecha(s.fecha);
-    }
+    if (fechaSorteoEl) fechaSorteoEl.textContent = formatearFecha(s.fecha);
 
-    // Blancos
+    // Bolas blancas
     const blancosEl = document.getElementById('blancos');
-    if (blancosEl && Array.isArray(s.blancos)) {
+    if (blancosEl) {
       blancosEl.innerHTML = s.blancos
         .map(n => `<div class="ball-white">${n}</div>`)
         .join('');
     }
 
-    // Powerball
+    // Powerball rojo
     const pbBallEl = document.getElementById('pb-ball');
-    if (pbBallEl) {
-      pbBallEl.textContent = s.powerball;
-    }
+    if (pbBallEl) pbBallEl.textContent = s.powerball;
 
     // Power Play
     const ppValueEl = document.getElementById('pp-value');
-    if (ppValueEl) {
-      ppValueEl.textContent = (s.powerplay || 2) + 'x';
+    if (ppValueEl) ppValueEl.textContent = (s.powerplay || 2) + 'x';
+
+    // Estado del jackpot: ¿alguien ganó?
+    const jackpotStatusEl = document.getElementById('jackpot-status');
+    if (jackpotStatusEl) {
+      if (s.jackpot_ganado) {
+        jackpotStatusEl.innerHTML = `
+          <span class="text-green-400 font-semibold">
+            ✅ ¡Jackpot ganado${s.ganador_estado ? ' en ' + s.ganador_estado : ''}!
+          </span>`;
+      } else {
+        jackpotStatusEl.innerHTML = `
+          <span class="text-gray-400">
+            ❌ Nadie ganó el jackpot — se acumula para el próximo sorteo
+          </span>`;
+      }
     }
 
-// Premios
-const premioEstEl = document.getElementById('premio-est');
-const premioEfEl = document.getElementById('premio-ef');
+    // ── PRÓXIMO SORTEO ────────────────────────────────────
 
-if (premioEstEl) {
-  // Limpiar clases previas
-  premioEstEl.classList.remove('text-gray-500', 'text-base');
-  
-  if (s.premio_estimado) {
-    premioEstEl.textContent = formatearDinero(s.premio_estimado);
-  } else {
-    premioEstEl.textContent = "Se actualizará pronto";
-    premioEstEl.classList.add('text-gray-500', 'text-base');
-  }
-}
+    // Fecha del próximo sorteo (del JSON o calculada como fallback)
+    const proximoSorteoEl = document.getElementById('proximo-sorteo');
+    if (proximoSorteoEl) {
+      const fechaProximo = p && p.fecha
+        ? formatearFecha(p.fecha)
+        : calcularProximoSorteo();
+      proximoSorteoEl.textContent = 'Próximo sorteo: ' + fechaProximo;
+    }
 
-if (premioEfEl) {
-  // Limpiar clases previas
-  premioEfEl.classList.remove('text-gray-500', 'text-base');
-  
-  if (s.premio_efectivo) {
-    premioEfEl.textContent = formatearDinero(s.premio_efectivo);
-  } else {
-    premioEfEl.textContent = "Se actualizará pronto";
-    premioEfEl.classList.add('text-gray-500', 'text-base');
-  }
-}
+    // Premio estimado (jackpot acumulado del próximo sorteo)
+    const premioEstEl = document.getElementById('premio-est');
+    setTextoOPendiente(
+      premioEstEl,
+      p && p.premio_estimado ? formatearDinero(p.premio_estimado) : null
+    );
+
+    // Premio en efectivo del próximo sorteo
+    const premioEfEl = document.getElementById('premio-ef');
+    setTextoOPendiente(
+      premioEfEl,
+      p && p.premio_efectivo ? formatearDinero(p.premio_efectivo) : null
+    );
+
+    // Etiquetas descriptivas opcionales para dejar claro que son del próximo sorteo
+    const labelEstEl = document.getElementById('label-premio-est');
+    const labelEfEl  = document.getElementById('label-premio-ef');
+    if (labelEstEl) labelEstEl.textContent = 'Premio Estimado — Próximo Sorteo';
+    if (labelEfEl)  labelEfEl.textContent  = 'Valor en Efectivo — Próximo Sorteo';
+
+    // ── METADATA ──────────────────────────────────────────
 
     // Última actualización
     const ultimaActEl = document.getElementById('ultima-act');
@@ -265,12 +285,12 @@ if (premioEfEl) {
     console.error('Error cargando resultados:', err);
     
     const skeletonCard = document.getElementById('skeleton-card');
-    const realCard = document.getElementById('real-card');
-    const errorCard = document.getElementById('error-card');
+    const realCard     = document.getElementById('real-card');
+    const errorCard    = document.getElementById('error-card');
     
     if (skeletonCard) skeletonCard.style.display = 'none';
-    if (realCard) realCard.classList.add('hidden');
-    if (errorCard) errorCard.classList.remove('hidden');
+    if (realCard)     realCard.classList.add('hidden');
+    if (errorCard)    errorCard.classList.remove('hidden');
   }
 }
 
@@ -278,133 +298,87 @@ if (premioEfEl) {
 // MENÚ MÓVIL
 // ============================================
 function initMobileMenu() {
-  const menuBtn = document.getElementById('menuBtn');
+  const menuBtn    = document.getElementById('menuBtn');
   const mobileMenu = document.getElementById('mobileMenu');
-  
   if (!menuBtn || !mobileMenu) return;
 
   menuBtn.addEventListener('click', () => {
     mobileMenu.classList.toggle('hidden');
-    
-    // Cambiar icono
     const icon = menuBtn.querySelector('i');
     if (icon) {
-      if (mobileMenu.classList.contains('hidden')) {
-        icon.setAttribute('data-lucide', 'menu');
-      } else {
-        icon.setAttribute('data-lucide', 'x');
-      }
+      icon.setAttribute('data-lucide', mobileMenu.classList.contains('hidden') ? 'menu' : 'x');
       lucide.createIcons();
     }
   });
 
-  // Cerrar menú al hacer clic en un enlace
-  const mobileLinks = mobileMenu.querySelectorAll('a');
-  mobileLinks.forEach(link => {
+  mobileMenu.querySelectorAll('a').forEach(link => {
     link.addEventListener('click', () => {
       mobileMenu.classList.add('hidden');
       const icon = menuBtn.querySelector('i');
-      if (icon) {
-        icon.setAttribute('data-lucide', 'menu');
-        lucide.createIcons();
-      }
+      if (icon) { icon.setAttribute('data-lucide', 'menu'); lucide.createIcons(); }
     });
   });
 }
 
 // ============================================
-// SMOOTH SCROLL PARA ANCLAS
+// SMOOTH SCROLL
 // ============================================
 function initSmoothScroll() {
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
       const href = this.getAttribute('href');
       if (href === '#') return;
-      
       const target = document.querySelector(href);
-      if (target) {
-        e.preventDefault();
-        target.scrollIntoView({
-          behavior: 'smooth',
-          block: 'start'
-        });
-      }
+      if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
     });
   });
 }
 
 // ============================================
-// SCROLL TO TOP BUTTON (NUEVO)
+// SCROLL TO TOP
 // ============================================
 function initScrollToTop() {
   const scrollBtn = document.getElementById('scrollTop');
   if (!scrollBtn) return;
 
-  // Mostrar/ocultar botón según scroll
   let scrollTimeout;
   window.addEventListener('scroll', () => {
-    // Debounce para mejor performance
     clearTimeout(scrollTimeout);
     scrollTimeout = setTimeout(() => {
-      if (window.scrollY > 300) {
-        scrollBtn.classList.add('visible');
-      } else {
-        scrollBtn.classList.remove('visible');
-      }
+      scrollBtn.classList.toggle('visible', window.scrollY > 300);
     }, 100);
   });
 
-  // Click para volver arriba
-  scrollBtn.addEventListener('click', () => {
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth'
-    });
-  });
+  scrollBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
 }
 
 // ============================================
-// AÑO DINÁMICO EN FOOTER (NUEVO)
+// AÑO DINÁMICO EN FOOTER
 // ============================================
 function updateCurrentYear() {
   const yearEl = document.getElementById('current-year');
-  if (yearEl) {
-    yearEl.textContent = new Date().getFullYear();
-  }
+  if (yearEl) yearEl.textContent = new Date().getFullYear();
 }
 
 // ============================================
-// PERFORMANCE: INTERSECTION OBSERVER PARA ANIMACIONES
+// INTERSECTION OBSERVER PARA ANIMACIONES
 // ============================================
 function initIntersectionObserver() {
-  // Observar elementos con animación al entrar en viewport
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('animate-in');
-      }
+      if (entry.isIntersecting) entry.target.classList.add('animate-in');
     });
-  }, {
-    threshold: 0.1,
-    rootMargin: '0px 0px -50px 0px'
-  });
+  }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
 
-  // Observar cards de pasos
-  document.querySelectorAll('.step-card').forEach(card => {
-    observer.observe(card);
-  });
+  document.querySelectorAll('.step-card').forEach(card => observer.observe(card));
 }
 
 // ============================================
-// OPTIMIZACIÓN: LAZY LOAD DE ICONOS LUCIDE
+// LUCIDE ICONS
 // ============================================
 function initLucideIcons() {
   if (typeof lucide !== 'undefined') {
-    try {
-      lucide.createIcons();
-    } catch (error) {
-      console.warn('Error inicializando Lucide icons:', error);
-    }
+    try { lucide.createIcons(); } catch (e) { console.warn('Lucide error:', e); }
   }
 }
 
@@ -412,61 +386,29 @@ function initLucideIcons() {
 // INICIALIZACIÓN
 // ============================================
 document.addEventListener('DOMContentLoaded', () => {
-  // Inicializar Lucide Icons
   initLucideIcons();
-
-  // Actualizar año dinámico
   updateCurrentYear();
-
-  // Renderizar FAQ
   renderFaqs();
-  
-  // Re-crear iconos después de generar FAQ
-  initLucideIcons();
+  initLucideIcons(); // Re-crear tras FAQ
 
-  // Actualizar próximo sorteo
-  const proximoSorteoEl = document.getElementById('proximo-sorteo');
-  if (proximoSorteoEl) {
-    proximoSorteoEl.textContent = 'Próximo sorteo: ' + calcularProximoSorteo();
-  }
-
-  // Cargar resultados
   cargarResultados();
+  setInterval(cargarResultados, 5 * 60 * 1000); // Refresh cada 5 min
 
-  // Auto-refresh cada 5 minutos
-  setInterval(cargarResultados, 5 * 60 * 1000);
-
-  // Inicializar menú móvil
   initMobileMenu();
-
-  // Inicializar smooth scroll
   initSmoothScroll();
-
-  // Inicializar scroll to top
   initScrollToTop();
-
-  // Inicializar intersection observer para animaciones
   initIntersectionObserver();
 });
 
 // ============================================
 // MANEJO DE ERRORES GLOBAL
 // ============================================
-window.addEventListener('error', (e) => {
-  console.error('Error global:', e.error);
-});
+window.addEventListener('error', (e) => console.error('Error global:', e.error));
+window.addEventListener('unhandledrejection', (e) => console.error('Promise rechazada:', e.reason));
 
-window.addEventListener('unhandledrejection', (e) => {
-  console.error('Promise rechazada:', e.reason);
-});
-
-// ============================================
-// PERFORMANCE: PRELOAD CRÍTICO
-// ============================================
-// Precargar el JSON en background para mejorar velocidad
+// Precargar JSON en background
 if ('requestIdleCallback' in window) {
-  requestIdleCallback(() => {
-    fetch(JSON_URL, { cache: 'force-cache' }).catch(() => {});
-  });
+  requestIdleCallback(() => { fetch(JSON_URL, { cache: 'force-cache' }).catch(() => {}); });
 }
+
 
