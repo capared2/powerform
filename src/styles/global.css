@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 /* ============================================
    VARIABLES CSS
    ============================================ */
@@ -26,7 +30,6 @@ html, body {
   width: 100%;
 }
 
-/* Prevenir overflow en contenedores principales */
 main, section {
   overflow-x: hidden;
   max-width: 100%;
@@ -61,12 +64,8 @@ body {
 }
 
 @keyframes skeleton-loading {
-  0% {
-    background-position: 200% 0;
-  }
-  100% {
-    background-position: -200% 0;
-  }
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
 }
 
 /* ============================================
@@ -83,7 +82,7 @@ body {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 
+  box-shadow:
     0 4px 6px -1px rgba(0, 0, 0, 0.3),
     inset 0 2px 4px 0 rgba(255, 255, 255, 0.4);
   border: 2px solid #e5e7eb;
@@ -92,9 +91,7 @@ body {
   flex-shrink: 0;
 }
 
-.ball-white:hover {
-  transform: scale(1.05);
-}
+.ball-white:hover { transform: scale(1.05); }
 
 .ball-red {
   width: 64px;
@@ -107,7 +104,7 @@ body {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 
+  box-shadow:
     0 4px 6px -1px rgba(220, 38, 38, 0.5),
     inset 0 2px 4px 0 rgba(255, 255, 255, 0.3);
   border: 3px solid #b91c1c;
@@ -116,15 +113,13 @@ body {
   flex-shrink: 0;
 }
 
-.ball-red:hover {
-  transform: scale(1.05);
-}
+.ball-red:hover { transform: scale(1.05); }
 
 /* ============================================
    CARDS Y EFECTOS
    ============================================ */
 .card-glow {
-  box-shadow: 
+  box-shadow:
     0 0 0 1px rgba(55, 65, 81, 0.5),
     0 10px 15px -3px rgba(0, 0, 0, 0.3),
     0 4px 6px -4px rgba(0, 0, 0, 0.2);
@@ -133,7 +128,7 @@ body {
 }
 
 .card-glow:hover {
-  box-shadow: 
+  box-shadow:
     0 0 0 1px rgba(220, 38, 38, 0.3),
     0 20px 25px -5px rgba(0, 0, 0, 0.4),
     0 8px 10px -6px rgba(0, 0, 0, 0.3);
@@ -144,7 +139,7 @@ body {
    HERO BACKGROUND
    ============================================ */
 .hero-bg {
-  background: 
+  background:
     radial-gradient(circle at 50% 0%, rgba(220, 38, 38, 0.05) 0%, transparent 50%),
     radial-gradient(circle at 100% 100%, rgba(220, 38, 38, 0.03) 0%, transparent 50%);
 }
@@ -157,12 +152,8 @@ body {
 }
 
 @keyframes badge-pulse {
-  0%, 100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.8;
-  }
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.8; }
 }
 
 /* ============================================
@@ -182,14 +173,8 @@ body {
 }
 
 @keyframes slide-up {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
 .step-card:nth-child(1).animate-in { animation-delay: 0.1s; }
@@ -289,10 +274,7 @@ html {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
-  
+  html { scroll-behavior: auto; }
   * {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
@@ -325,16 +307,10 @@ html {
     height: 56px;
     font-size: 1.5rem;
   }
-  
-  /* Reducir gaps en móvil */
-  #blancos {
-    gap: 0.5rem !important;
-  }
-  
-  /* Asegurar que los contenedores flex no causen overflow */
-  .flex.flex-wrap {
-    justify-content: center;
-  }
+
+  #blancos { gap: 0.5rem !important; }
+
+  .flex.flex-wrap { justify-content: center; }
 }
 
 /* ============================================
@@ -342,7 +318,7 @@ html {
    ============================================ */
 @media (prefers-color-scheme: dark) {
   .card-glow {
-    box-shadow: 
+    box-shadow:
       0 0 0 1px rgba(55, 65, 81, 0.6),
       0 10px 15px -3px rgba(0, 0, 0, 0.5),
       0 4px 6px -4px rgba(0, 0, 0, 0.4);
@@ -353,23 +329,9 @@ html {
    PRINT STYLES
    ============================================ */
 @media print {
-  #scrollTop,
-  header,
-  footer,
-  #mobileMenu {
-    display: none !important;
-  }
-
-  body {
-    background: white !important;
-    color: black !important;
-  }
-
-  .bg-gray-900,
-  .bg-gray-800 {
-    background: white !important;
-    border: 1px solid #ccc !important;
-  }
+  #scrollTop, header, footer, #mobileMenu { display: none !important; }
+  body { background: white !important; color: black !important; }
+  .bg-gray-900, .bg-gray-800 { background: white !important; border: 1px solid #ccc !important; }
 }
 
 /* ============================================
@@ -393,10 +355,8 @@ a:focus-visible {
 .loading::after {
   content: '';
   position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 20px;
-  height: 20px;
+  top: 50%; left: 50%;
+  width: 20px; height: 20px;
   margin: -10px 0 0 -10px;
   border: 2px solid var(--red-primary);
   border-radius: 50%;
@@ -411,33 +371,19 @@ a:focus-visible {
 /* ============================================
    SELECTION COLOR
    ============================================ */
-::selection {
-  background-color: var(--red-primary);
-  color: white;
-}
-
-::-moz-selection {
-  background-color: var(--red-primary);
-  color: white;
-}
+::selection          { background-color: var(--red-primary); color: white; }
+::-moz-selection     { background-color: var(--red-primary); color: white; }
 
 /* ============================================
-   FIX SCROLL HORIZONTAL EN MÓVIL - MEJORADO
+   FIX SCROLL HORIZONTAL EN MÓVIL
    ============================================ */
-/* Asegurar que ningún elemento exceda el ancho de viewport */
-* {
-  min-width: 0;
-}
+* { min-width: 0; }
 
-/* Cards de resultados */
-#skeleton-card,
-#real-card,
-#error-card {
+#skeleton-card, #real-card, #error-card {
   max-width: 100%;
   width: 100%;
 }
 
-/* Contenedor de bolas - prevenir overflow */
 #real-card > div:has(#blancos) {
   max-width: 100%;
   overflow-x: hidden;
@@ -450,89 +396,31 @@ a:focus-visible {
   max-width: 100%;
 }
 
-/* Fix para tablas en móvil */
 .overflow-x-auto {
   -webkit-overflow-scrolling: touch;
   max-width: 100vw;
 }
 
 @media (max-width: 640px) {
-  /* Reducir padding de containers */
-  .px-4 {
-    padding-left: 1rem !important;
-    padding-right: 1rem !important;
-  }
-  
-  /* Asegurar que grids no causen overflow */
-  .grid {
-    gap: 0.5rem !important;
-  }
-  
-  /* Fix para contenedor de premios */
-  #real-card .grid.grid-cols-2 {
-    gap: 0.75rem !important;
-  }
+  .px-4 { padding-left: 1rem !important; padding-right: 1rem !important; }
+  .grid { gap: 0.5rem !important; }
+  #real-card .grid.grid-cols-2 { gap: 0.75rem !important; }
 }
 
 @media (max-width: 375px) {
-  .ball-white {
-    width: 42px;
-    height: 42px;
-    font-size: 1.1rem;
-  }
-
-  .ball-red {
-    width: 50px;
-    height: 50px;
-    font-size: 1.35rem;
-  }
-  
-  /* Reducir gaps aún más */
-  #blancos {
-    gap: 0.4rem !important;
-  }
-  
-  /* Reducir padding de cards */
-  #real-card,
-  #skeleton-card {
-    padding: 1.25rem !important;
-  }
-  
-  /* Grid de premios en una columna */
-  #real-card .grid.grid-cols-2 {
-    grid-template-columns: 1fr !important;
-    gap: 0.5rem !important;
-  }
-  
-  /* Reducir padding general */
-  .px-4 {
-    padding-left: 0.75rem !important;
-    padding-right: 0.75rem !important;
-  }
-  
-  /* Fix para step cards */
-  .step-card {
-    padding: 1rem !important;
-  }
+  .ball-white { width: 42px; height: 42px; font-size: 1.1rem; }
+  .ball-red   { width: 50px; height: 50px; font-size: 1.35rem; }
+  #blancos { gap: 0.4rem !important; }
+  #real-card, #skeleton-card { padding: 1.25rem !important; }
+  #real-card .grid.grid-cols-2 { grid-template-columns: 1fr !important; gap: 0.5rem !important; }
+  .px-4 { padding-left: 0.75rem !important; padding-right: 0.75rem !important; }
+  .step-card { padding: 1rem !important; }
 }
 
-/* Asegurar que los max-width se respeten */
-.max-w-4xl,
-.max-w-5xl,
-.max-w-6xl {
-  max-width: 100% !important;
-}
+.max-w-4xl, .max-w-5xl, .max-w-6xl { max-width: 100% !important; }
 
 @media (min-width: 640px) {
-  .max-w-4xl {
-    max-width: 56rem !important;
-  }
-  
-  .max-w-5xl {
-    max-width: 64rem !important;
-  }
-  
-  .max-w-6xl {
-    max-width: 72rem !important;
-  }
+  .max-w-4xl { max-width: 56rem !important; }
+  .max-w-5xl { max-width: 64rem !important; }
+  .max-w-6xl { max-width: 72rem !important; }
 }

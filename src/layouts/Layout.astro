@@ -1,0 +1,171 @@
+---
+interface Props {
+  title: string;
+  description: string;
+  canonical: string;
+  robots?: string;
+  fullNav?: boolean;
+  activeFooterLink?: 'contacto' | 'terminos' | 'privacidad';
+}
+
+const {
+  title,
+  description,
+  canonical,
+  robots = 'index, follow',
+  fullNav = false,
+  activeFooterLink,
+} = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+  <title>{title}</title>
+  <meta name="description" content={description} />
+  <link rel="canonical" href={canonical} />
+  <meta name="robots" content={robots} />
+  <meta name="author" content="ResultPowerball - Portal Oficial en Español" />
+  <meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+  <meta name="bingbot" content="index, follow" />
+  <meta http-equiv="content-language" content="es" />
+  <meta name="language" content="Spanish" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="MobileOptimized" content="320" />
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%23DC2626'/><circle cx='16' cy='16' r='9' fill='white'/><text x='16' y='21' text-anchor='middle' font-size='13' font-weight='bold' fill='%23DC2626'>PB</text></svg>" />
+
+  <!-- Page-specific head content (JSON-LD, OG, Twitter, keywords, etc.) -->
+  <slot name="head" />
+
+  <!-- Preconnect -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet" />
+</head>
+<body class="bg-gray-950 min-h-screen">
+
+  <!-- HEADER -->
+  <header class="sticky top-0 z-50 border-b border-gray-800 bg-gray-950/85 backdrop-blur-md">
+    <div class="max-w-6xl mx-auto px-4 py-3.5 flex items-center justify-between">
+      <a href="/" class="flex items-center gap-2.5">
+        <div class="bg-red-600 rounded-lg p-1.5">
+          <i data-lucide="star" class="w-5 h-5 text-white"></i>
+        </div>
+        <span class="font-display text-xl font-bold text-white tracking-tight">Result<span class="text-red-500">PB</span></span>
+      </a>
+
+      {fullNav ? (
+        <>
+          <button id="menuBtn" class="lg:hidden flex items-center px-3 py-2 border-2 border-red-600 text-red-500 rounded hover:bg-red-950 transition-colors" aria-label="Menú">
+            <i data-lucide="menu" class="w-6 h-6"></i>
+          </button>
+          <nav class="hidden lg:flex items-center gap-6">
+            <a href="#resultados" class="text-gray-400 hover:text-white text-sm font-medium nav-link transition-colors">Resultados</a>
+            <a href="#como-jugar" class="text-gray-400 hover:text-white text-sm font-medium nav-link transition-colors">Cómo Jugar</a>
+            <a href="#premios" class="text-gray-400 hover:text-white text-sm font-medium nav-link transition-colors">Premios</a>
+            <a href="#estados" class="text-gray-400 hover:text-white text-sm font-medium nav-link transition-colors">Estados</a>
+            <a href="#faq" class="text-gray-400 hover:text-white text-sm font-medium nav-link transition-colors">FAQ</a>
+          </nav>
+        </>
+      ) : (
+        <nav class="flex items-center gap-6">
+          <a href="/" class="text-gray-400 hover:text-white text-sm font-medium transition-colors">Volver al inicio</a>
+        </nav>
+      )}
+    </div>
+
+    {fullNav && (
+      <div id="mobileMenu" class="hidden lg:hidden pb-4 px-4">
+        <div class="flex flex-col gap-2">
+          <a href="#resultados" class="flex items-center gap-2 px-4 py-3 bg-red-600 text-white rounded-lg font-semibold shadow-md">
+            <i data-lucide="home" class="w-4 h-4"></i>
+            <span>Resultados</span>
+          </a>
+          <a href="#como-jugar" class="flex items-center gap-2 px-4 py-3 bg-gray-800 text-gray-300 rounded-lg font-semibold hover:bg-gray-700 transition-all">
+            <span>Cómo Jugar</span>
+          </a>
+          <a href="#premios" class="flex items-center gap-2 px-4 py-3 bg-gray-800 text-gray-300 rounded-lg font-semibold hover:bg-gray-700 transition-all">
+            <span>Premios</span>
+          </a>
+          <a href="#estados" class="flex items-center gap-2 px-4 py-3 bg-gray-800 text-gray-300 rounded-lg font-semibold hover:bg-gray-700 transition-all">
+            <span>Estados</span>
+          </a>
+          <a href="#faq" class="flex items-center gap-2 px-4 py-3 bg-gray-800 text-gray-300 rounded-lg font-semibold hover:bg-gray-700 transition-all">
+            <span>FAQ</span>
+          </a>
+        </div>
+      </div>
+    )}
+  </header>
+
+  <!-- PAGE CONTENT -->
+  <slot />
+
+  <!-- SCROLL TO TOP -->
+  <button id="scrollTop" class="fixed bottom-6 right-6 bg-red-600 text-white p-3 rounded-full shadow-lg opacity-0 pointer-events-none transition-opacity hover:bg-red-700 z-40">
+    <i data-lucide="arrow-up" class="w-6 h-6"></i>
+  </button>
+
+  <!-- FOOTER -->
+  <footer class="py-8 md:py-10 px-4 border-t border-gray-800 bg-gray-900/40">
+    <div class="max-w-5xl mx-auto">
+      <div class="flex flex-col items-center md:flex-row md:items-center md:justify-between gap-6 md:gap-8">
+        <div class="text-center md:text-left">
+          <a href="/" class="inline-flex items-center gap-2">
+            <div class="bg-red-600 rounded-lg p-1">
+              <i data-lucide="star" class="w-4 h-4 text-white"></i>
+            </div>
+            <span class="font-display text-lg font-bold text-white">Result<span class="text-red-500">PB</span></span>
+          </a>
+          <p class="text-gray-600 text-sm mt-1.5">Resultados del Powerball en español</p>
+        </div>
+
+        {fullNav && (
+          <nav class="grid grid-cols-2 sm:grid-cols-3 md:flex gap-x-4 gap-y-3 md:gap-6 text-sm text-center md:text-left">
+            <a href="#resultados" class="text-gray-500 hover:text-white transition-colors">Resultados</a>
+            <a href="#como-jugar" class="text-gray-500 hover:text-white transition-colors">Cómo Jugar</a>
+            <a href="#premios" class="text-gray-500 hover:text-white transition-colors">Premios</a>
+            <a href="#estados" class="text-gray-500 hover:text-white transition-colors">Estados</a>
+            <a href="#faq" class="text-gray-500 hover:text-white transition-colors">FAQ</a>
+            <a href="/contacto" class="text-gray-500 hover:text-white transition-colors">Contacto</a>
+          </nav>
+        )}
+      </div>
+
+      <div class="mt-6 md:mt-8 pt-6 border-t border-gray-800">
+        {fullNav && (
+          <p class="text-gray-700 text-xs text-center max-w-2xl mx-auto leading-relaxed px-2 mb-4">
+            ResultPowerball no está afiliado con la Multi-State Lottery Association (MUSL). Este sitio es solo para información. Los resultados oficiales están en
+            <a href="https://www.powerball.com" class="text-red-500 hover:underline" target="_blank" rel="noopener noreferrer">powerball.com</a>.
+            No promovemos ni alentamos las apuestas. Juega responsablemente.
+          </p>
+        )}
+
+        <div class="flex flex-wrap justify-center items-center gap-3 md:gap-4 text-xs text-gray-700">
+          <a href="/terminos" class={`hover:text-red-500 transition-colors ${activeFooterLink === 'terminos' ? 'text-red-500 font-semibold' : ''}`}>Términos</a>
+          <span class="hidden sm:inline">•</span>
+          <a href="/privacidad" class={`hover:text-red-500 transition-colors ${activeFooterLink === 'privacidad' ? 'text-red-500 font-semibold' : ''}`}>Privacidad</a>
+          <span class="hidden sm:inline">•</span>
+          <a href="/contacto" class={`hover:text-red-500 transition-colors ${activeFooterLink === 'contacto' ? 'text-red-500 font-semibold' : ''}`}>Contacto</a>
+        </div>
+
+        <p class="text-gray-800 text-xs text-center mt-3 md:mt-4">
+          © <span id="current-year">2026</span> ResultPowerball. Todos los derechos reservados.
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Lucide Icons CDN -->
+  <script is:inline src="https://cdn.jsdelivr.net/npm/lucide@latest/dist/umd/lucide.js"></script>
+  <!-- Main JS -->
+  <script is:inline src="/main.js"></script>
+</body>
+</html>
