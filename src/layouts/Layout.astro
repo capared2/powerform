@@ -1,5 +1,7 @@
 ---
 import '../styles/global.css';
+import AdBanner from '../components/AdBanner.astro';
+import AdSquare from '../components/AdSquare.astro';
 
 interface Props {
   title: string;
@@ -116,8 +118,18 @@ const {
     )}
   </header>
 
+  <!-- AD: bajo header (banner ancho) -->
+  <div class="w-full border-b border-gray-800/50 bg-gray-950">
+    <AdBanner />
+  </div>
+
   <!-- PAGE CONTENT -->
   <slot />
+
+  <!-- AD: sobre el footer (300x250 centrado) -->
+  <div class="py-6 border-t border-gray-800/50 bg-gray-950">
+    <AdSquare />
+  </div>
 
   <!-- SCROLL TO TOP -->
   <button id="scrollTop" class="fixed bottom-6 right-6 bg-red-600 text-white p-3 rounded-full shadow-lg opacity-0 pointer-events-none transition-opacity hover:bg-red-700 z-40">
@@ -178,5 +190,12 @@ const {
   <script is:inline src="https://cdn.jsdelivr.net/npm/lucide@latest/dist/umd/lucide.js"></script>
   <!-- Main JS -->
   <script is:inline src="/main.js"></script>
+
+  <!-- Adsterra: popunder #1 -->
+  <script is:inline src="https://pl29624140.effectivecpmnetwork.com/08/f5/e1/08f5e1492a74cf412fc6a100a68df1b8.js"></script>
+  <!-- Adsterra: popunder #2 -->
+  <script is:inline src="https://pl29624143.effectivecpmnetwork.com/56/71/13/567113f89d2433742ec87b39eea12e73.js"></script>
+  <!-- Adsterra: social bar -->
+  <script is:inline src="https://www.effectivecpmnetwork.com/mpsm4fmaja?key=0b49c6471d5459515cedd3c45e94c357"></script>
 </body>
 </html>

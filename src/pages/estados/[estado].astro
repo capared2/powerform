@@ -1,6 +1,8 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import { estados, OG_IMAGE } from '../../data/estados.js';
+import AdBanner from '../../components/AdBanner.astro';
+import AdSquare from '../../components/AdSquare.astro';
 
 export async function getStaticPaths() {
   return estados.map((e) => ({
@@ -163,6 +165,9 @@ const jsonLdBreadcrumb = {
       </div>
     </div>
 
+    <!-- AD: entre ciudades y cómo jugar -->
+    <AdSquare />
+
     <!-- CÓMO JUGAR -->
     <div class="bg-gray-900 border border-gray-800 rounded-2xl p-6 mb-8">
       <h2 class="font-display text-xl font-bold text-white mb-5 flex items-center gap-2">
@@ -189,6 +194,9 @@ const jsonLdBreadcrumb = {
         ))}
       </ol>
     </div>
+
+    <!-- AD: entre cómo jugar y FAQ -->
+    <AdBanner />
 
     <!-- FAQ -->
     <div class="mb-8">
