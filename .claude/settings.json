@@ -1,0 +1,21 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git config *)",
+      "Bash(Get-ChildItem -Path \"c:\\\\Users\\\\Jose\\\\powerballfrom\" -Recurse -Force)",
+      "Bash(Select-Object FullName, PSIsContainer)",
+      "Bash(Remove-Item index.html, contacto.html, terminos.html, privacidad.html, main.js, Styles.css, robots.txt, sitemap.xml -ErrorAction SilentlyContinue)",
+      "Bash(Write-Host \"Archivos eliminados\")",
+      "Bash(git commit -m ' *)",
+      "Bash(Get-ChildItem -Path \"c:\\\\Users\\\\Jose\\\\powerballfrom\" -Force)",
+      "Bash(Select-Object Name, PSIsContainer)",
+      "Bash(Format-Table)",
+      "WebFetch(domain:commons.wikimedia.org)",
+      "Bash(curl -L \"https://upload.wikimedia.org/wikipedia/commons/thumb/a/a6/Powerball_and_Mega_Millions_Lottery_Jackpot_Prize_Billboard_in_Missouri_%2844555666811%29.jpg/800px-Powerball_and_Mega_Millions_Lottery_Jackpot_Prize_Billboard_in_Missouri_%2844555666811%29.jpg\" -o \"c:\\\\Users\\\\Jose\\\\powerballfrom\\\\public\\\\powerball-estados.jpg\" --silent --show-error)",
+      "Bash(curl -L \"https://upload.wikimedia.org/wikipedia/commons/thumb/a/a6/Powerball_and_Mega_Millions_Lottery_Jackpot_Prize_Billboard_in_Missouri_%2844555666811%29.jpg/800px-Powerball_and_Mega_Millions_Lottery_Jackpot_Prize_Billboard_in_Missouri_%2844555666811%29.jpg\" -o \"c:\\\\Users\\\\Jose\\\\powerballfrom\\\\public\\\\powerball-estados.jpg\" -A \"Mozilla/5.0\" --show-error -w \"%{http_code} %{size_download}\")",
+      "Bash(curl -L \"https://upload.wikimedia.org/wikipedia/commons/a/a6/Powerball_and_Mega_Millions_Lottery_Jackpot_Prize_Billboard_in_Missouri_%2844555666811%29.jpg\" -A \"Mozilla/5.0 \\(Windows NT 10.0; Win64; x64\\) AppleWebKit/537.36\" -o \"c:\\\\Users\\\\Jose\\\\powerballfrom\\\\public\\\\powerball-estados.jpg\" -w \"%{http_code} %{size_download}\")",
+      "Bash(node -e ' *)",
+      "Bash(node -e \"const {execSync}=require\\('child_process'\\); try{execSync\\('magick -version',{stdio:'pipe'}\\); console.log\\('ImageMagick OK'\\)}catch\\(e\\){console.log\\('No ImageMagick'\\)}\")"
+    ]
+  }
+}

@@ -4,4 +4,4 @@ User-agent: *
 Allow: /
 
 # Sitemap
-Sitemap: https://resultpowerball.com/sitemap.xml
+Sitemap: https://resultpowerball.com/sitemap-index.xml
