@@ -1,5 +1,4 @@
-export const OG_IMAGE =
-  'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a6/Powerball_and_Mega_Millions_Lottery_Jackpot_Prize_Billboard_in_Missouri_%2844555666811%29.jpg/800px-Powerball_and_Mega_Millions_Lottery_Jackpot_Prize_Billboard_in_Missouri_%2844555666811%29.jpg';
+export const OG_IMAGE = '/powerball-estados.jpg';
 
 export const estados = [
   {

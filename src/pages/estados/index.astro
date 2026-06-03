@@ -4,6 +4,7 @@ import { estados, OG_IMAGE } from '../../data/estados.js';
 
 const siteUrl = 'https://resultpowerball.com';
 const canonicalUrl = `${siteUrl}/estados`;
+const ogImageAbsolute = `${siteUrl}${OG_IMAGE}`;
 const title = 'Powerball por Estado: Guía Completa en Español | ResultPowerball';
 const description =
   'Guía del Powerball en todos los estados de EE.UU. en español. Dónde comprar boletos, cómo reclamar premios, impuestos y resultados por estado.';
@@ -23,7 +24,7 @@ const jsonLdCollectionPage = {
   name: 'Powerball por Estado — Guía en Español',
   description: description,
   url: canonicalUrl,
-  image: OG_IMAGE,
+  image: ogImageAbsolute,
   publisher: { '@type': 'Organization', name: 'ResultPowerball', url: siteUrl },
 };
 ---
@@ -41,13 +42,13 @@ const jsonLdCollectionPage = {
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonicalUrl} />
-    <meta property="og:image" content={OG_IMAGE} />
+    <meta property="og:image" content={ogImageAbsolute} />
     <meta property="og:site_name" content="ResultPowerball" />
     <meta property="og:locale" content="es_US" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
-    <meta name="twitter:image" content={OG_IMAGE} />
+    <meta name="twitter:image" content={ogImageAbsolute} />
     <script type="application/ld+json" set:html={JSON.stringify(jsonLdBreadcrumb)} />
     <script type="application/ld+json" set:html={JSON.stringify(jsonLdCollectionPage)} />
   </Fragment>

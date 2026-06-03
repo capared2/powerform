@@ -13,6 +13,7 @@ const { estado } = Astro.props;
 
 const siteUrl = 'https://resultpowerball.com';
 const canonicalUrl = `${siteUrl}/estados/${estado.slug}`;
+const ogImageAbsolute = `${siteUrl}${OG_IMAGE}`;
 const title = `Powerball en ${estado.nombreEs}: Resultados, Cómo Jugar y Dónde Comprar | ResultPowerball`;
 const description = `Guía completa del Powerball en ${estado.nombreEs}. ${estado.descripcion} Resultados, dónde comprar boletos y cómo reclamar premios.`;
 const mainKeyword = `powerball en ${estado.nombreEs.toLowerCase()}`;
@@ -22,7 +23,7 @@ const jsonLdArticle = {
   '@type': 'Article',
   headline: `Powerball en ${estado.nombreEs}: Guía Completa en Español`,
   description: description,
-  image: OG_IMAGE,
+  image: ogImageAbsolute,
   author: { '@type': 'Organization', name: 'ResultPowerball' },
   publisher: {
     '@type': 'Organization',
@@ -72,7 +73,7 @@ const jsonLdBreadcrumb = {
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonicalUrl} />
-    <meta property="og:image" content={OG_IMAGE} />
+    <meta property="og:image" content={ogImageAbsolute} />
     <meta property="og:image:width" content="800" />
     <meta property="og:image:height" content="526" />
     <meta property="og:site_name" content="ResultPowerball" />
@@ -83,7 +84,7 @@ const jsonLdBreadcrumb = {
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
-    <meta name="twitter:image" content={OG_IMAGE} />
+    <meta name="twitter:image" content={ogImageAbsolute} />
 
     <!-- JSON-LD -->
     <script type="application/ld+json" set:html={JSON.stringify(jsonLdArticle)} />
