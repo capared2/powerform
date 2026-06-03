@@ -1,0 +1,245 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { estados, OG_IMAGE } from '../../data/estados.js';
+
+export async function getStaticPaths() {
+  return estados.map((e) => ({
+    params: { estado: e.slug },
+    props: { estado: e },
+  }));
+}
+
+const { estado } = Astro.props;
+
+const siteUrl = 'https://resultpowerball.com';
+const canonicalUrl = `${siteUrl}/estados/${estado.slug}`;
+const title = `Powerball en ${estado.nombreEs}: Resultados, Cómo Jugar y Dónde Comprar | ResultPowerball`;
+const description = `Guía completa del Powerball en ${estado.nombreEs}. ${estado.descripcion} Resultados, dónde comprar boletos y cómo reclamar premios.`;
+const mainKeyword = `powerball en ${estado.nombreEs.toLowerCase()}`;
+
+const jsonLdArticle = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: `Powerball en ${estado.nombreEs}: Guía Completa en Español`,
+  description: description,
+  image: OG_IMAGE,
+  author: { '@type': 'Organization', name: 'ResultPowerball' },
+  publisher: {
+    '@type': 'Organization',
+    name: 'ResultPowerball',
+    logo: { '@type': 'ImageObject', url: `${siteUrl}/favicon.ico` },
+  },
+  datePublished: '2026-01-01',
+  dateModified: new Date().toISOString().split('T')[0],
+  url: canonicalUrl,
+  mainEntityOfPage: canonicalUrl,
+};
+
+const jsonLdFaq = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: estado.faqs.map((faq) => ({
+    '@type': 'Question',
+    name: faq.pregunta,
+    acceptedAnswer: { '@type': 'Answer', text: faq.respuesta },
+  })),
+};
+
+const jsonLdBreadcrumb = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Inicio', item: siteUrl },
+    { '@type': 'ListItem', position: 2, name: 'Powerball por Estado', item: `${siteUrl}/estados` },
+    { '@type': 'ListItem', position: 3, name: `Powerball en ${estado.nombreEs}`, item: canonicalUrl },
+  ],
+};
+---
+
+<Layout
+  title={title}
+  description={description}
+  canonical={canonicalUrl}
+  robots="index, follow"
+  fullNav={false}
+>
+  <Fragment slot="head">
+    <!-- Keywords -->
+    <meta name="keywords" content={estado.keywords.join(', ')} />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:image" content={OG_IMAGE} />
+    <meta property="og:image:width" content="800" />
+    <meta property="og:image:height" content="526" />
+    <meta property="og:site_name" content="ResultPowerball" />
+    <meta property="og:locale" content="es_US" />
+    <meta property="article:published_time" content="2026-01-01T00:00:00Z" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={OG_IMAGE} />
+
+    <!-- JSON-LD -->
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLdArticle)} />
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLdFaq)} />
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLdBreadcrumb)} />
+  </Fragment>
+
+  <!-- HERO -->
+  <section class="relative bg-gradient-to-b from-gray-900 to-gray-950 py-12 px-4 border-b border-gray-800">
+    <div class="max-w-4xl mx-auto">
+      <!-- Breadcrumb -->
+      <nav class="flex items-center gap-2 text-xs text-gray-500 mb-6">
+        <a href="/" class="hover:text-red-400 transition-colors">Inicio</a>
+        <span>›</span>
+        <a href="/estados" class="hover:text-red-400 transition-colors">Powerball por Estado</a>
+        <span>›</span>
+        <span class="text-gray-300">{estado.nombreEs}</span>
+      </nav>
+
+      <div class="flex items-start gap-4">
+        <div class="bg-red-600 rounded-xl p-3 flex-shrink-0 mt-1">
+          <i data-lucide="map-pin" class="w-7 h-7 text-white"></i>
+        </div>
+        <div>
+          <p class="text-red-400 text-sm font-semibold uppercase tracking-widest mb-1">Guía por Estado</p>
+          <h1 class="font-display text-3xl sm:text-4xl font-bold text-white leading-tight mb-3">
+            Powerball en {estado.nombreEs}
+          </h1>
+          <p class="text-gray-400 text-base leading-relaxed max-w-2xl">{estado.descripcion}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- IMAGEN + INTRO -->
+  <section class="max-w-4xl mx-auto px-4 py-10">
+    <div class="rounded-2xl overflow-hidden mb-10 border border-gray-800 shadow-xl">
+      <img
+        src={OG_IMAGE}
+        alt={`Powerball en ${estado.nombreEs} - Lotería en español`}
+        class="w-full h-56 object-cover object-center"
+        loading="lazy"
+        width="800"
+        height="526"
+      />
+      <div class="bg-gray-900 px-5 py-3 flex items-center justify-between">
+        <span class="text-gray-500 text-xs">📍 Capital: {estado.capital}</span>
+        <span class="text-gray-500 text-xs">🎱 Powerball disponible en {estado.nombreEs}</span>
+      </div>
+    </div>
+
+    <!-- KEYWORDS INTERNOS (para SEO on-page) -->
+    <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-10">
+      {estado.keywords.slice(0, 4).map((kw) => (
+        <span class="bg-gray-800/60 border border-gray-700 rounded-lg px-3 py-2 text-xs text-gray-400 text-center capitalize">
+          {kw}
+        </span>
+      ))}
+    </div>
+
+    <!-- CIUDADES PRINCIPALES -->
+    <div class="bg-gray-900 border border-gray-800 rounded-2xl p-6 mb-8">
+      <h2 class="font-display text-xl font-bold text-white mb-4 flex items-center gap-2">
+        <i data-lucide="building-2" class="w-5 h-5 text-red-500"></i>
+        Ciudades Principales en {estado.nombreEs}
+      </h2>
+      <p class="text-gray-400 text-sm mb-4">
+        El Powerball se vende en cientos de puntos autorizados en las siguientes ciudades:
+      </p>
+      <div class="flex flex-wrap gap-2">
+        {estado.ciudades.map((ciudad) => (
+          <span class="bg-gray-800 border border-gray-700 rounded-full px-4 py-1.5 text-sm text-gray-300">
+            {ciudad}
+          </span>
+        ))}
+      </div>
+    </div>
+
+    <!-- CÓMO JUGAR -->
+    <div class="bg-gray-900 border border-gray-800 rounded-2xl p-6 mb-8">
+      <h2 class="font-display text-xl font-bold text-white mb-5 flex items-center gap-2">
+        <i data-lucide="ticket" class="w-5 h-5 text-red-500"></i>
+        Cómo Jugar Powerball en {estado.nombreEs}
+      </h2>
+      <ol class="space-y-4">
+        {[
+          { paso: '1', titulo: 'Compra tu boleto', desc: `Dirígete a cualquier tienda autorizada en ${estado.nombreEs} y pide un boleto de Powerball. Cuesta $2 USD por jugada.` },
+          { paso: '2', titulo: 'Elige tus números', desc: 'Escoge 5 números del 1 al 69 y 1 Powerball del 1 al 26. O pide Quick Pick para que los números sean aleatorios.' },
+          { paso: '3', titulo: 'Agrega Power Play (opcional)', desc: 'Por $1 más, activa el Power Play para multiplicar premios no jackpot entre 2x y 10x.' },
+          { paso: '4', titulo: 'Guarda tu boleto', desc: 'Guarda tu boleto en un lugar seguro. Lo necesitarás para reclamar cualquier premio.' },
+          { paso: '5', titulo: 'Revisa los resultados', desc: 'Los sorteos son los miércoles y sábados a las 10:59 PM ET. Revisa los resultados aquí en ResultPowerball.' },
+        ].map(({ paso, titulo, desc }) => (
+          <li class="flex gap-4">
+            <div class="w-8 h-8 bg-red-600 rounded-full flex items-center justify-center flex-shrink-0 text-white font-bold text-sm">
+              {paso}
+            </div>
+            <div>
+              <p class="text-white font-semibold text-sm">{titulo}</p>
+              <p class="text-gray-400 text-sm mt-0.5">{desc}</p>
+            </div>
+          </li>
+        ))}
+      </ol>
+    </div>
+
+    <!-- FAQ -->
+    <div class="mb-8">
+      <h2 class="font-display text-2xl font-bold text-white mb-6 flex items-center gap-2">
+        <i data-lucide="help-circle" class="w-6 h-6 text-red-500"></i>
+        Preguntas Frecuentes — Powerball en {estado.nombreEs}
+      </h2>
+      <div class="space-y-3">
+        {estado.faqs.map((faq, i) => (
+          <details class="bg-gray-900 border border-gray-800 rounded-xl group" open={i === 0}>
+            <summary class="flex items-center justify-between px-5 py-4 cursor-pointer text-white font-medium text-sm select-none hover:text-red-400 transition-colors">
+              {faq.pregunta}
+              <i data-lucide="chevron-down" class="w-4 h-4 text-red-500 flex-shrink-0 ml-3 group-open:rotate-180 transition-transform"></i>
+            </summary>
+            <div class="px-5 pb-4 text-gray-400 text-sm leading-relaxed border-t border-gray-800 pt-3">
+              {faq.respuesta}
+            </div>
+          </details>
+        ))}
+      </div>
+    </div>
+
+    <!-- CTA + ENLACE INTERNO -->
+    <div class="bg-gradient-to-r from-red-900/40 to-gray-900 border border-red-800/50 rounded-2xl p-6 mb-8 text-center">
+      <h3 class="font-display text-xl font-bold text-white mb-2">
+        ¿Ya tienes tu boleto de {estado.nombreEs}?
+      </h3>
+      <p class="text-gray-400 text-sm mb-5">
+        Revisa los últimos resultados del Powerball en nuestra página principal.
+      </p>
+      <a
+        href="/"
+        class="inline-flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white font-semibold px-6 py-3 rounded-xl transition-colors text-sm"
+      >
+        <i data-lucide="zap" class="w-4 h-4"></i>
+        Ver Resultados en Vivo
+      </a>
+    </div>
+
+    <!-- NAVEGACIÓN ENTRE ESTADOS -->
+    <div class="bg-gray-900 border border-gray-800 rounded-2xl p-6">
+      <h3 class="font-display text-lg font-bold text-white mb-4 flex items-center gap-2">
+        <i data-lucide="map" class="w-5 h-5 text-red-500"></i>
+        Powerball en Otros Estados
+      </h3>
+      <a
+        href="/estados"
+        class="inline-flex items-center gap-2 text-red-400 hover:text-red-300 text-sm font-medium transition-colors"
+      >
+        <i data-lucide="arrow-left" class="w-4 h-4"></i>
+        Ver todos los estados disponibles
+      </a>
+    </div>
+  </section>
+</Layout>

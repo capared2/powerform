@@ -1,0 +1,172 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { estados, OG_IMAGE } from '../../data/estados.js';
+
+const siteUrl = 'https://resultpowerball.com';
+const canonicalUrl = `${siteUrl}/estados`;
+const title = 'Powerball por Estado: Guía Completa en Español | ResultPowerball';
+const description =
+  'Guía del Powerball en todos los estados de EE.UU. en español. Dónde comprar boletos, cómo reclamar premios, impuestos y resultados por estado.';
+
+const jsonLdBreadcrumb = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Inicio', item: siteUrl },
+    { '@type': 'ListItem', position: 2, name: 'Powerball por Estado', item: canonicalUrl },
+  ],
+};
+
+const jsonLdCollectionPage = {
+  '@context': 'https://schema.org',
+  '@type': 'CollectionPage',
+  name: 'Powerball por Estado — Guía en Español',
+  description: description,
+  url: canonicalUrl,
+  image: OG_IMAGE,
+  publisher: { '@type': 'Organization', name: 'ResultPowerball', url: siteUrl },
+};
+---
+
+<Layout
+  title={title}
+  description={description}
+  canonical={canonicalUrl}
+  robots="index, follow"
+  fullNav={false}
+>
+  <Fragment slot="head">
+    <meta name="keywords" content="powerball por estado, powerball estados unidos en español, loteria powerball estados, como jugar powerball en mi estado, resultados powerball por estado" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:image" content={OG_IMAGE} />
+    <meta property="og:site_name" content="ResultPowerball" />
+    <meta property="og:locale" content="es_US" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={OG_IMAGE} />
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLdBreadcrumb)} />
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLdCollectionPage)} />
+  </Fragment>
+
+  <!-- HERO -->
+  <section class="bg-gradient-to-b from-gray-900 to-gray-950 py-12 px-4 border-b border-gray-800">
+    <div class="max-w-5xl mx-auto text-center">
+      <nav class="flex items-center justify-center gap-2 text-xs text-gray-500 mb-6">
+        <a href="/" class="hover:text-red-400 transition-colors">Inicio</a>
+        <span>›</span>
+        <span class="text-gray-300">Powerball por Estado</span>
+      </nav>
+      <div class="inline-flex items-center gap-2 bg-red-600/20 border border-red-700/40 rounded-full px-4 py-1.5 text-red-400 text-xs font-semibold uppercase tracking-widest mb-4">
+        <i data-lucide="map" class="w-3.5 h-3.5"></i>
+        SEO · Guía por Estado
+      </div>
+      <h1 class="font-display text-4xl sm:text-5xl font-bold text-white mb-4 leading-tight">
+        Powerball por Estado<br />
+        <span class="text-red-500">Guía en Español</span>
+      </h1>
+      <p class="text-gray-400 text-base max-w-2xl mx-auto leading-relaxed">
+        Todo lo que necesitas saber sobre el Powerball en tu estado: dónde comprar boletos, resultados, impuestos y cómo reclamar premios — en español.
+      </p>
+      <div class="flex items-center justify-center gap-6 mt-8 text-sm text-gray-500">
+        <span class="flex items-center gap-1.5"><i data-lucide="check-circle" class="w-4 h-4 text-green-500"></i> {estados.length} estados cubiertos</span>
+        <span class="flex items-center gap-1.5"><i data-lucide="globe" class="w-4 h-4 text-blue-500"></i> Todo en español</span>
+        <span class="flex items-center gap-1.5"><i data-lucide="refresh-cw" class="w-4 h-4 text-yellow-500"></i> Actualizado 2026</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- GRID DE ESTADOS -->
+  <section class="max-w-5xl mx-auto px-4 py-12">
+    <h2 class="font-display text-2xl font-bold text-white mb-8 flex items-center gap-2">
+      <i data-lucide="list" class="w-6 h-6 text-red-500"></i>
+      Estados Disponibles
+    </h2>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      {estados.map((estado) => (
+        <a
+          href={`/estados/${estado.slug}`}
+          class="group bg-gray-900 border border-gray-800 hover:border-red-700/60 rounded-2xl p-5 transition-all hover:bg-gray-800/60 hover:shadow-lg hover:shadow-red-900/10"
+        >
+          <div class="flex items-start justify-between mb-3">
+            <div class="flex items-center gap-2">
+              <div class="bg-red-600/20 rounded-lg p-2">
+                <i data-lucide="map-pin" class="w-4 h-4 text-red-500"></i>
+              </div>
+              <div>
+                <p class="text-white font-semibold text-sm group-hover:text-red-400 transition-colors">
+                  {estado.nombreEs}
+                </p>
+                <p class="text-gray-600 text-xs">{estado.capital}</p>
+              </div>
+            </div>
+            <i data-lucide="arrow-right" class="w-4 h-4 text-gray-600 group-hover:text-red-500 transition-colors mt-1"></i>
+          </div>
+          <p class="text-gray-500 text-xs leading-relaxed line-clamp-2">
+            {estado.descripcion}
+          </p>
+          <div class="mt-3 flex flex-wrap gap-1">
+            {estado.keywords.slice(0, 2).map((kw) => (
+              <span class="bg-gray-800 rounded px-2 py-0.5 text-gray-600 text-xs capitalize">
+                {kw}
+              </span>
+            ))}
+          </div>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <!-- INFO GENERAL -->
+  <section class="max-w-5xl mx-auto px-4 pb-12">
+    <div class="bg-gray-900 border border-gray-800 rounded-2xl p-8">
+      <h2 class="font-display text-2xl font-bold text-white mb-6 flex items-center gap-2">
+        <i data-lucide="info" class="w-6 h-6 text-red-500"></i>
+        ¿Cómo Funciona el Powerball en EE.UU.?
+      </h2>
+      <div class="grid sm:grid-cols-2 gap-6 text-sm text-gray-400 leading-relaxed">
+        <div>
+          <h3 class="text-white font-semibold mb-2 flex items-center gap-2">
+            <i data-lucide="calendar" class="w-4 h-4 text-red-400"></i>
+            Días de Sorteo
+          </h3>
+          <p>Los sorteos del Powerball se realizan todos los <strong class="text-white">lunes, miércoles y sábados</strong> a las 10:59 PM ET. Puedes comprar boletos hasta 1-2 horas antes del sorteo según el estado.</p>
+        </div>
+        <div>
+          <h3 class="text-white font-semibold mb-2 flex items-center gap-2">
+            <i data-lucide="dollar-sign" class="w-4 h-4 text-red-400"></i>
+            Precio del Boleto
+          </h3>
+          <p>Un boleto básico cuesta <strong class="text-white">$2 USD</strong>. Puedes agregar Power Play por $1 adicional para multiplicar premios no jackpot. El costo es igual en todos los estados.</p>
+        </div>
+        <div>
+          <h3 class="text-white font-semibold mb-2 flex items-center gap-2">
+            <i data-lucide="trophy" class="w-4 h-4 text-red-400"></i>
+            Jackpot Mínimo
+          </h3>
+          <p>El jackpot mínimo comienza en <strong class="text-white">$20 millones</strong> y crece con cada sorteo que no tiene ganador. Los jackpots pueden alcanzar miles de millones de dólares.</p>
+        </div>
+        <div>
+          <h3 class="text-white font-semibold mb-2 flex items-center gap-2">
+            <i data-lucide="shield" class="w-4 h-4 text-red-400"></i>
+            Seguridad del Boleto
+          </h3>
+          <p>El boleto físico es el comprobante del premio. <strong class="text-white">Guárdalo siempre</strong> en un lugar seguro, fírmalo al dorso, y no lo pierdas. Sin boleto, no hay premio.</p>
+        </div>
+      </div>
+      <div class="mt-6 pt-6 border-t border-gray-800 text-center">
+        <a
+          href="/"
+          class="inline-flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white font-semibold px-6 py-3 rounded-xl transition-colors text-sm"
+        >
+          <i data-lucide="zap" class="w-4 h-4"></i>
+          Ver Resultados en Vivo
+        </a>
+      </div>
+    </div>
+  </section>
+</Layout>
