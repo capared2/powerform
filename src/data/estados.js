@@ -822,4 +822,209 @@ export const estados = [
     ],
     ciudades: ['Nashville', 'Memphis', 'Knoxville', 'Chattanooga', 'Clarksville', 'Murfreesboro'],
   },
+  {
+    slug: 'connecticut',
+    nombre: 'Connecticut',
+    nombreEs: 'Connecticut',
+    capital: 'Hartford',
+    keywords: [
+      'powerball en connecticut',
+      'resultados powerball connecticut hoy',
+      'donde comprar boleto powerball connecticut',
+      'como jugar powerball en connecticut en español',
+      'numeros ganadores powerball connecticut',
+      'loteria powerball connecticut',
+      'reclamar premio powerball connecticut',
+      'powerball connecticut jackpot',
+    ],
+    descripcion:
+      'Connecticut tiene una de las comunidades hispanas más fuertes del noreste, con una gran población puertorriqueña en Hartford, Bridgeport y Waterbury. La Connecticut Lottery vende el Powerball en todo el estado.',
+    faqs: [
+      {
+        pregunta: '¿Dónde puedo comprar un boleto de Powerball en Connecticut?',
+        respuesta:
+          'Puedes comprar boletos en cualquier minorista autorizado por la Connecticut Lottery: gasolineras, tiendas de conveniencia y supermercados como Stop & Shop y 7-Eleven en todo el estado.',
+      },
+      {
+        pregunta: '¿Hasta qué hora se venden boletos en Connecticut?',
+        respuesta:
+          'La venta de boletos cierra aproximadamente una hora antes del sorteo, alrededor de las 9:59 PM ET. Compra con tiempo para no quedarte fuera del sorteo de esa noche.',
+      },
+      {
+        pregunta: '¿Cuánto tiempo tengo para reclamar un premio en Connecticut?',
+        respuesta:
+          'En Connecticut tienes 180 días desde la fecha del sorteo para reclamar un premio de Powerball. Confirma siempre los plazos con la Connecticut Lottery.',
+      },
+      {
+        pregunta: '¿Se pagan impuestos sobre los premios en Connecticut?',
+        respuesta:
+          'Sí. Además de la retención federal del 24%, Connecticut aplica impuesto estatal sobre la renta a los premios de lotería (la retención estatal ronda el 6.99%).',
+      },
+    ],
+    ciudades: ['Bridgeport', 'New Haven', 'Stamford', 'Hartford', 'Waterbury', 'Norwalk'],
+  },
+  {
+    slug: 'maryland',
+    nombre: 'Maryland',
+    nombreEs: 'Maryland',
+    capital: 'Annapolis',
+    keywords: [
+      'powerball en maryland',
+      'resultados powerball maryland hoy',
+      'donde comprar boleto powerball maryland',
+      'como jugar powerball en maryland en español',
+      'numeros ganadores powerball maryland',
+      'loteria powerball maryland',
+      'reclamar premio powerball maryland',
+      'powerball maryland jackpot',
+    ],
+    descripcion:
+      'Maryland concentra una gran población hispana en el área metropolitana de Washington DC y en Baltimore, especialmente en los condados de Montgomery y Prince George\'s. La Maryland Lottery ofrece el Powerball en miles de puntos de venta.',
+    faqs: [
+      {
+        pregunta: '¿Dónde comprar un boleto de Powerball en Maryland?',
+        respuesta:
+          'Los boletos se venden en minoristas autorizados por la Maryland Lottery, como 7-Eleven, Royal Farms, Giant, Safeway y licorerías en todo el estado.',
+      },
+      {
+        pregunta: '¿A qué hora cierra la venta de Powerball en Maryland?',
+        respuesta:
+          'La venta de boletos termina alrededor de las 9:59 PM ET la noche del sorteo (lunes, miércoles y sábado). Te recomendamos comprar con anticipación.',
+      },
+      {
+        pregunta: '¿Cuál es el plazo para reclamar un premio en Maryland?',
+        respuesta:
+          'En Maryland tienes alrededor de 182 días (unos 6 meses) desde el sorteo para reclamar tu premio. Verifica el plazo exacto con la Maryland Lottery.',
+      },
+      {
+        pregunta: '¿Cómo se gravan los premios de Powerball en Maryland?',
+        respuesta:
+          'Además del 24% federal, Maryland retiene impuesto estatal sobre premios grandes (alrededor del 8.75% para residentes) más un impuesto local del condado. Consulta el detalle al cobrar.',
+      },
+    ],
+    ciudades: ['Baltimore', 'Silver Spring', 'Germantown', 'Rockville', 'Frederick', 'Annapolis'],
+  },
+  {
+    slug: 'indiana',
+    nombre: 'Indiana',
+    nombreEs: 'Indiana',
+    capital: 'Indianápolis',
+    keywords: [
+      'powerball en indiana',
+      'resultados powerball indiana hoy',
+      'donde comprar boleto powerball indiana',
+      'como jugar powerball en indiana en español',
+      'numeros ganadores powerball indiana',
+      'loteria powerball indiana',
+      'reclamar premio powerball indiana',
+      'powerball indiana jackpot',
+    ],
+    descripcion:
+      'Indiana tiene comunidades hispanas en crecimiento, sobre todo en Indianápolis y en el noroeste del estado —Hammond y East Chicago—, muy cerca de Chicago. La Hoosier Lottery ofrece el Powerball en todo Indiana.',
+    faqs: [
+      {
+        pregunta: '¿Dónde comprar un boleto de Powerball en Indiana?',
+        respuesta:
+          'Puedes comprarlo en minoristas autorizados por la Hoosier Lottery, como Speedway, Circle K, Kroger y CVS en todo el estado.',
+      },
+      {
+        pregunta: '¿Hasta qué hora puedo comprar boletos en Indiana?',
+        respuesta:
+          'La venta cierra aproximadamente una hora antes del sorteo, cerca de las 9:59 PM ET. Recuerda que los sorteos son lunes, miércoles y sábado.',
+      },
+      {
+        pregunta: '¿Cuánto tiempo tengo para reclamar en Indiana?',
+        respuesta:
+          'En Indiana tienes 180 días desde la fecha del sorteo para reclamar un premio de Powerball.',
+      },
+      {
+        pregunta: '¿Indiana cobra impuestos sobre los premios?',
+        respuesta:
+          'Sí. Además del 24% federal, Indiana aplica una retención estatal de tasa fija (alrededor del 3%) sobre los premios de lotería.',
+      },
+    ],
+    ciudades: ['Indianápolis', 'Fort Wayne', 'Evansville', 'South Bend', 'Hammond', 'East Chicago'],
+  },
+  {
+    slug: 'wisconsin',
+    nombre: 'Wisconsin',
+    nombreEs: 'Wisconsin',
+    capital: 'Madison',
+    keywords: [
+      'powerball en wisconsin',
+      'resultados powerball wisconsin hoy',
+      'donde comprar boleto powerball wisconsin',
+      'como jugar powerball en wisconsin en español',
+      'numeros ganadores powerball wisconsin',
+      'loteria powerball wisconsin',
+      'reclamar premio powerball wisconsin',
+      'powerball wisconsin jackpot',
+    ],
+    descripcion:
+      'Wisconsin cuenta con una comunidad hispana importante y en crecimiento en Milwaukee, Racine y Kenosha. La Wisconsin Lottery vende el Powerball en todo el estado.',
+    faqs: [
+      {
+        pregunta: '¿Dónde comprar un boleto de Powerball en Wisconsin?',
+        respuesta:
+          'Los boletos se venden en minoristas autorizados por la Wisconsin Lottery, como Kwik Trip, Pick \'n Save, Walgreens y gasolineras en todo el estado.',
+      },
+      {
+        pregunta: '¿A qué hora cierra la venta en Wisconsin?',
+        respuesta:
+          'La venta de boletos termina alrededor de las 9:59 PM ET la noche del sorteo. Compra con tiempo para participar en el sorteo de esa misma noche.',
+      },
+      {
+        pregunta: '¿Cuál es el plazo para reclamar en Wisconsin?',
+        respuesta:
+          'En Wisconsin tienes 180 días desde la fecha del sorteo para reclamar tu premio de Powerball.',
+      },
+      {
+        pregunta: '¿Se pagan impuestos sobre premios en Wisconsin?',
+        respuesta:
+          'Sí. Además de la retención federal del 24%, Wisconsin aplica impuesto estatal sobre la renta a los premios (la retención ronda el 7.65%).',
+      },
+    ],
+    ciudades: ['Milwaukee', 'Madison', 'Green Bay', 'Kenosha', 'Racine', 'Appleton'],
+  },
+  {
+    slug: 'missouri',
+    nombre: 'Missouri',
+    nombreEs: 'Missouri',
+    capital: 'Jefferson City',
+    keywords: [
+      'powerball en missouri',
+      'resultados powerball missouri hoy',
+      'donde comprar boleto powerball missouri',
+      'como jugar powerball en missouri en español',
+      'numeros ganadores powerball missouri',
+      'loteria powerball missouri',
+      'reclamar premio powerball missouri',
+      'powerball missouri jackpot',
+    ],
+    descripcion:
+      'Missouri es un mercado fuerte del Powerball, con grandes premios vendidos en Kansas City y St. Louis. La Missouri Lottery ofrece el juego en todo el estado, donde la comunidad hispana sigue creciendo.',
+    faqs: [
+      {
+        pregunta: '¿Dónde comprar un boleto de Powerball en Missouri?',
+        respuesta:
+          'Puedes comprarlo en minoristas autorizados por la Missouri Lottery, como QuikTrip, Casey\'s, Schnucks, Dierbergs y gasolineras en todo el estado.',
+      },
+      {
+        pregunta: '¿Hasta qué hora se venden boletos en Missouri?',
+        respuesta:
+          'La venta cierra alrededor de las 8:59 PM CT (9:59 PM ET), aproximadamente una hora antes del sorteo. Compra con anticipación.',
+      },
+      {
+        pregunta: '¿Cuánto tiempo tengo para reclamar en Missouri?',
+        respuesta:
+          'En Missouri tienes 180 días desde la fecha del sorteo para reclamar un premio de Powerball.',
+      },
+      {
+        pregunta: '¿Missouri cobra impuestos sobre los premios de lotería?',
+        respuesta:
+          'Sí. Además del 24% federal, Missouri retiene un 4% estatal sobre los premios de lotería.',
+      },
+    ],
+    ciudades: ['Kansas City', 'St. Louis', 'Springfield', 'Columbia', 'Independence', 'Jefferson City'],
+  },
 ];
