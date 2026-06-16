@@ -67,7 +67,7 @@ const faqs = [
     <meta property="og:title" content="🎲 Resultados Powerball HOY - Números Ganadores en VIVO en Español" />
     <meta property="og:description" content="⭐ RESULTADOS ACTUALIZADOS del Powerball. Jackpot en VIVO. Sorteos Lunes, Miércoles y Sábado. Consulta GRATIS tus números ganadores. Válido en todos los estados USA." />
     <meta property="og:url" content="https://resultpowerball.com" />
-    <meta property="og:image" content="https://resultpowerball.com/og-image.png" />
+    <meta property="og:image" content="https://resultpowerball.com/powerball-estados.jpg" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta property="og:locale" content="es_US" />
@@ -79,7 +79,7 @@ const faqs = [
     <meta name="twitter:site" content="@ResultPowerball" />
     <meta name="twitter:title" content="🎲 Resultados Powerball HOY - Números Ganadores" />
     <meta name="twitter:description" content="Consulta los números ganadores del Powerball actualizados cada sorteo. Jackpot en vivo." />
-    <meta name="twitter:image" content="https://resultpowerball.com/twitter-card.png" />
+    <meta name="twitter:image" content="https://resultpowerball.com/powerball-estados.jpg" />
     <link rel="dns-prefetch" href="https://cdn.jsdelivr.net" />
 
     <script type="application/ld+json">
@@ -95,7 +95,7 @@ const faqs = [
         "@type": "Organization",
         "name": "ResultPowerball",
         "url": "https://resultpowerball.com",
-        "logo": { "@type": "ImageObject", "url": "https://resultpowerball.com/logo.png" }
+        "logo": { "@type": "ImageObject", "url": "https://resultpowerball.com/logo.svg" }
       },
       "potentialAction": {
         "@type": "SearchAction",
@@ -111,12 +111,12 @@ const faqs = [
       "@type": "Article",
       "headline": "Resultados Powerball HOY - Números Ganadores en Español",
       "description": "Consulta los resultados oficiales del Powerball actualizados cada sorteo. Números ganadores, jackpot y Power Play.",
-      "image": "https://resultpowerball.com/og-image.png",
+      "image": "https://resultpowerball.com/powerball-estados.jpg",
       "author": { "@type": "Organization", "name": "ResultPowerball" },
       "publisher": {
         "@type": "Organization",
         "name": "ResultPowerball",
-        "logo": { "@type": "ImageObject", "url": "https://resultpowerball.com/logo.png" }
+        "logo": { "@type": "ImageObject", "url": "https://resultpowerball.com/logo.svg" }
       },
       "datePublished": "2026-02-03",
       "dateModified": "2026-02-03"
@@ -151,23 +151,6 @@ const faqs = [
   </Fragment>
 
   <main>
-    <!-- SEO OCULTO PARA CRAWLERS -->
-    <div class="absolute left-[-9999px] w-px h-px overflow-hidden" aria-hidden="true">
-      <h1>Resultados Powerball en Español - Números Ganadores Actualizados en Tiempo Real</h1>
-      <h2>Sorteos Powerball Lunes Miércoles Sábado 10:59 PM ET</h2>
-      <p>Consulta GRATIS los resultados oficiales del Powerball en español. Números ganadores actualizados automáticamente después de cada sorteo.</p>
-      <h3>Estados donde se juega Powerball</h3>
-      <ul>
-        <li>Powerball California - Los Angeles, San Francisco, San Diego, Sacramento.</li>
-        <li>Powerball Texas - Houston, Dallas, San Antonio, Austin, El Paso.</li>
-        <li>Powerball Florida - Miami, Tampa, Orlando, Jacksonville.</li>
-        <li>Powerball Nueva York - NYC, Buffalo, Rochester, Albany.</li>
-        <li>Powerball Illinois - Chicago y área metropolitana.</li>
-        <li>Powerball Puerto Rico - Toda la isla. 100% hispanohablante.</li>
-      </ul>
-      <h3>Powerball para Latinos en Estados Unidos</h3>
-      <p>Mexicanos en USA jugando Powerball, dominicanos ganadores Powerball, salvadoreños en Estados Unidos Powerball, guatemaltecos USA lotería, hondureños en Estados Unidos Powerball, colombianos en USA lotería americana, venezolanos Estados Unidos Powerball, cubanos en USA jugando lotería, puertorriqueños Powerball resultados.</p>
-    </div>
 
     <!-- ======== HERO + RESULTADOS ======== -->
     <section id="resultados" class="hero-bg pt-14 pb-16 px-4">
@@ -566,6 +549,53 @@ const faqs = [
             Guía Powerball por estado en español
             <i data-lucide="arrow-right" class="w-4 h-4"></i>
           </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======== POWERBALL EN ESPAÑOL (contenido informativo, antes oculto y ahora visible) ======== -->
+    <section class="py-16 px-4">
+      <div class="max-w-4xl mx-auto">
+        <div class="text-center mb-10">
+          <h2 class="font-display text-3xl font-bold text-white mb-2">
+            Powerball en <span class="text-red-500">Español</span> en Todo Estados Unidos
+          </h2>
+          <p class="text-gray-500">Sorteos lunes, miércoles y sábado a las 10:59 PM ET</p>
+        </div>
+
+        <p class="text-gray-400 text-sm leading-relaxed max-w-2xl mx-auto text-center mb-10">
+          Consulta gratis los resultados oficiales del Powerball en español. Los números ganadores se actualizan automáticamente después de cada sorteo, para que verifiques tu boleto en segundos.
+        </p>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="bg-gray-900 border border-gray-800 rounded-2xl p-6">
+            <h3 class="font-display text-lg font-bold text-white mb-4 flex items-center gap-2">
+              <i data-lucide="map-pin" class="w-5 h-5 text-red-500"></i>
+              Estados donde se juega Powerball
+            </h3>
+            <ul class="space-y-2 text-sm text-gray-400">
+              <li><a href="/estados/california" class="hover:text-red-400 transition-colors"><strong class="text-gray-200">Powerball California</strong></a> — Los Ángeles, San Francisco, San Diego, Sacramento.</li>
+              <li><a href="/estados/texas" class="hover:text-red-400 transition-colors"><strong class="text-gray-200">Powerball Texas</strong></a> — Houston, Dallas, San Antonio, Austin, El Paso.</li>
+              <li><a href="/estados/florida" class="hover:text-red-400 transition-colors"><strong class="text-gray-200">Powerball Florida</strong></a> — Miami, Tampa, Orlando, Jacksonville.</li>
+              <li><a href="/estados/new-york" class="hover:text-red-400 transition-colors"><strong class="text-gray-200">Powerball Nueva York</strong></a> — NYC, Buffalo, Rochester, Albany.</li>
+              <li><a href="/estados/illinois" class="hover:text-red-400 transition-colors"><strong class="text-gray-200">Powerball Illinois</strong></a> — Chicago y área metropolitana.</li>
+              <li><a href="/estados" class="hover:text-red-400 transition-colors"><strong class="text-gray-200">Powerball Puerto Rico</strong></a> — toda la isla, 100% en español.</li>
+            </ul>
+          </div>
+
+          <div class="bg-gray-900 border border-gray-800 rounded-2xl p-6">
+            <h3 class="font-display text-lg font-bold text-white mb-4 flex items-center gap-2">
+              <i data-lucide="users" class="w-5 h-5 text-red-500"></i>
+              Powerball para Latinos en Estados Unidos
+            </h3>
+            <p class="text-gray-400 text-sm leading-relaxed">
+              Miles de mexicanos, dominicanos, puertorriqueños, salvadoreños, guatemaltecos, hondureños, colombianos, venezolanos y cubanos en Estados Unidos juegan el Powerball cada semana. Aquí encuentras los resultados y la guía completa, siempre en español.
+            </p>
+            <a href="/estados" class="inline-flex items-center gap-2 text-red-400 hover:text-red-300 text-sm font-medium mt-4 transition-colors">
+              Ver guía Powerball por estado
+              <i data-lucide="arrow-right" class="w-4 h-4"></i>
+            </a>
+          </div>
         </div>
       </div>
     </section>

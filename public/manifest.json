@@ -1,0 +1,20 @@
+{
+  "name": "ResultPowerball - Resultados Powerball en Español",
+  "short_name": "ResultPB",
+  "description": "Resultados del Powerball en español. Números ganadores actualizados cada sorteo.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#030712",
+  "theme_color": "#DC2626",
+  "lang": "es",
+  "dir": "ltr",
+  "icons": [
+    {
+      "src": "/logo.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

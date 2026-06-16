@@ -14,8 +14,13 @@ const { estado } = Astro.props;
 const siteUrl = 'https://resultpowerball.com';
 const canonicalUrl = `${siteUrl}/estados/${estado.slug}`;
 const ogImageAbsolute = `${siteUrl}${OG_IMAGE}`;
-const title = `Powerball en ${estado.nombreEs}: Resultados, Cómo Jugar y Dónde Comprar | ResultPowerball`;
-const description = `Guía completa del Powerball en ${estado.nombreEs}. ${estado.descripcion} Resultados, dónde comprar boletos y cómo reclamar premios.`;
+const noPowerball = estado.noPowerball === true;
+const title = noPowerball
+  ? `Powerball en ${estado.nombreEs}: ¿Se Puede Jugar? Guía en Español | ResultPowerball`
+  : `Powerball en ${estado.nombreEs}: Resultados, Cómo Jugar y Dónde Comprar | ResultPowerball`;
+const description = noPowerball
+  ? `${estado.nombreEs} no vende Powerball. Te explicamos por qué, dónde comprar boletos cerca y cómo se juega — todo en español.`
+  : `Guía completa del Powerball en ${estado.nombreEs}. ${estado.descripcion} Resultados, dónde comprar boletos y cómo reclamar premios.`;
 const mainKeyword = `powerball en ${estado.nombreEs.toLowerCase()}`;
 
 const jsonLdArticle = {
@@ -28,7 +33,7 @@ const jsonLdArticle = {
   publisher: {
     '@type': 'Organization',
     name: 'ResultPowerball',
-    logo: { '@type': 'ImageObject', url: `${siteUrl}/favicon.ico` },
+    logo: { '@type': 'ImageObject', url: `${siteUrl}/logo.svg` },
   },
   datePublished: '2026-01-01',
   dateModified: new Date().toISOString().split('T')[0],
@@ -74,8 +79,8 @@ const jsonLdBreadcrumb = {
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonicalUrl} />
     <meta property="og:image" content={ogImageAbsolute} />
-    <meta property="og:image:width" content="800" />
-    <meta property="og:image:height" content="526" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
     <meta property="og:site_name" content="ResultPowerball" />
     <meta property="og:locale" content="es_US" />
     <meta property="article:published_time" content="2026-01-01T00:00:00Z" />
@@ -121,14 +126,26 @@ const jsonLdBreadcrumb = {
 
   <!-- IMAGEN + INTRO -->
   <section class="max-w-4xl mx-auto px-4 py-10">
+    {noPowerball && (
+      <div class="bg-yellow-500/10 border border-yellow-500/40 rounded-2xl p-5 mb-8 flex gap-3">
+        <i data-lucide="alert-triangle" class="w-6 h-6 text-yellow-400 flex-shrink-0 mt-0.5"></i>
+        <div>
+          <p class="text-yellow-400 font-bold text-sm mb-1">{estado.nombreEs} no vende Powerball</p>
+          <p class="text-gray-300 text-sm leading-relaxed">
+            {estado.nombreEs} es uno de los pocos estados que no participa en el Powerball. Para jugar, los residentes deben comprar su boleto en un estado vecino que sí lo ofrezca. Más abajo te explicamos las opciones más cercanas.
+          </p>
+        </div>
+      </div>
+    )}
+
     <div class="rounded-2xl overflow-hidden mb-10 border border-gray-800 shadow-xl">
       <img
         src={OG_IMAGE}
         alt={`Powerball en ${estado.nombreEs} - Lotería en español`}
         class="w-full h-56 object-cover object-center"
         loading="lazy"
-        width="800"
-        height="526"
+        width="1200"
+        height="630"
       />
       <div class="bg-gray-900 px-5 py-3 flex items-center justify-between">
         <span class="text-gray-500 text-xs">📍 Capital: {estado.capital}</span>
@@ -171,11 +188,11 @@ const jsonLdBreadcrumb = {
       </h2>
       <ol class="space-y-4">
         {[
-          { paso: '1', titulo: 'Compra tu boleto', desc: `Dirígete a cualquier tienda autorizada en ${estado.nombreEs} y pide un boleto de Powerball. Cuesta $2 USD por jugada.` },
+          { paso: '1', titulo: 'Compra tu boleto', desc: noPowerball ? `${estado.nombreEs} no vende Powerball: viaja a un estado vecino que sí lo ofrezca y compra tu boleto en una tienda autorizada por $2 USD la jugada.` : `Dirígete a cualquier tienda autorizada en ${estado.nombreEs} y pide un boleto de Powerball. Cuesta $2 USD por jugada.` },
           { paso: '2', titulo: 'Elige tus números', desc: 'Escoge 5 números del 1 al 69 y 1 Powerball del 1 al 26. O pide Quick Pick para que los números sean aleatorios.' },
           { paso: '3', titulo: 'Agrega Power Play (opcional)', desc: 'Por $1 más, activa el Power Play para multiplicar premios no jackpot entre 2x y 10x.' },
           { paso: '4', titulo: 'Guarda tu boleto', desc: 'Guarda tu boleto en un lugar seguro. Lo necesitarás para reclamar cualquier premio.' },
-          { paso: '5', titulo: 'Revisa los resultados', desc: 'Los sorteos son los miércoles y sábados a las 10:59 PM ET. Revisa los resultados aquí en ResultPowerball.' },
+          { paso: '5', titulo: 'Revisa los resultados', desc: 'Los sorteos son los lunes, miércoles y sábados a las 10:59 PM ET. Revisa los resultados aquí en ResultPowerball.' },
         ].map(({ paso, titulo, desc }) => (
           <li class="flex gap-4">
             <div class="w-8 h-8 bg-red-600 rounded-full flex items-center justify-center flex-shrink-0 text-white font-bold text-sm">

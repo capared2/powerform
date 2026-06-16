@@ -334,6 +334,7 @@ export const estados = [
     nombre: 'Nevada',
     nombreEs: 'Nevada',
     capital: 'Carson City',
+    noPowerball: true,
     keywords: [
       'powerball en nevada',
       'resultados powerball nevada',
@@ -350,7 +351,7 @@ export const estados = [
       {
         pregunta: '¿Se vende Powerball en Nevada?',
         respuesta:
-          'No. Nevada no participa en el Powerball. Es uno de los 6 estados que no vende billetes de lotería. Para jugar, los residentes deben viajar a California, Arizona o Utah (aunque Utah tampoco lo vende).',
+          'No. Nevada no participa en el Powerball. Es uno de los 5 estados que no vende billetes de lotería estatal (junto con Alabama, Alaska, Hawái y Utah). Para jugar, los residentes deben viajar a California o Arizona.',
       },
       {
         pregunta: '¿Dónde es el punto más cercano para comprar Powerball desde Las Vegas?',
