@@ -1,5 +1,19 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import resultadosData from '../data/resultados.json';
+import { fechaLarga, fechaConDia, fechaTarjeta } from '../utils/fechas.js';
+
+// Último sorteo disponible en build-time (el JSON se actualiza 3x/semana vía GitHub Actions).
+// Si aún no hay datos, la página cae al comportamiento anterior (skeleton + fetch en cliente).
+const ultimo = resultadosData.sorteos?.[0] ?? null;
+
+const title = ultimo
+  ? `Resultados Powerball hoy: números del ${fechaLarga(ultimo.fecha)}`
+  : 'Resultados Powerball HOY en Español | Números Ganadores USA';
+const description = ultimo
+  ? `Números ganadores del Powerball del ${fechaConDia(ultimo.fecha)}: ${ultimo.blancos.join(', ')} y Powerball ${ultimo.powerball}.${ultimo.powerplay ? ` Power Play ${ultimo.powerplay}x.` : ''} Resultados en español actualizados cada sorteo.`
+  : 'Resultados oficiales del Powerball HOY en español: números ganadores, jackpot en vivo y Power Play. Sorteos lunes, miércoles y sábado. Verifica tu boleto gratis.';
+const fechaModificacion = ultimo ? ultimo.fecha : '2026-02-03';
 
 const faqs = [
   {
@@ -38,9 +52,9 @@ const faqs = [
 ---
 
 <Layout
-  title="Resultados Powerball HOY en Español | Números Ganadores USA"
-  description="Resultados oficiales del Powerball HOY en español: números ganadores, jackpot en vivo y Power Play. Sorteos lunes, miércoles y sábado. Verifica tu boleto gratis."
-  canonical="https://resultpowerball.com"
+  title={title}
+  description={description}
+  canonical="https://resultpowerball.com/"
   robots="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
   fullNav={true}
 >
@@ -58,10 +72,10 @@ const faqs = [
     <meta name="ICBM" content="37.0902, -95.7129" />
     <meta name="DC.title" content="Resultados Powerball en Español - Números Ganadores Actualizados" />
     <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="ResultPowerball - Resultados Oficiales en Español" />
-    <meta property="og:title" content="🎲 Resultados Powerball HOY - Números Ganadores en VIVO en Español" />
-    <meta property="og:description" content="⭐ RESULTADOS ACTUALIZADOS del Powerball. Jackpot en VIVO. Sorteos Lunes, Miércoles y Sábado. Consulta GRATIS tus números ganadores. Válido en todos los estados USA." />
-    <meta property="og:url" content="https://resultpowerball.com" />
+    <meta property="og:site_name" content="ResultPowerball - Resultados en Español" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content="https://resultpowerball.com/" />
     <meta property="og:image" content="https://resultpowerball.com/powerball-estados.jpg" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
@@ -70,55 +84,47 @@ const faqs = [
     <meta property="og:locale:alternate" content="es_MX" />
     <meta property="og:locale:alternate" content="es_PR" />
     <meta property="article:published_time" content="2026-02-03T00:00:00-05:00" />
-    <meta property="article:modified_time" content="2026-02-03T00:00:00-05:00" />
+    <meta property="article:modified_time" content={`${fechaModificacion}T00:00:00-05:00`} />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:site" content="@ResultPowerball" />
-    <meta name="twitter:title" content="🎲 Resultados Powerball HOY - Números Ganadores" />
-    <meta name="twitter:description" content="Consulta los números ganadores del Powerball actualizados cada sorteo. Jackpot en vivo." />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content="https://resultpowerball.com/powerball-estados.jpg" />
     <meta name="twitter:image:alt" content="Resultados del Powerball en español - números ganadores" />
     <link rel="dns-prefetch" href="https://cdn.jsdelivr.net" />
 
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "WebSite",
-      "name": "ResultPowerball",
-      "alternateName": ["Resultados Powerball", "Powerball en Español", "Números Ganadores Powerball"],
-      "url": "https://resultpowerball.com",
-      "description": "Portal oficial de resultados del Powerball en español. Números ganadores actualizados cada sorteo en todos los estados de USA.",
-      "inLanguage": "es",
-      "publisher": {
-        "@type": "Organization",
-        "name": "ResultPowerball",
-        "url": "https://resultpowerball.com",
-        "logo": { "@type": "ImageObject", "url": "https://resultpowerball.com/logo.svg" }
+    <script type="application/ld+json" set:html={JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'WebSite',
+      name: 'ResultPowerball',
+      alternateName: ['Resultados Powerball', 'Powerball en Español', 'Números Ganadores Powerball'],
+      url: 'https://resultpowerball.com/',
+      description: 'Resultados del Powerball en español. Números ganadores actualizados después de cada sorteo, válidos en todos los estados de USA.',
+      inLanguage: 'es',
+      publisher: {
+        '@type': 'Organization',
+        name: 'ResultPowerball',
+        url: 'https://resultpowerball.com/',
+        logo: { '@type': 'ImageObject', url: 'https://resultpowerball.com/logo.svg' },
       },
-      "potentialAction": {
-        "@type": "SearchAction",
-        "target": "https://resultpowerball.com#resultados",
-        "query-input": "required name=search_term_string"
-      }
-    }
-    </script>
+    })} />
 
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "Article",
-      "headline": "Resultados Powerball HOY - Números Ganadores en Español",
-      "description": "Consulta los resultados oficiales del Powerball actualizados cada sorteo. Números ganadores, jackpot y Power Play.",
-      "image": "https://resultpowerball.com/powerball-estados.jpg",
-      "author": { "@type": "Organization", "name": "ResultPowerball" },
-      "publisher": {
-        "@type": "Organization",
-        "name": "ResultPowerball",
-        "logo": { "@type": "ImageObject", "url": "https://resultpowerball.com/logo.svg" }
+    <script type="application/ld+json" set:html={JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'Article',
+      headline: title,
+      description: description,
+      image: 'https://resultpowerball.com/powerball-estados.jpg',
+      author: { '@type': 'Organization', name: 'ResultPowerball' },
+      publisher: {
+        '@type': 'Organization',
+        name: 'ResultPowerball',
+        logo: { '@type': 'ImageObject', url: 'https://resultpowerball.com/logo.svg' },
       },
-      "datePublished": "2026-02-03",
-      "dateModified": "2026-02-03"
-    }
-    </script>
+      mainEntityOfPage: 'https://resultpowerball.com/',
+      datePublished: '2026-02-03',
+      dateModified: fechaModificacion,
+    })} />
 
     <script type="application/ld+json">
     {
@@ -135,16 +141,6 @@ const faqs = [
     }
     </script>
 
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "BreadcrumbList",
-      "itemListElement": [
-        { "@type": "ListItem", "position": 1, "name": "Inicio", "item": "https://resultpowerball.com" },
-        { "@type": "ListItem", "position": 2, "name": "Resultados Hoy", "item": "https://resultpowerball.com#resultados" }
-      ]
-    }
-    </script>
   </Fragment>
 
   <main>
@@ -155,7 +151,7 @@ const faqs = [
 
         <div class="inline-flex items-center gap-2 bg-gray-900 border border-gray-700 rounded-full px-4 py-1.5 mb-6 badge-pulse">
           <i data-lucide="clock" class="w-4 h-4 text-red-500"></i>
-          <span class="text-sm text-gray-300" id="proximo-sorteo">Calculando próximo sorteo...</span>
+          <span class="text-sm text-gray-300" id="proximo-sorteo">Sorteos: lunes, miércoles y sábado · 10:59 PM ET</span>
         </div>
 
         <h1 class="font-display text-4xl md:text-5xl font-bold text-white mb-2 tracking-tight leading-tight">
@@ -166,61 +162,73 @@ const faqs = [
         </p>
 
         <div class="max-w-2xl mx-auto">
-          <!-- SKELETON -->
-          <div id="skeleton-card" class="bg-gray-900 border border-gray-800 rounded-2xl p-8 card-glow">
-            <div class="skel w-40 h-4 bg-gray-700 rounded-full mx-auto mb-7"></div>
-            <div class="flex items-center justify-center gap-3 mb-8">
-              <div class="skel w-14 h-14 bg-gray-700 rounded-full"></div>
-              <div class="skel w-14 h-14 bg-gray-700 rounded-full" style="animation-delay:.15s"></div>
-              <div class="skel w-14 h-14 bg-gray-700 rounded-full" style="animation-delay:.3s"></div>
-              <div class="skel w-14 h-14 bg-gray-700 rounded-full" style="animation-delay:.45s"></div>
-              <div class="skel w-14 h-14 bg-gray-700 rounded-full" style="animation-delay:.6s"></div>
-              <div class="w-1 h-10 bg-gray-800 mx-1 rounded"></div>
-              <div class="skel w-16 h-16 bg-gray-700 rounded-full" style="animation-delay:.75s"></div>
+          <!-- SKELETON (solo si aún no hay datos de build) -->
+          {!ultimo && (
+            <div id="skeleton-card" class="bg-gray-900 border border-gray-800 rounded-2xl p-8 card-glow">
+              <div class="skel w-40 h-4 bg-gray-700 rounded-full mx-auto mb-7"></div>
+              <div class="flex items-center justify-center gap-3 mb-8">
+                <div class="skel w-14 h-14 bg-gray-700 rounded-full"></div>
+                <div class="skel w-14 h-14 bg-gray-700 rounded-full" style="animation-delay:.15s"></div>
+                <div class="skel w-14 h-14 bg-gray-700 rounded-full" style="animation-delay:.3s"></div>
+                <div class="skel w-14 h-14 bg-gray-700 rounded-full" style="animation-delay:.45s"></div>
+                <div class="skel w-14 h-14 bg-gray-700 rounded-full" style="animation-delay:.6s"></div>
+                <div class="w-1 h-10 bg-gray-800 mx-1 rounded"></div>
+                <div class="skel w-16 h-16 bg-gray-700 rounded-full" style="animation-delay:.75s"></div>
+              </div>
+              <div class="skel w-24 h-6 bg-gray-700 rounded-full mx-auto mb-6"></div>
+              <div class="flex justify-center gap-4">
+                <div class="skel w-36 h-20 bg-gray-700 rounded-xl"></div>
+                <div class="skel w-36 h-20 bg-gray-700 rounded-xl"></div>
+              </div>
             </div>
-            <div class="skel w-24 h-6 bg-gray-700 rounded-full mx-auto mb-6"></div>
-            <div class="flex justify-center gap-4">
-              <div class="skel w-36 h-20 bg-gray-700 rounded-xl"></div>
-              <div class="skel w-36 h-20 bg-gray-700 rounded-xl"></div>
-            </div>
-          </div>
+          )}
 
-          <!-- RESULTADOS REALES -->
-          <div id="real-card" class="hidden bg-gray-900 border border-gray-800 rounded-2xl p-8 card-glow">
+          <!-- RESULTADOS: renderizados en build-time y refrescados en cliente si hay datos más nuevos -->
+          <div
+            id="real-card"
+            class={`${ultimo ? '' : 'hidden '}bg-gray-900 border border-gray-800 rounded-2xl p-8 card-glow`}
+            data-static={ultimo ? '1' : undefined}
+          >
             <div class="flex items-center justify-center gap-2 text-gray-500 mb-6">
               <i data-lucide="calendar" class="w-4 h-4"></i>
-              <span id="fecha-sorteo" class="text-sm font-medium">—</span>
+              <span id="fecha-sorteo" class="text-sm font-medium">{ultimo ? fechaTarjeta(ultimo.fecha) : '—'}</span>
             </div>
             <div class="flex items-center justify-center gap-2 flex-wrap mb-2" style="max-width: 100%;">
-              <div id="blancos" class="flex gap-2 flex-wrap justify-center"></div>
+              <div id="blancos" class="flex gap-2 flex-wrap justify-center">
+                {ultimo && ultimo.blancos.map((n) => <div class="ball-white">{n}</div>)}
+              </div>
               <div class="w-px h-12 bg-gray-700 mx-1"></div>
-              <div id="pb-ball" class="ball-red">0</div>
+              <div id="pb-ball" class="ball-red">{ultimo ? ultimo.powerball : 0}</div>
             </div>
             <p class="text-center text-red-500 text-xs font-semibold uppercase tracking-widest mb-5">Powerball</p>
             <div class="flex justify-center mb-7">
               <div class="bg-red-600/15 border border-red-600/35 text-red-400 text-sm font-semibold rounded-full px-5 py-1.5 flex items-center gap-2">
                 <i data-lucide="zap" class="w-4 h-4"></i>
-                Power Play · <span id="pp-value" class="text-white font-bold">2x</span>
+                Power Play · <span id="pp-value" class="text-white font-bold">{ultimo?.powerplay ? `${ultimo.powerplay}x` : '—'}</span>
               </div>
             </div>
             <div id="jackpot-status" class="text-center text-sm mb-5"></div>
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div class="bg-gray-800/50 border border-gray-700/50 rounded-xl p-4 text-center">
-                <p class="text-gray-500 text-xs uppercase tracking-widest mb-1.5">Premio Estimado</p>
+                <p class="text-gray-500 text-xs uppercase tracking-widest mb-1.5">Premio Estimado *</p>
                 <p class="font-display text-2xl font-bold text-yellow-400" id="premio-est">—</p>
               </div>
               <div class="bg-gray-800/50 border border-gray-700/50 rounded-xl p-4 text-center">
-                <p class="text-gray-500 text-xs uppercase tracking-widest mb-1.5">Premio En Efectivo</p>
+                <p class="text-gray-500 text-xs uppercase tracking-widest mb-1.5">Premio En Efectivo *</p>
                 <p class="font-display text-2xl font-bold text-emerald-400" id="premio-ef">—</p>
               </div>
             </div>
-            <p class="text-center text-gray-600 text-xs mt-6 flex items-center justify-center gap-1.5">
+            <p class="text-center text-gray-600 text-xs mt-3 leading-relaxed">
+              * Montos estimados del próximo sorteo; pueden estar desactualizados. Verifica el monto oficial en
+              <a href="https://www.powerball.com" class="text-gray-500 hover:text-red-400 underline" target="_blank" rel="noopener noreferrer">powerball.com</a>.
+            </p>
+            <p class="text-center text-gray-600 text-xs mt-4 flex items-center justify-center gap-1.5">
               <i data-lucide="refresh-cw" class="w-3 h-3"></i>
-              <span id="ultima-act">Actualizado: —</span>
+              <span id="ultima-act">{ultimo ? `Sorteo del ${fechaLarga(ultimo.fecha)}` : 'Actualizado: —'}</span>
             </p>
           </div>
 
-          <!-- ERROR STATE -->
+          <!-- ERROR STATE (solo se usa si no hubo datos de build ni respuesta del API) -->
           <div id="error-card" class="hidden bg-gray-900 border border-red-900/50 rounded-2xl p-10 text-center card-glow">
             <i data-lucide="alert-triangle" class="w-12 h-12 text-red-500 mx-auto mb-3"></i>
             <p class="text-gray-200 font-semibold">No se pudieron cargar los resultados</p>
@@ -236,6 +244,10 @@ const faqs = [
           <a href="#premios" class="bg-gray-800 hover:bg-gray-700 text-white font-bold py-3 px-6 rounded-lg transition-colors flex items-center gap-2 shadow-lg">
             <i data-lucide="trophy" class="w-5 h-5"></i>
             <span>Ver Premios</span>
+          </a>
+          <a href="/resultados/" class="border border-gray-700 hover:border-red-600 text-gray-300 hover:text-white font-bold py-3 px-6 rounded-lg transition-colors flex items-center gap-2">
+            <i data-lucide="history" class="w-5 h-5"></i>
+            <span>Resultados Anteriores</span>
           </a>
         </div>
 
@@ -539,7 +551,7 @@ const faqs = [
         </p>
         <div class="mt-6 text-center">
           <a
-            href="/estados"
+            href="/estados/"
             class="inline-flex items-center gap-2 border border-red-700/50 text-red-400 hover:text-white hover:border-red-500 hover:bg-red-900/20 font-medium px-5 py-2.5 rounded-xl transition-all text-sm"
           >
             <i data-lucide="book-open" class="w-4 h-4"></i>
@@ -571,12 +583,12 @@ const faqs = [
               Estados donde se juega Powerball
             </h3>
             <ul class="space-y-2 text-sm text-gray-400">
-              <li><a href="/estados/california" class="hover:text-red-400 transition-colors"><strong class="text-gray-200">Powerball California</strong></a> — Los Ángeles, San Francisco, San Diego, Sacramento.</li>
-              <li><a href="/estados/texas" class="hover:text-red-400 transition-colors"><strong class="text-gray-200">Powerball Texas</strong></a> — Houston, Dallas, San Antonio, Austin, El Paso.</li>
-              <li><a href="/estados/florida" class="hover:text-red-400 transition-colors"><strong class="text-gray-200">Powerball Florida</strong></a> — Miami, Tampa, Orlando, Jacksonville.</li>
-              <li><a href="/estados/new-york" class="hover:text-red-400 transition-colors"><strong class="text-gray-200">Powerball Nueva York</strong></a> — NYC, Buffalo, Rochester, Albany.</li>
-              <li><a href="/estados/illinois" class="hover:text-red-400 transition-colors"><strong class="text-gray-200">Powerball Illinois</strong></a> — Chicago y área metropolitana.</li>
-              <li><a href="/estados" class="hover:text-red-400 transition-colors"><strong class="text-gray-200">Powerball Puerto Rico</strong></a> — toda la isla, 100% en español.</li>
+              <li><a href="/estados/california/" class="hover:text-red-400 transition-colors"><strong class="text-gray-200">Powerball California</strong></a> — Los Ángeles, San Francisco, San Diego, Sacramento.</li>
+              <li><a href="/estados/texas/" class="hover:text-red-400 transition-colors"><strong class="text-gray-200">Powerball Texas</strong></a> — Houston, Dallas, San Antonio, Austin, El Paso.</li>
+              <li><a href="/estados/florida/" class="hover:text-red-400 transition-colors"><strong class="text-gray-200">Powerball Florida</strong></a> — Miami, Tampa, Orlando, Jacksonville.</li>
+              <li><a href="/estados/new-york/" class="hover:text-red-400 transition-colors"><strong class="text-gray-200">Powerball Nueva York</strong></a> — NYC, Buffalo, Rochester, Albany.</li>
+              <li><a href="/estados/illinois/" class="hover:text-red-400 transition-colors"><strong class="text-gray-200">Powerball Illinois</strong></a> — Chicago y área metropolitana.</li>
+              <li><a href="/estados/" class="hover:text-red-400 transition-colors"><strong class="text-gray-200">Powerball Puerto Rico</strong></a> — toda la isla, 100% en español.</li>
             </ul>
           </div>
 
@@ -588,7 +600,7 @@ const faqs = [
             <p class="text-gray-400 text-sm leading-relaxed">
               Miles de mexicanos, dominicanos, puertorriqueños, salvadoreños, guatemaltecos, hondureños, colombianos, venezolanos y cubanos en Estados Unidos juegan el Powerball cada semana. Aquí encuentras los resultados y la guía completa, siempre en español.
             </p>
-            <a href="/estados" class="inline-flex items-center gap-2 text-red-400 hover:text-red-300 text-sm font-medium mt-4 transition-colors">
+            <a href="/estados/" class="inline-flex items-center gap-2 text-red-400 hover:text-red-300 text-sm font-medium mt-4 transition-colors">
               Ver guía Powerball por estado
               <i data-lucide="arrow-right" class="w-4 h-4"></i>
             </a>
@@ -651,7 +663,7 @@ const faqs = [
             <p class="text-gray-400 text-sm">Dónde comprar, impuestos, cómo reclamar premios y más — en español para cada estado.</p>
           </div>
           <a
-            href="/estados"
+            href="/estados/"
             class="flex-shrink-0 inline-flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white font-semibold px-5 py-2.5 rounded-xl transition-colors text-sm whitespace-nowrap"
           >
             Ver todos los estados

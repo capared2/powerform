@@ -1,0 +1,142 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import resultadosData from '../../data/resultados.json';
+import { fechaConDia, MESES } from '../../utils/fechas.js';
+
+const sorteos = resultadosData.sorteos || [];
+
+// Agrupar sorteos por mes (clave 'YYYY-MM'), ya vienen ordenados del más reciente al más antiguo.
+const meses = [];
+for (const sorteo of sorteos) {
+  const clave = sorteo.fecha.slice(0, 7);
+  let grupo = meses[meses.length - 1];
+  if (!grupo || grupo.clave !== clave) {
+    const [y, m] = clave.split('-').map(Number);
+    const nombre = MESES[m - 1];
+    grupo = { clave, titulo: `${nombre.charAt(0).toUpperCase()}${nombre.slice(1)} ${y}`, sorteos: [] };
+    meses.push(grupo);
+  }
+  grupo.sorteos.push(sorteo);
+}
+
+const siteUrl = 'https://resultpowerball.com';
+const canonicalUrl = `${siteUrl}/resultados/`;
+const ogImageAbsolute = `${siteUrl}/powerball-estados.jpg`;
+const title = 'Resultados anteriores del Powerball: historial de sorteos en español';
+const description =
+  'Historial de resultados del Powerball: números ganadores de todos los sorteos anteriores, con Power Play, ordenados por fecha. Actualizado después de cada sorteo.';
+
+const jsonLdBreadcrumb = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Inicio', item: `${siteUrl}/` },
+    { '@type': 'ListItem', position: 2, name: 'Resultados anteriores', item: canonicalUrl },
+  ],
+};
+
+const jsonLdCollectionPage = {
+  '@context': 'https://schema.org',
+  '@type': 'CollectionPage',
+  name: 'Resultados anteriores del Powerball',
+  description,
+  url: canonicalUrl,
+  image: ogImageAbsolute,
+  inLanguage: 'es',
+  publisher: { '@type': 'Organization', name: 'ResultPowerball', url: `${siteUrl}/` },
+};
+---
+
+<Layout
+  title={title}
+  description={description}
+  canonical={canonicalUrl}
+  robots="index, follow"
+  fullNav={false}
+>
+  <Fragment slot="head">
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:image" content={ogImageAbsolute} />
+    <meta property="og:site_name" content="ResultPowerball" />
+    <meta property="og:locale" content="es_US" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImageAbsolute} />
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLdBreadcrumb)} />
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLdCollectionPage)} />
+  </Fragment>
+
+  <section class="bg-gradient-to-b from-gray-900 to-gray-950 py-12 px-4 border-b border-gray-800">
+    <div class="max-w-4xl mx-auto text-center">
+      <nav class="flex items-center justify-center gap-2 text-xs text-gray-500 mb-6">
+        <a href="/" class="hover:text-red-400 transition-colors">Inicio</a>
+        <span>›</span>
+        <span class="text-gray-300">Resultados anteriores</span>
+      </nav>
+      <h1 class="font-display text-4xl sm:text-5xl font-bold text-white mb-4 leading-tight">
+        Resultados Anteriores<br />
+        <span class="text-red-500">del Powerball</span>
+      </h1>
+      <p class="text-gray-400 text-base max-w-2xl mx-auto leading-relaxed">
+        Historial completo de números ganadores del Powerball, sorteo por sorteo. Encuentra los resultados de cualquier fecha y verifica tu boleto — los boletos del Powerball se pueden cobrar hasta 90 días o más después del sorteo, según el estado.
+      </p>
+    </div>
+  </section>
+
+  <section class="max-w-4xl mx-auto px-4 py-12">
+    {sorteos.length === 0 ? (
+      <div class="bg-gray-900 border border-gray-800 rounded-2xl p-10 text-center">
+        <i data-lucide="clock" class="w-10 h-10 text-red-500 mx-auto mb-4"></i>
+        <p class="text-gray-200 font-semibold mb-1">El historial se está preparando</p>
+        <p class="text-gray-500 text-sm">
+          Los resultados de cada sorteo se publican aquí automáticamente después de los sorteos de los lunes, miércoles y sábados.
+          Mientras tanto, consulta los <a href="/" class="text-red-400 hover:underline">resultados más recientes</a>.
+        </p>
+      </div>
+    ) : (
+      meses.map((mes) => (
+        <div class="mb-10">
+          <h2 class="font-display text-2xl font-bold text-white mb-5 flex items-center gap-2">
+            <i data-lucide="calendar" class="w-5 h-5 text-red-500"></i>
+            {mes.titulo}
+          </h2>
+          <div class="space-y-2">
+            {mes.sorteos.map((sorteo) => (
+              <a
+                href={`/resultados/${sorteo.fecha}/`}
+                class="group flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 bg-gray-900 border border-gray-800 hover:border-red-700/60 rounded-xl px-5 py-4 transition-all hover:bg-gray-800/60"
+              >
+                <span class="text-white text-sm font-medium group-hover:text-red-400 transition-colors capitalize">
+                  {fechaConDia(sorteo.fecha)}
+                </span>
+                <span class="flex items-center gap-1.5 flex-wrap">
+                  {sorteo.blancos.map((n) => (
+                    <span class="inline-flex items-center justify-center w-7 h-7 bg-gray-200 text-gray-900 rounded-full text-xs font-bold">{n}</span>
+                  ))}
+                  <span class="inline-flex items-center justify-center w-7 h-7 bg-red-600 text-white rounded-full text-xs font-bold">{sorteo.powerball}</span>
+                  {sorteo.powerplay && (
+                    <span class="text-gray-500 text-xs ml-1.5">PP {sorteo.powerplay}x</span>
+                  )}
+                </span>
+              </a>
+            ))}
+          </div>
+        </div>
+      ))
+    )}
+
+    <div class="mt-4 bg-gray-900 border border-gray-800 rounded-2xl p-6">
+      <h2 class="font-display text-lg font-bold text-white mb-3">Sobre este historial</h2>
+      <p class="text-gray-400 text-sm leading-relaxed">
+        Los números ganadores del Powerball son los mismos en todos los estados participantes. Cada página del historial incluye
+        las 5 bolas blancas, el número Powerball y el multiplicador Power Play del sorteo. Los sorteos se realizan los
+        <strong class="text-white"> lunes, miércoles y sábados a las 10:59 PM ET</strong> y este historial se actualiza automáticamente.
+        Para reclamar un premio, verifica los plazos de tu estado en nuestra <a href="/estados/" class="text-red-400 hover:underline">guía por estado</a>.
+      </p>
+    </div>
+  </section>
+</Layout>

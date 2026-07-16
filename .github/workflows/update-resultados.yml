@@ -1,0 +1,39 @@
+name: Actualizar resultados Powerball
+
+on:
+  schedule:
+    # Los sorteos son lunes, miércoles y sábado a las 10:59 PM ET.
+    # 04:30 UTC del día siguiente ≈ 11:30 PM–12:30 AM ET (según horario de verano).
+    - cron: '30 4 * * 0,2,4'
+    # Corrida de respaldo diaria por si el dataset publicó con retraso.
+    - cron: '15 14 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  actualizar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Descargar últimos sorteos
+        run: node scripts/update-resultados.mjs
+
+      - name: Commit y push si hay sorteos nuevos
+        run: |
+          if git diff --quiet src/data/resultados.json; then
+            echo "Sin sorteos nuevos, nada que publicar."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add src/data/resultados.json
+          ULTIMO=$(node -e "console.log(JSON.parse(require('fs').readFileSync('src/data/resultados.json','utf8')).sorteos[0].fecha)")
+          git commit -m "data: resultados del sorteo del $ULTIMO"
+          git push origin main

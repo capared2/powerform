@@ -138,8 +138,10 @@ async function cargarResultados() {
 
   } catch (err) {
     console.error('Error cargando resultados:', err);
+    var realCard = document.getElementById('real-card');
+    // Si la tarjeta ya trae los números del build (data-static), se conservan tal cual.
+    if (realCard && realCard.dataset.static) return;
     var skeletonCard = document.getElementById('skeleton-card');
-    var realCard     = document.getElementById('real-card');
     var errorCard    = document.getElementById('error-card');
     if (skeletonCard) skeletonCard.style.display = 'none';
     if (realCard)     realCard.classList.add('hidden');
@@ -247,7 +249,7 @@ document.addEventListener('DOMContentLoaded', function() {
   updateCurrentYear();
 
   // Solo cargar resultados si la página de resultados está presente
-  if (document.getElementById('skeleton-card')) {
+  if (document.getElementById('real-card')) {
     cargarResultados();
     setInterval(cargarResultados, 5 * 60 * 1000);
   }
