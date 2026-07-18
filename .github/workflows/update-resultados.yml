@@ -6,6 +6,7 @@ on:
     # 04:30 UTC del día siguiente ≈ 11:30 PM–12:30 AM ET (según horario de verano).
     - cron: '30 4 * * 0,2,4'
     # Corrida de respaldo diaria por si el dataset publicó con retraso.
+    # También captura Mega Millions (mar/vie) y el resto de juegos del backend.
     - cron: '15 14 * * *'
   workflow_dispatch:
 
@@ -22,18 +23,21 @@ jobs:
         with:
           node-version: 20
 
-      - name: Descargar últimos sorteos
+      - name: Descargar últimos sorteos del Powerball
         run: node scripts/update-resultados.mjs
+
+      - name: Descargar sorteos multi-juego del backend (capa2)
+        run: node scripts/update-sorteos.mjs
 
       - name: Commit y push si hay sorteos nuevos
         run: |
-          if git diff --quiet src/data/resultados.json; then
+          if git diff --quiet src/data/resultados.json src/data/sorteos.json; then
             echo "Sin sorteos nuevos, nada que publicar."
             exit 0
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add src/data/resultados.json
+          git add src/data/resultados.json src/data/sorteos.json
           ULTIMO=$(node -e "console.log(JSON.parse(require('fs').readFileSync('src/data/resultados.json','utf8')).sorteos[0].fecha)")
-          git commit -m "data: resultados del sorteo del $ULTIMO"
+          git commit -m "data: resultados al $ULTIMO (Powerball + multi-juego)"
           git push origin main

@@ -8,9 +8,10 @@
 :root {
   --red-primary: #DC2626;
   --red-dark: #991B1B;
-  --gray-900: #111827;
-  --gray-800: #1F2937;
-  --gray-700: #374151;
+  --blue-primary: #1E3A8A;
+  --blue-navy: #172554;
+  --skel-base: #E2E8F0;
+  --skel-shine: #CBD5E1;
   --transition-fast: 150ms;
   --transition-normal: 300ms;
 }
@@ -55,9 +56,9 @@ body {
 .skel {
   background: linear-gradient(
     90deg,
-    var(--gray-800) 25%,
-    var(--gray-700) 50%,
-    var(--gray-800) 75%
+    var(--skel-base) 25%,
+    var(--skel-shine) 50%,
+    var(--skel-base) 75%
   );
   background-size: 200% 100%;
   animation: skeleton-loading 1.5s ease-in-out infinite;
@@ -120,18 +121,18 @@ body {
    ============================================ */
 .card-glow {
   box-shadow:
-    0 0 0 1px rgba(55, 65, 81, 0.5),
-    0 10px 15px -3px rgba(0, 0, 0, 0.3),
-    0 4px 6px -4px rgba(0, 0, 0, 0.2);
+    0 0 0 1px rgba(203, 213, 225, 0.6),
+    0 10px 15px -3px rgba(15, 23, 42, 0.08),
+    0 4px 6px -4px rgba(15, 23, 42, 0.05);
   transition: all var(--transition-normal);
   max-width: 100%;
 }
 
 .card-glow:hover {
   box-shadow:
-    0 0 0 1px rgba(220, 38, 38, 0.3),
-    0 20px 25px -5px rgba(0, 0, 0, 0.4),
-    0 8px 10px -6px rgba(0, 0, 0, 0.3);
+    0 0 0 1px rgba(220, 38, 38, 0.25),
+    0 20px 25px -5px rgba(15, 23, 42, 0.12),
+    0 8px 10px -6px rgba(15, 23, 42, 0.08);
   transform: translateY(-2px);
 }
 
@@ -140,8 +141,8 @@ body {
    ============================================ */
 .hero-bg {
   background:
-    radial-gradient(circle at 50% 0%, rgba(220, 38, 38, 0.05) 0%, transparent 50%),
-    radial-gradient(circle at 100% 100%, rgba(220, 38, 38, 0.03) 0%, transparent 50%);
+    radial-gradient(circle at 50% 0%, rgba(220, 38, 38, 0.06) 0%, transparent 50%),
+    radial-gradient(circle at 100% 100%, rgba(30, 58, 138, 0.05) 0%, transparent 50%);
 }
 
 /* ============================================
@@ -195,7 +196,7 @@ body {
 }
 
 .prize-row:hover {
-  background-color: rgba(31, 41, 55, 0.5);
+  background-color: rgba(241, 245, 249, 0.9);
 }
 
 /* ============================================
@@ -314,24 +315,11 @@ html {
 }
 
 /* ============================================
-   DARK MODE ENHANCEMENTS
-   ============================================ */
-@media (prefers-color-scheme: dark) {
-  .card-glow {
-    box-shadow:
-      0 0 0 1px rgba(55, 65, 81, 0.6),
-      0 10px 15px -3px rgba(0, 0, 0, 0.5),
-      0 4px 6px -4px rgba(0, 0, 0, 0.4);
-  }
-}
-
-/* ============================================
    PRINT STYLES
    ============================================ */
 @media print {
   #scrollTop, header, footer, #mobileMenu { display: none !important; }
   body { background: white !important; color: black !important; }
-  .bg-gray-900, .bg-gray-800 { background: white !important; border: 1px solid #ccc !important; }
 }
 
 /* ============================================

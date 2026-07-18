@@ -18,6 +18,8 @@ src/
   data/
     estados.js           # Datos de 25 estados: slugs, keywords, FAQs, ciudades + OG_IMAGE
     resultados.json      # Sorteos del Powerball (lo actualiza GitHub Actions 3x/semana)
+    sorteos.json         # Último sorteo de cada juego del backend capa2 (multi-juego)
+    juegos.js            # Metadatos de presentación por juego + esVigente() + helpers
   utils/
     fechas.js            # Formateo de fechas en español compartido (home + /resultados/)
   layouts/
@@ -35,6 +37,7 @@ src/
       [fecha].astro      # 1 página por sorteo (/resultados/YYYY-MM-DD/)
 scripts/
   update-resultados.mjs  # Descarga sorteos oficiales (NY Open Data) → resultados.json
+  update-sorteos.mjs     # Descarga resultados_todos.json del backend capa2 → sorteos.json
 .github/workflows/
   update-resultados.yml  # Cron 3x/semana + respaldo diario: actualiza datos y pushea a main
 public/
@@ -61,6 +64,29 @@ public/
    en tiempo real).
 5. Si `resultados.json` está vacío, la home cae al comportamiento skeleton+fetch y
    no se generan páginas de sorteo (getStaticPaths devuelve []).
+6. **Multi-juego (jul 2026):** el backend `capared2/capa2` scrapea Powerball
+   (+ Double Play), Mega Millions, Lotto America y Cash4Life y commitea
+   `resultados_todos.json` a su main. `scripts/update-sorteos.mjs` lo baja de
+   raw.githubusercontent.com → `src/data/sorteos.json`. La home renderiza en
+   build-time la sección "Otros Sorteos" (#otros-sorteos) con una tarjeta por
+   juego, y Double Play dentro de la tarjeta Powerball si el backend lo trae
+   para la misma fecha. Solo se muestran juegos con sorteo de hace ≤30 días
+   (`esVigente()` en `src/data/juegos.js`): si una fuente del backend se
+   atrasa (p. ej. Cash4Life en data.ny.gov), la tarjeta desaparece sola y
+   vuelve cuando llegan datos frescos. El workflow corre ambos scripts.
+
+## Tema visual (jul 2026)
+
+- **Tema claro** estilo bandera de EE.UU.: fondo blanco, encabezados azul marino
+  (`text-blue-950`), acentos rojos (`red-600`), secciones alternas `bg-slate-50`.
+- Header blanco con franja tricolor superior; footer `bg-blue-950` con borde
+  rojo (`border-t-4 border-red-600`) y textos `text-blue-300/400`.
+- Ya NO hay tema oscuro. Cuidado con clases inyectadas desde `public/main.js`:
+  Tailwind solo escanea `src/`, así que esas clases deben existir también en
+  algún archivo de `src/` (hoy: text-slate-500/600, text-emerald-600).
+- Las bolas: `.ball-white`/`.ball-red` en global.css; en tarjetas compactas se
+  usan chips `bg-gray-200 text-gray-900` (blancas) + color por juego
+  (`bolaClases` en juegos.js).
 
 ## SEO — decisiones tomadas (jul 2026)
 
@@ -86,6 +112,7 @@ npm run dev       # Servidor de desarrollo local
 npm run build     # Build estático → dist/
 npm run preview   # Preview del build
 node scripts/update-resultados.mjs  # Actualizar resultados.json a mano
+node scripts/update-sorteos.mjs     # Actualizar sorteos.json (multi-juego, capa2)
 git push origin main  # Deploy (CI/CD via git push)
 ```
 
@@ -100,6 +127,12 @@ git push origin main  # Deploy (CI/CD via git push)
 
 ## Pendiente
 
+- [ ] Lotto America: el backend aún no publica su JSON (falló el scrape inicial);
+      la tarjeta aparecerá sola cuando capa2 lo publique
+- [ ] Cash4Life: dataset de data.ny.gov atrasado (último sorteo feb 2026); la
+      tarjeta está oculta por `esVigente()` hasta que haya datos frescos
+- [ ] Páginas dedicadas por juego (/mega-millions/, /cash4life/…) para capturar
+      long-tail en español de esos sorteos
 - [ ] Agregar los ~20 estados restantes (+ DC, Puerto Rico, Islas Vírgenes) en `src/data/estados.js`
 - [ ] Bloque de respuesta directa arriba en páginas de estado (precio, días y hora local del sorteo) — las queries tipo "cuándo se juega el powerball en california" ya rankean pos 9–12
 - [ ] Páginas informacionales: "¿A qué hora juega el Powerball?", "¿Cómo cobrar premios?" (98 consultas sin página en el reporte GSC)

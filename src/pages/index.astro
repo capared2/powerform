@@ -1,11 +1,26 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import resultadosData from '../data/resultados.json';
+import sorteosData from '../data/sorteos.json';
+import { JUEGOS, OTROS_JUEGOS, esVigente, formatearDineroCorto } from '../data/juegos.js';
 import { fechaLarga, fechaConDia, fechaTarjeta } from '../utils/fechas.js';
 
 // Último sorteo disponible en build-time (el JSON se actualiza 3x/semana vía GitHub Actions).
 // Si aún no hay datos, la página cae al comportamiento anterior (skeleton + fetch en cliente).
 const ultimo = resultadosData.sorteos?.[0] ?? null;
+
+// Datos multi-juego del backend (capa2): Mega Millions, Lotto America, Cash4Life
+// y Double Play del Powerball. Solo se muestran juegos con sorteo vigente.
+const juegosBackend = sorteosData.juegos ?? {};
+const otrosSorteos = OTROS_JUEGOS
+  .map((id) => ({ id, meta: JUEGOS[id], data: juegosBackend[id] }))
+  .filter(({ data }) => data && esVigente(data.sorteo.fecha));
+
+// Double Play: solo si el backend lo trae para el mismo sorteo que muestra la tarjeta.
+const dobleJugada =
+  ultimo && juegosBackend.powerball?.sorteo?.fecha === ultimo.fecha
+    ? juegosBackend.powerball.sorteo.doble_jugada ?? null
+    : null;
 
 const title = ultimo
   ? `Resultados Powerball hoy: números del ${fechaLarga(ultimo.fecha)}`
@@ -18,35 +33,35 @@ const fechaModificacion = ultimo ? ultimo.fecha : '2026-02-03';
 const faqs = [
   {
     pregunta: "¿Cuándo se juega el Powerball?",
-    respuesta: "El Powerball se juega tres veces por semana: los <strong class=\"text-gray-200\">lunes, miércoles y sábados</strong>. Los sorteos ocurren a las 10:59 PM Eastern Time (ET), lo cual equivale a las 9:59 PM Central Time, 8:59 PM Mountain Time y 7:59 PM Pacific Time."
+    respuesta: "El Powerball se juega tres veces por semana: los <strong class=\"text-slate-800\">lunes, miércoles y sábados</strong>. Los sorteos ocurren a las 10:59 PM Eastern Time (ET), lo cual equivale a las 9:59 PM Central Time, 8:59 PM Mountain Time y 7:59 PM Pacific Time."
   },
   {
     pregunta: "¿Cómo jugar al Powerball?",
-    respuesta: "Para jugar debes <strong class=\"text-gray-200\">elegir 5 números del 1 al 69</strong> (los blancos) y <strong class=\"text-gray-200\">1 número Powerball del 1 al 26</strong> (el rojo). Compra un boleto en cualquier estado participante por $2 USD. Si quieres multiplicar tus premios menores, agrega el Power Play por $1 adicional."
+    respuesta: "Para jugar debes <strong class=\"text-slate-800\">elegir 5 números del 1 al 69</strong> (los blancos) y <strong class=\"text-slate-800\">1 número Powerball del 1 al 26</strong> (el rojo). Compra un boleto en cualquier estado participante por $2 USD. Si quieres multiplicar tus premios menores, agrega el Power Play por $1 adicional."
   },
   {
     pregunta: "¿Cuánto cuesta un boleto de Powerball?",
-    respuesta: "Un boleto de Powerball cuesta <strong class=\"text-gray-200\">$2 USD</strong>. Si decides agregar la opción Power Play cuesta <strong class=\"text-gray-200\">$1 USD adicional</strong> (total $3). El Power Play multiplica los premios menores según el multiplicador sorteado (2x, 3x, 4x, 5x o 10x)."
+    respuesta: "Un boleto de Powerball cuesta <strong class=\"text-slate-800\">$2 USD</strong>. Si decides agregar la opción Power Play cuesta <strong class=\"text-slate-800\">$1 USD adicional</strong> (total $3). El Power Play multiplica los premios menores según el multiplicador sorteado (2x, 3x, 4x, 5x o 10x)."
   },
   {
     pregunta: "¿Cuáles son las probabilidades de ganar el Powerball?",
-    respuesta: "La probabilidad de ganar el gran premio (jackpot) es <strong class=\"text-gray-200\">1 en 292,201,338</strong>. Sin embargo, hay 9 niveles de premios y la probabilidad de ganar <strong class=\"text-gray-200\">cualquier premio</strong> es mucho mejor: aproximadamente <strong class=\"text-gray-200\">1 en 24.9</strong>."
+    respuesta: "La probabilidad de ganar el gran premio (jackpot) es <strong class=\"text-slate-800\">1 en 292,201,338</strong>. Sin embargo, hay 9 niveles de premios y la probabilidad de ganar <strong class=\"text-slate-800\">cualquier premio</strong> es mucho mejor: aproximadamente <strong class=\"text-slate-800\">1 en 24.9</strong>."
   },
   {
     pregunta: "¿Qué es el Power Play?",
-    respuesta: "El Power Play es una opción opcional por <strong class=\"text-gray-200\">$1 USD adicional</strong>. Si ganas un premio menor (no el jackpot) y tienes Power Play, tu premio se multiplica por el número sorteado ese día. El multiplicador puede ser <strong class=\"text-gray-200\">2x, 3x, 4x, 5x o incluso 10x</strong>. El premio de $1 millón siempre se duplica a $2 millones con Power Play."
+    respuesta: "El Power Play es una opción opcional por <strong class=\"text-slate-800\">$1 USD adicional</strong>. Si ganas un premio menor (no el jackpot) y tienes Power Play, tu premio se multiplica por el número sorteado ese día. El multiplicador puede ser <strong class=\"text-slate-800\">2x, 3x, 4x, 5x o incluso 10x</strong>. El premio de $1 millón siempre se duplica a $2 millones con Power Play."
   },
   {
     pregunta: "¿Puedo jugar Powerball desde fuera de Estados Unidos?",
-    respuesta: "Los boletos oficiales solo se compran físicamente en Estados Unidos, Puerto Rico o Islas Vírgenes. Sin embargo, si tienes <strong class=\"text-gray-200\">familiares o amigos en EE.UU.</strong> ellos pueden comprar el boleto por ti. También existen servicios de mensajería de lotería autorizados que compran boletos en tu nombre."
+    respuesta: "Los boletos oficiales solo se compran físicamente en Estados Unidos, Puerto Rico o Islas Vírgenes. Sin embargo, si tienes <strong class=\"text-slate-800\">familiares o amigos en EE.UU.</strong> ellos pueden comprar el boleto por ti. También existen servicios de mensajería de lotería autorizados que compran boletos en tu nombre."
   },
   {
     pregunta: "¿Premio estimado vs Premio en efectivo, cuál es la diferencia?",
-    respuesta: "El <strong class=\"text-gray-200\">Premio Estimado (Annuity)</strong> es el jackpot total que se paga en 30 cuotas anuales que aumentan 5% cada año. El <strong class=\"text-gray-200\">Premio en Efectivo (Lump Sum)</strong> es lo que recibas si cobras todo de un golpe, generalmente el 50–60% del total. En ambos casos se aplican impuestos federales y estatales."
+    respuesta: "El <strong class=\"text-slate-800\">Premio Estimado (Annuity)</strong> es el jackpot total que se paga en 30 cuotas anuales que aumentan 5% cada año. El <strong class=\"text-slate-800\">Premio en Efectivo (Lump Sum)</strong> es lo que recibas si cobras todo de un golpe, generalmente el 50–60% del total. En ambos casos se aplican impuestos federales y estatales."
   },
   {
     pregunta: "¿En qué estados se puede jugar Powerball?",
-    respuesta: "Powerball se juega en <strong class=\"text-gray-200\">45 estados</strong>: todos excepto Alabama, Alaska, Hawaii, Nevada y Utah. También se juega en <strong class=\"text-gray-200\">Washington DC, Puerto Rico e Islas Vírgenes de EE.UU.</strong> Los resultados son válidos en todos estos territorios."
+    respuesta: "Powerball se juega en <strong class=\"text-slate-800\">45 estados</strong>: todos excepto Alabama, Alaska, Hawaii, Nevada y Utah. También se juega en <strong class=\"text-slate-800\">Washington DC, Puerto Rico e Islas Vírgenes de EE.UU.</strong> Los resultados son válidos en todos estos territorios."
   }
 ];
 ---
@@ -64,7 +79,7 @@ const faqs = [
     <meta name="theme-color" content="#DC2626" />
     <link rel="manifest" href="/manifest.json" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
     <meta name="apple-mobile-web-app-title" content="ResultPB" />
     <meta name="geo.region" content="US" />
     <meta name="geo.placename" content="United States, California, Texas, Florida, New York, Puerto Rico, Arizona, Georgia, Illinois, North Carolina, Pennsylvania" />
@@ -149,36 +164,36 @@ const faqs = [
     <section id="resultados" class="hero-bg pt-14 pb-16 px-4">
       <div class="max-w-4xl mx-auto text-center">
 
-        <div class="inline-flex items-center gap-2 bg-gray-900 border border-gray-700 rounded-full px-4 py-1.5 mb-6 badge-pulse">
-          <i data-lucide="clock" class="w-4 h-4 text-red-500"></i>
-          <span class="text-sm text-gray-300" id="proximo-sorteo">Sorteos: lunes, miércoles y sábado · 10:59 PM ET</span>
+        <div class="inline-flex items-center gap-2 bg-white border border-slate-300 rounded-full px-4 py-1.5 mb-6 badge-pulse">
+          <i data-lucide="clock" class="w-4 h-4 text-red-600"></i>
+          <span class="text-sm text-slate-700" id="proximo-sorteo">Sorteos: lunes, miércoles y sábado · 10:59 PM ET</span>
         </div>
 
-        <h1 class="font-display text-4xl md:text-5xl font-bold text-white mb-2 tracking-tight leading-tight">
-          Resultados del <span class="text-red-500">Powerball</span> de Hoy
+        <h1 class="font-display text-4xl md:text-5xl font-bold text-blue-950 mb-2 tracking-tight leading-tight">
+          Resultados del <span class="text-red-600">Powerball</span> de Hoy
         </h1>
-        <p class="text-gray-500 mb-10 text-base max-w-xl mx-auto">
+        <p class="text-slate-500 mb-10 text-base max-w-xl mx-auto">
           Números ganadores actualizados cada sorteo · Lunes, Miércoles y Sábado
         </p>
 
         <div class="max-w-2xl mx-auto">
           <!-- SKELETON (solo si aún no hay datos de build) -->
           {!ultimo && (
-            <div id="skeleton-card" class="bg-gray-900 border border-gray-800 rounded-2xl p-8 card-glow">
-              <div class="skel w-40 h-4 bg-gray-700 rounded-full mx-auto mb-7"></div>
+            <div id="skeleton-card" class="bg-white border border-slate-200 rounded-2xl p-8 card-glow">
+              <div class="skel w-40 h-4 bg-slate-200 rounded-full mx-auto mb-7"></div>
               <div class="flex items-center justify-center gap-3 mb-8">
-                <div class="skel w-14 h-14 bg-gray-700 rounded-full"></div>
-                <div class="skel w-14 h-14 bg-gray-700 rounded-full" style="animation-delay:.15s"></div>
-                <div class="skel w-14 h-14 bg-gray-700 rounded-full" style="animation-delay:.3s"></div>
-                <div class="skel w-14 h-14 bg-gray-700 rounded-full" style="animation-delay:.45s"></div>
-                <div class="skel w-14 h-14 bg-gray-700 rounded-full" style="animation-delay:.6s"></div>
-                <div class="w-1 h-10 bg-gray-800 mx-1 rounded"></div>
-                <div class="skel w-16 h-16 bg-gray-700 rounded-full" style="animation-delay:.75s"></div>
+                <div class="skel w-14 h-14 bg-slate-200 rounded-full"></div>
+                <div class="skel w-14 h-14 bg-slate-200 rounded-full" style="animation-delay:.15s"></div>
+                <div class="skel w-14 h-14 bg-slate-200 rounded-full" style="animation-delay:.3s"></div>
+                <div class="skel w-14 h-14 bg-slate-200 rounded-full" style="animation-delay:.45s"></div>
+                <div class="skel w-14 h-14 bg-slate-200 rounded-full" style="animation-delay:.6s"></div>
+                <div class="w-1 h-10 bg-slate-100 mx-1 rounded"></div>
+                <div class="skel w-16 h-16 bg-slate-200 rounded-full" style="animation-delay:.75s"></div>
               </div>
-              <div class="skel w-24 h-6 bg-gray-700 rounded-full mx-auto mb-6"></div>
+              <div class="skel w-24 h-6 bg-slate-200 rounded-full mx-auto mb-6"></div>
               <div class="flex justify-center gap-4">
-                <div class="skel w-36 h-20 bg-gray-700 rounded-xl"></div>
-                <div class="skel w-36 h-20 bg-gray-700 rounded-xl"></div>
+                <div class="skel w-36 h-20 bg-slate-200 rounded-xl"></div>
+                <div class="skel w-36 h-20 bg-slate-200 rounded-xl"></div>
               </div>
             </div>
           )}
@@ -186,10 +201,10 @@ const faqs = [
           <!-- RESULTADOS: renderizados en build-time y refrescados en cliente si hay datos más nuevos -->
           <div
             id="real-card"
-            class={`${ultimo ? '' : 'hidden '}bg-gray-900 border border-gray-800 rounded-2xl p-8 card-glow`}
+            class={`${ultimo ? '' : 'hidden '}bg-white border border-slate-200 rounded-2xl p-8 card-glow`}
             data-static={ultimo ? '1' : undefined}
           >
-            <div class="flex items-center justify-center gap-2 text-gray-500 mb-6">
+            <div class="flex items-center justify-center gap-2 text-slate-500 mb-6">
               <i data-lucide="calendar" class="w-4 h-4"></i>
               <span id="fecha-sorteo" class="text-sm font-medium">{ultimo ? fechaTarjeta(ultimo.fecha) : '—'}</span>
             </div>
@@ -197,92 +212,159 @@ const faqs = [
               <div id="blancos" class="flex gap-2 flex-wrap justify-center">
                 {ultimo && ultimo.blancos.map((n) => <div class="ball-white">{n}</div>)}
               </div>
-              <div class="w-px h-12 bg-gray-700 mx-1"></div>
+              <div class="w-px h-12 bg-slate-200 mx-1"></div>
               <div id="pb-ball" class="ball-red">{ultimo ? ultimo.powerball : 0}</div>
             </div>
-            <p class="text-center text-red-500 text-xs font-semibold uppercase tracking-widest mb-5">Powerball</p>
+            <p class="text-center text-red-600 text-xs font-semibold uppercase tracking-widest mb-5">Powerball</p>
             <div class="flex justify-center mb-7">
-              <div class="bg-red-600/15 border border-red-600/35 text-red-400 text-sm font-semibold rounded-full px-5 py-1.5 flex items-center gap-2">
+              <div class="bg-red-50 border border-red-200 text-red-600 text-sm font-semibold rounded-full px-5 py-1.5 flex items-center gap-2">
                 <i data-lucide="zap" class="w-4 h-4"></i>
-                Power Play · <span id="pp-value" class="text-white font-bold">{ultimo?.powerplay ? `${ultimo.powerplay}x` : '—'}</span>
+                Power Play · <span id="pp-value" class="text-blue-950 font-bold">{ultimo?.powerplay ? `${ultimo.powerplay}x` : '—'}</span>
               </div>
             </div>
+            {dobleJugada && (
+              <div class="border-t border-slate-200 pt-5 mb-7">
+                <p class="text-center text-slate-500 text-xs font-semibold uppercase tracking-widest mb-3">Double Play</p>
+                <div class="flex items-center justify-center gap-1.5 flex-wrap">
+                  {dobleJugada.blancos.map((n) => (
+                    <span class="inline-flex items-center justify-center w-9 h-9 bg-gray-200 text-gray-900 rounded-full text-sm font-bold">{n}</span>
+                  ))}
+                  <span class="inline-flex items-center justify-center w-9 h-9 bg-red-600 text-white rounded-full text-sm font-bold ml-1">{dobleJugada.powerball}</span>
+                </div>
+              </div>
+            )}
             <div id="jackpot-status" class="text-center text-sm mb-5"></div>
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <div class="bg-gray-800/50 border border-gray-700/50 rounded-xl p-4 text-center">
-                <p class="text-gray-500 text-xs uppercase tracking-widest mb-1.5">Premio Estimado *</p>
-                <p class="font-display text-2xl font-bold text-yellow-400" id="premio-est">—</p>
+              <div class="bg-slate-50 border border-slate-200 rounded-xl p-4 text-center">
+                <p class="text-slate-500 text-xs uppercase tracking-widest mb-1.5">Premio Estimado *</p>
+                <p class="font-display text-2xl font-bold text-amber-600" id="premio-est">—</p>
               </div>
-              <div class="bg-gray-800/50 border border-gray-700/50 rounded-xl p-4 text-center">
-                <p class="text-gray-500 text-xs uppercase tracking-widest mb-1.5">Premio En Efectivo *</p>
-                <p class="font-display text-2xl font-bold text-emerald-400" id="premio-ef">—</p>
+              <div class="bg-slate-50 border border-slate-200 rounded-xl p-4 text-center">
+                <p class="text-slate-500 text-xs uppercase tracking-widest mb-1.5">Premio En Efectivo *</p>
+                <p class="font-display text-2xl font-bold text-emerald-600" id="premio-ef">—</p>
               </div>
             </div>
-            <p class="text-center text-gray-600 text-xs mt-3 leading-relaxed">
+            <p class="text-center text-slate-500 text-xs mt-3 leading-relaxed">
               * Montos estimados del próximo sorteo; pueden estar desactualizados. Verifica el monto oficial en
-              <a href="https://www.powerball.com" class="text-gray-500 hover:text-red-400 underline" target="_blank" rel="noopener noreferrer">powerball.com</a>.
+              <a href="https://www.powerball.com" class="text-slate-500 hover:text-red-600 underline" target="_blank" rel="noopener noreferrer">powerball.com</a>.
             </p>
-            <p class="text-center text-gray-600 text-xs mt-4 flex items-center justify-center gap-1.5">
+            <p class="text-center text-slate-500 text-xs mt-4 flex items-center justify-center gap-1.5">
               <i data-lucide="refresh-cw" class="w-3 h-3"></i>
               <span id="ultima-act">{ultimo ? `Sorteo del ${fechaLarga(ultimo.fecha)}` : 'Actualizado: —'}</span>
             </p>
           </div>
 
           <!-- ERROR STATE (solo se usa si no hubo datos de build ni respuesta del API) -->
-          <div id="error-card" class="hidden bg-gray-900 border border-red-900/50 rounded-2xl p-10 text-center card-glow">
-            <i data-lucide="alert-triangle" class="w-12 h-12 text-red-500 mx-auto mb-3"></i>
-            <p class="text-gray-200 font-semibold">No se pudieron cargar los resultados</p>
-            <p class="text-gray-500 text-sm mt-1">Por favor intenta de nuevo más tarde</p>
+          <div id="error-card" class="hidden bg-white border border-red-200 rounded-2xl p-10 text-center card-glow">
+            <i data-lucide="alert-triangle" class="w-12 h-12 text-red-600 mx-auto mb-3"></i>
+            <p class="text-slate-800 font-semibold">No se pudieron cargar los resultados</p>
+            <p class="text-slate-500 text-sm mt-1">Por favor intenta de nuevo más tarde</p>
           </div>
         </div>
 
         <div class="flex flex-wrap justify-center gap-4 mt-8">
-          <a href="#como-jugar" class="bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-6 rounded-lg transition-colors flex items-center gap-2 shadow-lg hover:shadow-red-600/50">
+          <a href="#como-jugar" class="bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-6 rounded-lg transition-colors flex items-center gap-2 shadow-lg hover:shadow-red-200">
             <i data-lucide="book-open" class="w-5 h-5"></i>
             <span>Aprende a Jugar</span>
           </a>
-          <a href="#premios" class="bg-gray-800 hover:bg-gray-700 text-white font-bold py-3 px-6 rounded-lg transition-colors flex items-center gap-2 shadow-lg">
+          <a href="#premios" class="bg-blue-900 hover:bg-blue-800 text-blue-950 font-bold py-3 px-6 rounded-lg transition-colors flex items-center gap-2 shadow-lg">
             <i data-lucide="trophy" class="w-5 h-5"></i>
             <span>Ver Premios</span>
           </a>
-          <a href="/resultados/" class="border border-gray-700 hover:border-red-600 text-gray-300 hover:text-white font-bold py-3 px-6 rounded-lg transition-colors flex items-center gap-2">
+          <a href="/resultados/" class="border border-slate-300 hover:border-red-600 text-slate-700 hover:text-blue-950 font-bold py-3 px-6 rounded-lg transition-colors flex items-center gap-2">
             <i data-lucide="history" class="w-5 h-5"></i>
             <span>Resultados Anteriores</span>
           </a>
         </div>
 
-        <p class="text-gray-600 text-sm max-w-2xl mx-auto mt-10 leading-relaxed">
-          En esta página encontrarás los <strong class="text-gray-500">resultados del último sorteo del Powerball</strong> actualizados en tiempo real.
+        <p class="text-slate-500 text-sm max-w-2xl mx-auto mt-10 leading-relaxed">
+          En esta página encontrarás los <strong class="text-slate-500">resultados del último sorteo del Powerball</strong> actualizados en tiempo real.
           Incluye los números ganadores, el número Powerball, el multiplicador Power Play y los montos del jackpot. Visítanos cada
-          <strong class="text-gray-500">lunes, miércoles y sábado</strong> después de las 10:59 PM ET para ver los nuevos resultados.
+          <strong class="text-slate-500">lunes, miércoles y sábado</strong> después de las 10:59 PM ET para ver los nuevos resultados.
         </p>
       </div>
     </section>
 
+    <!-- ======== OTROS SORTEOS (datos del backend multi-juego) ======== -->
+    {otrosSorteos.length > 0 && (
+      <section id="otros-sorteos" class="py-14 px-4">
+        <div class="max-w-5xl mx-auto">
+          <div class="text-center mb-10">
+            <h2 class="font-display text-3xl font-bold text-blue-950 mb-2">
+              Otros <span class="text-red-600">Sorteos</span> de Loterías en USA
+            </h2>
+            <p class="text-slate-500">{otrosSorteos.map(({ meta }) => meta.nombre).join(' · ')} — números ganadores del último sorteo</p>
+          </div>
+          <div class="flex flex-wrap justify-center gap-5">
+            {otrosSorteos.map(({ id, meta, data }) => {
+              const especial = data.sorteo[meta.bolaEspecialKey];
+              const mult = meta.multiplicadorKey ? data.sorteo[meta.multiplicadorKey] : null;
+              const premio = formatearDineroCorto(data.proximo_sorteo?.premio_estimado)
+                ?? data.proximo_sorteo?.premio_descripcion ?? null;
+              return (
+                <article class="bg-white border border-slate-200 rounded-2xl p-6 flex flex-col w-full sm:w-80 shadow-sm">
+                  <div class="flex items-center justify-between mb-1">
+                    <h3 class={`font-display text-xl font-bold ${meta.acentoClases}`}>{meta.nombre}</h3>
+                    <i data-lucide="sparkles" class={`w-5 h-5 ${meta.acentoClases}`}></i>
+                  </div>
+                  <p class="text-slate-500 text-xs mb-4">Sorteo del {fechaConDia(data.sorteo.fecha)}</p>
+                  <div class="flex items-center gap-1.5 flex-wrap mb-3">
+                    {data.sorteo.blancos.map((n) => (
+                      <span class="inline-flex items-center justify-center w-9 h-9 bg-gray-200 text-gray-900 rounded-full text-sm font-bold">{n}</span>
+                    ))}
+                    {Number.isInteger(especial) && (
+                      <span class={`inline-flex items-center justify-center w-9 h-9 rounded-full text-sm font-bold ml-1 ${meta.bolaClases}`}>{especial}</span>
+                    )}
+                  </div>
+                  <p class={`text-xs font-semibold uppercase tracking-widest mb-4 ${meta.acentoClases}`}>
+                    {meta.bolaEspecialNombre}
+                    {mult ? ` · ${meta.multiplicadorNombre} ${mult}x` : ''}
+                  </p>
+                  {premio && (
+                    <div class="bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 mb-4">
+                      <p class="text-slate-500 text-xs uppercase tracking-widest mb-0.5">Próximo premio</p>
+                      <p class="font-display text-lg font-bold text-amber-600">{premio}</p>
+                    </div>
+                  )}
+                  <p class="text-slate-500 text-xs mt-auto flex items-center gap-1.5">
+                    <i data-lucide="clock" class="w-3.5 h-3.5"></i>
+                    {meta.dias} · {meta.hora}
+                  </p>
+                </article>
+              );
+            })}
+          </div>
+          <p class="text-slate-500 text-xs text-center mt-6 max-w-2xl mx-auto">
+            Resultados oficiales del último sorteo de cada juego, actualizados automáticamente. Verifica siempre tu boleto en el sitio oficial de la lotería de tu estado.
+          </p>
+        </div>
+      </section>
+    )}
+
     <!-- ======== HORARIOS SIMPLES ======== -->
-    <section class="py-10 px-4 bg-gray-900/40 border-t border-b border-gray-800">
+    <section class="py-10 px-4 bg-slate-50 border-t border-b border-slate-200">
       <div class="max-w-3xl mx-auto">
-        <h2 class="font-display text-xl font-bold text-white text-center mb-6">
-          <span class="text-red-500">Horarios</span> de los Sorteos
+        <h2 class="font-display text-xl font-bold text-blue-950 text-center mb-6">
+          <span class="text-red-600">Horarios</span> de los Sorteos
         </h2>
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-          <div class="bg-gray-900 border border-gray-800 rounded-xl p-5 text-center">
-            <i data-lucide="sunrise" class="w-7 h-7 text-amber-400 mx-auto mb-2"></i>
-            <p class="font-display text-lg font-bold text-white">Lunes</p>
-            <p class="text-gray-500 text-sm">10:59 PM ET</p>
-            <p class="text-gray-600 text-xs mt-1">9:59 PM CST</p>
+          <div class="bg-white border border-slate-200 rounded-xl p-5 text-center">
+            <i data-lucide="sunrise" class="w-7 h-7 text-amber-500 mx-auto mb-2"></i>
+            <p class="font-display text-lg font-bold text-blue-950">Lunes</p>
+            <p class="text-slate-500 text-sm">10:59 PM ET</p>
+            <p class="text-slate-500 text-xs mt-1">9:59 PM CST</p>
           </div>
-          <div class="bg-gray-900 border border-red-800/60 rounded-xl p-5 text-center">
-            <i data-lucide="sun" class="w-7 h-7 text-orange-400 mx-auto mb-2"></i>
-            <p class="font-display text-lg font-bold text-white">Miércoles</p>
-            <p class="text-gray-500 text-sm">10:59 PM ET</p>
-            <p class="text-gray-600 text-xs mt-1">9:59 PM CST</p>
+          <div class="bg-white border border-red-300 rounded-xl p-5 text-center">
+            <i data-lucide="sun" class="w-7 h-7 text-orange-600 mx-auto mb-2"></i>
+            <p class="font-display text-lg font-bold text-blue-950">Miércoles</p>
+            <p class="text-slate-500 text-sm">10:59 PM ET</p>
+            <p class="text-slate-500 text-xs mt-1">9:59 PM CST</p>
           </div>
-          <div class="bg-gray-900 border border-gray-800 rounded-xl p-5 text-center">
-            <i data-lucide="moon" class="w-7 h-7 text-sky-400 mx-auto mb-2"></i>
-            <p class="font-display text-lg font-bold text-white">Sábado</p>
-            <p class="text-gray-500 text-sm">10:59 PM ET</p>
-            <p class="text-gray-600 text-xs mt-1">9:59 PM CST</p>
+          <div class="bg-white border border-slate-200 rounded-xl p-5 text-center">
+            <i data-lucide="moon" class="w-7 h-7 text-sky-600 mx-auto mb-2"></i>
+            <p class="font-display text-lg font-bold text-blue-950">Sábado</p>
+            <p class="text-slate-500 text-sm">10:59 PM ET</p>
+            <p class="text-slate-500 text-xs mt-1">9:59 PM CST</p>
           </div>
         </div>
       </div>
@@ -292,72 +374,72 @@ const faqs = [
     <section class="py-16 px-4">
       <div class="max-w-4xl mx-auto">
         <div class="text-center mb-10">
-          <h2 class="font-display text-3xl font-bold text-white mb-2">
-            ¿A Qué Hora es el Sorteo del <span class="text-red-500">Powerball</span>?
+          <h2 class="font-display text-3xl font-bold text-blue-950 mb-2">
+            ¿A Qué Hora es el Sorteo del <span class="text-red-600">Powerball</span>?
           </h2>
-          <p class="text-gray-500">Horarios según tu zona horaria en Estados Unidos</p>
+          <p class="text-slate-500">Horarios según tu zona horaria en Estados Unidos</p>
         </div>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div class="bg-gray-900 border border-red-700 rounded-xl p-6 bg-red-950/20">
+          <div class="bg-white border border-red-300 rounded-xl p-6 bg-red-50">
             <div class="flex items-center justify-between mb-4">
-              <h3 class="font-display text-xl font-bold text-white">Eastern Time (ET)</h3>
-              <i data-lucide="clock" class="w-6 h-6 text-red-500"></i>
+              <h3 class="font-display text-xl font-bold text-blue-950">Eastern Time (ET)</h3>
+              <i data-lucide="clock" class="w-6 h-6 text-red-600"></i>
             </div>
-            <p class="text-3xl font-display font-bold text-red-400 mb-3">10:59 PM</p>
-            <p class="text-gray-400 text-sm mb-4">
-              <strong class="text-white">Estados ET:</strong> New York, Florida, Georgia, North Carolina, South Carolina, Virginia, Pennsylvania, Massachusetts, Connecticut, Maine, Vermont, New Hampshire, Rhode Island, New Jersey, Delaware, Maryland, Washington DC, Michigan, Ohio, Indiana, Kentucky, Tennessee, Puerto Rico
+            <p class="text-3xl font-display font-bold text-red-600 mb-3">10:59 PM</p>
+            <p class="text-slate-600 text-sm mb-4">
+              <strong class="text-blue-950">Estados ET:</strong> New York, Florida, Georgia, North Carolina, South Carolina, Virginia, Pennsylvania, Massachusetts, Connecticut, Maine, Vermont, New Hampshire, Rhode Island, New Jersey, Delaware, Maryland, Washington DC, Michigan, Ohio, Indiana, Kentucky, Tennessee, Puerto Rico
             </p>
-            <div class="bg-gray-800/50 rounded-lg p-3">
-              <p class="text-gray-300 text-xs"><strong>Cierre de venta:</strong> 1 hora antes del sorteo (9:59 PM ET) en la mayoría de estados</p>
+            <div class="bg-slate-50 rounded-lg p-3">
+              <p class="text-slate-700 text-xs"><strong>Cierre de venta:</strong> 1 hora antes del sorteo (9:59 PM ET) en la mayoría de estados</p>
             </div>
           </div>
-          <div class="bg-gray-900 border border-gray-800 rounded-xl p-6">
+          <div class="bg-white border border-slate-200 rounded-xl p-6">
             <div class="flex items-center justify-between mb-4">
-              <h3 class="font-display text-xl font-bold text-white">Central Time (CT)</h3>
-              <i data-lucide="clock" class="w-6 h-6 text-red-500"></i>
+              <h3 class="font-display text-xl font-bold text-blue-950">Central Time (CT)</h3>
+              <i data-lucide="clock" class="w-6 h-6 text-red-600"></i>
             </div>
-            <p class="text-3xl font-display font-bold text-emerald-400 mb-3">9:59 PM</p>
-            <p class="text-gray-400 text-sm mb-4">
-              <strong class="text-white">Estados CT:</strong> Texas, Illinois, Wisconsin, Missouri, Minnesota, Iowa, Louisiana, Arkansas, Oklahoma, Kansas, Nebraska, South Dakota, North Dakota, Alabama, Mississippi, Tennessee (parte oeste)
+            <p class="text-3xl font-display font-bold text-emerald-600 mb-3">9:59 PM</p>
+            <p class="text-slate-600 text-sm mb-4">
+              <strong class="text-blue-950">Estados CT:</strong> Texas, Illinois, Wisconsin, Missouri, Minnesota, Iowa, Louisiana, Arkansas, Oklahoma, Kansas, Nebraska, South Dakota, North Dakota, Alabama, Mississippi, Tennessee (parte oeste)
             </p>
-            <div class="bg-gray-800/50 rounded-lg p-3">
-              <p class="text-gray-300 text-xs"><strong>Cierre de venta:</strong> Generalmente 8:59 PM CT</p>
+            <div class="bg-slate-50 rounded-lg p-3">
+              <p class="text-slate-700 text-xs"><strong>Cierre de venta:</strong> Generalmente 8:59 PM CT</p>
             </div>
           </div>
-          <div class="bg-gray-900 border border-gray-800 rounded-xl p-6">
+          <div class="bg-white border border-slate-200 rounded-xl p-6">
             <div class="flex items-center justify-between mb-4">
-              <h3 class="font-display text-xl font-bold text-white">Mountain Time (MT)</h3>
-              <i data-lucide="clock" class="w-6 h-6 text-red-500"></i>
+              <h3 class="font-display text-xl font-bold text-blue-950">Mountain Time (MT)</h3>
+              <i data-lucide="clock" class="w-6 h-6 text-red-600"></i>
             </div>
-            <p class="text-3xl font-display font-bold text-yellow-400 mb-3">8:59 PM</p>
-            <p class="text-gray-400 text-sm mb-4">
-              <strong class="text-white">Estados MT:</strong> Colorado, Arizona, New Mexico, Montana, Wyoming, Utah, Idaho (parte sur)
+            <p class="text-3xl font-display font-bold text-amber-600 mb-3">8:59 PM</p>
+            <p class="text-slate-600 text-sm mb-4">
+              <strong class="text-blue-950">Estados MT:</strong> Colorado, Arizona, New Mexico, Montana, Wyoming, Utah, Idaho (parte sur)
             </p>
-            <div class="bg-gray-800/50 rounded-lg p-3">
-              <p class="text-gray-300 text-xs"><strong>Nota Arizona:</strong> Arizona no usa horario de verano (excepto la Nación Navajo)</p>
+            <div class="bg-slate-50 rounded-lg p-3">
+              <p class="text-slate-700 text-xs"><strong>Nota Arizona:</strong> Arizona no usa horario de verano (excepto la Nación Navajo)</p>
             </div>
           </div>
-          <div class="bg-gray-900 border border-gray-800 rounded-xl p-6">
+          <div class="bg-white border border-slate-200 rounded-xl p-6">
             <div class="flex items-center justify-between mb-4">
-              <h3 class="font-display text-xl font-bold text-white">Pacific Time (PT)</h3>
-              <i data-lucide="clock" class="w-6 h-6 text-red-500"></i>
+              <h3 class="font-display text-xl font-bold text-blue-950">Pacific Time (PT)</h3>
+              <i data-lucide="clock" class="w-6 h-6 text-red-600"></i>
             </div>
-            <p class="text-3xl font-display font-bold text-blue-400 mb-3">7:59 PM</p>
-            <p class="text-gray-400 text-sm mb-4">
-              <strong class="text-white">Estados PT:</strong> California, Washington, Oregon, Nevada, Idaho (parte norte)
+            <p class="text-3xl font-display font-bold text-blue-700 mb-3">7:59 PM</p>
+            <p class="text-slate-600 text-sm mb-4">
+              <strong class="text-blue-950">Estados PT:</strong> California, Washington, Oregon, Nevada, Idaho (parte norte)
             </p>
-            <div class="bg-gray-800/50 rounded-lg p-3">
-              <p class="text-gray-300 text-xs"><strong>Cierre de venta:</strong> Generalmente 7:00 PM PT</p>
+            <div class="bg-slate-50 rounded-lg p-3">
+              <p class="text-slate-700 text-xs"><strong>Cierre de venta:</strong> Generalmente 7:00 PM PT</p>
             </div>
           </div>
         </div>
-        <div class="mt-8 bg-yellow-500/10 border border-yellow-500/30 rounded-xl p-6">
+        <div class="mt-8 bg-amber-50 border border-amber-300 rounded-xl p-6">
           <div class="flex gap-3">
-            <i data-lucide="alert-triangle" class="w-6 h-6 text-yellow-400 flex-shrink-0 mt-1"></i>
+            <i data-lucide="alert-triangle" class="w-6 h-6 text-amber-600 flex-shrink-0 mt-1"></i>
             <div>
-              <h3 class="font-bold text-yellow-400 mb-2">⏰ Importante: Cierre de Ventas</h3>
-              <p class="text-gray-300 text-sm leading-relaxed">
-                La venta de boletos cierra entre <strong class="text-white">59 minutos y 2 horas antes</strong> del sorteo, dependiendo del estado. Para estar seguro, compra tu boleto al menos <strong class="text-white">2 horas antes</strong> del sorteo (antes de las 9:00 PM ET los lunes, miércoles y sábados).
+              <h3 class="font-bold text-amber-600 mb-2">⏰ Importante: Cierre de Ventas</h3>
+              <p class="text-slate-700 text-sm leading-relaxed">
+                La venta de boletos cierra entre <strong class="text-blue-950">59 minutos y 2 horas antes</strong> del sorteo, dependiendo del estado. Para estar seguro, compra tu boleto al menos <strong class="text-blue-950">2 horas antes</strong> del sorteo (antes de las 9:00 PM ET los lunes, miércoles y sábados).
               </p>
             </div>
           </div>
@@ -369,80 +451,80 @@ const faqs = [
     <section id="como-jugar" class="py-16 px-4">
       <div class="max-w-5xl mx-auto">
         <div class="text-center mb-12">
-          <h2 class="font-display text-3xl font-bold text-white mb-2">¿Cómo Jugar al <span class="text-red-500">Powerball</span>?</h2>
-          <p class="text-gray-500">Todo lo que necesitas saber en 4 pasos sencillos</p>
+          <h2 class="font-display text-3xl font-bold text-blue-950 mb-2">¿Cómo Jugar al <span class="text-red-600">Powerball</span>?</h2>
+          <p class="text-slate-500">Todo lo que necesitas saber en 4 pasos sencillos</p>
         </div>
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-          <div class="step-card bg-gray-900 border border-gray-800 rounded-2xl p-6 text-center">
+          <div class="step-card bg-white border border-slate-200 rounded-2xl p-6 text-center">
             <div class="relative inline-flex mb-5">
               <div class="w-14 h-14 bg-red-600 rounded-full flex items-center justify-center">
                 <span class="text-white font-display text-xl font-bold">1</span>
               </div>
             </div>
-            <i data-lucide="map-pin" class="w-7 h-7 text-red-500 mx-auto mb-3"></i>
-            <h3 class="font-display text-lg font-semibold text-white mb-2">Encuentra un lugar</h3>
-            <p class="text-gray-500 text-sm leading-relaxed">Ve a cualquier tienda autorizada en un estado que participe en la lotería de Estados Unidos.</p>
+            <i data-lucide="map-pin" class="w-7 h-7 text-red-600 mx-auto mb-3"></i>
+            <h3 class="font-display text-lg font-semibold text-blue-950 mb-2">Encuentra un lugar</h3>
+            <p class="text-slate-500 text-sm leading-relaxed">Ve a cualquier tienda autorizada en un estado que participe en la lotería de Estados Unidos.</p>
           </div>
-          <div class="step-card bg-gray-900 border border-gray-800 rounded-2xl p-6 text-center">
+          <div class="step-card bg-white border border-slate-200 rounded-2xl p-6 text-center">
             <div class="relative inline-flex mb-5">
               <div class="w-14 h-14 bg-red-600 rounded-full flex items-center justify-center">
                 <span class="text-white font-display text-xl font-bold">2</span>
               </div>
             </div>
-            <i data-lucide="pencil-line" class="w-7 h-7 text-red-500 mx-auto mb-3"></i>
-            <h3 class="font-display text-lg font-semibold text-white mb-2">Elige números</h3>
-            <p class="text-gray-500 text-sm leading-relaxed">Selecciona <strong class="text-gray-300">5 números del 1 al 69</strong> (blancos) y <strong class="text-gray-300">1 Powerball del 1 al 26</strong> (rojo).</p>
+            <i data-lucide="pencil-line" class="w-7 h-7 text-red-600 mx-auto mb-3"></i>
+            <h3 class="font-display text-lg font-semibold text-blue-950 mb-2">Elige números</h3>
+            <p class="text-slate-500 text-sm leading-relaxed">Selecciona <strong class="text-slate-700">5 números del 1 al 69</strong> (blancos) y <strong class="text-slate-700">1 Powerball del 1 al 26</strong> (rojo).</p>
           </div>
-          <div class="step-card bg-gray-900 border border-gray-800 rounded-2xl p-6 text-center">
+          <div class="step-card bg-white border border-slate-200 rounded-2xl p-6 text-center">
             <div class="relative inline-flex mb-5">
               <div class="w-14 h-14 bg-red-600 rounded-full flex items-center justify-center">
                 <span class="text-white font-display text-xl font-bold">3</span>
               </div>
             </div>
-            <i data-lucide="dollar-sign" class="w-7 h-7 text-red-500 mx-auto mb-3"></i>
-            <h3 class="font-display text-lg font-semibold text-white mb-2">Paga $2 USD</h3>
-            <p class="text-gray-500 text-sm leading-relaxed">Cada boleto cuesta $2. Agrega <strong class="text-gray-300">Power Play por $1 más</strong> para multiplicar tus premios menores.</p>
+            <i data-lucide="dollar-sign" class="w-7 h-7 text-red-600 mx-auto mb-3"></i>
+            <h3 class="font-display text-lg font-semibold text-blue-950 mb-2">Paga $2 USD</h3>
+            <p class="text-slate-500 text-sm leading-relaxed">Cada boleto cuesta $2. Agrega <strong class="text-slate-700">Power Play por $1 más</strong> para multiplicar tus premios menores.</p>
           </div>
-          <div class="step-card bg-gray-900 border border-gray-800 rounded-2xl p-6 text-center">
+          <div class="step-card bg-white border border-slate-200 rounded-2xl p-6 text-center">
             <div class="relative inline-flex mb-5">
               <div class="w-14 h-14 bg-red-600 rounded-full flex items-center justify-center">
                 <span class="text-white font-display text-xl font-bold">4</span>
               </div>
             </div>
-            <i data-lucide="check-circle-2" class="w-7 h-7 text-red-500 mx-auto mb-3"></i>
-            <h3 class="font-display text-lg font-semibold text-white mb-2">Verifica aquí</h3>
-            <p class="text-gray-500 text-sm leading-relaxed">Vuelve a <strong class="text-gray-300">resultpowerball.com</strong> después del sorteo y compara tus números con los ganadores.</p>
+            <i data-lucide="check-circle-2" class="w-7 h-7 text-red-600 mx-auto mb-3"></i>
+            <h3 class="font-display text-lg font-semibold text-blue-950 mb-2">Verifica aquí</h3>
+            <p class="text-slate-500 text-sm leading-relaxed">Vuelve a <strong class="text-slate-700">resultpowerball.com</strong> después del sorteo y compara tus números con los ganadores.</p>
           </div>
         </div>
       </div>
     </section>
 
     <!-- ======== TABLA DE PREMIOS ======== -->
-    <section id="premios" class="py-16 px-4 bg-gray-900/30 border-t border-b border-gray-800">
+    <section id="premios" class="py-16 px-4 bg-slate-50 border-t border-b border-slate-200">
       <div class="max-w-3xl mx-auto">
         <div class="text-center mb-10">
-          <h2 class="font-display text-3xl font-bold text-white mb-2">Niveles de <span class="text-red-500">Premios</span></h2>
-          <p class="text-gray-500">Conoce cuánto puedes ganar según la combinación</p>
+          <h2 class="font-display text-3xl font-bold text-blue-950 mb-2">Niveles de <span class="text-red-600">Premios</span></h2>
+          <p class="text-slate-500">Conoce cuánto puedes ganar según la combinación</p>
         </div>
         <div class="overflow-x-auto">
-          <div class="bg-gray-900 border border-gray-800 rounded-2xl overflow-hidden" style="max-width: 100%;">
-            <div class="grid grid-cols-4 bg-gray-800/80 px-5 py-3 text-xs uppercase tracking-widest text-gray-500 font-semibold">
+          <div class="bg-white border border-slate-200 rounded-2xl overflow-hidden" style="max-width: 100%;">
+            <div class="grid grid-cols-4 bg-blue-950 px-5 py-3 text-xs uppercase tracking-widest text-blue-200 font-semibold">
               <span>Combinación</span>
               <span class="text-center">Aciertos</span>
               <span class="text-right">Premio Base</span>
               <span class="text-right">Con Power Play</span>
             </div>
-            <div class="grid grid-cols-4 px-5 py-4 border-b border-gray-800 bg-gradient-to-r from-red-950/40 to-transparent">
+            <div class="grid grid-cols-4 px-5 py-4 border-b border-slate-200 bg-gradient-to-r from-red-50 to-transparent">
               <div class="flex items-center gap-2">
-                <span class="bg-yellow-500/20 text-yellow-400 border border-yellow-500/30 text-xs font-bold rounded px-2 py-0.5">JACKPOT</span>
+                <span class="bg-amber-100 text-amber-600 border border-amber-300 text-xs font-bold rounded px-2 py-0.5">JACKPOT</span>
               </div>
               <div class="flex items-center justify-center gap-1">
                 <span class="inline-flex items-center justify-center w-5 h-5 bg-gray-200 text-gray-900 rounded-full text-xs font-bold">5</span>
-                <span class="text-gray-600 text-xs">+</span>
+                <span class="text-slate-500 text-xs">+</span>
                 <span class="inline-flex items-center justify-center w-5 h-5 bg-red-600 text-white rounded-full text-xs font-bold">PB</span>
               </div>
-              <p class="text-right text-yellow-400 font-bold">Jackpot</p>
-              <p class="text-right text-yellow-500 font-bold">Jackpot</p>
+              <p class="text-right text-amber-600 font-bold">Jackpot</p>
+              <p class="text-right text-amber-600 font-bold">Jackpot</p>
             </div>
             {[
               { combo: "5 blancos", b: "5", pb: false, base: "$1,000,000", pp: "$2,000,000" },
@@ -454,20 +536,20 @@ const faqs = [
               { combo: "1 blanco + PB", b: "1", pb: true, base: "$4", pp: "$8–$40" },
               { combo: "Solo Powerball", b: null, pb: true, base: "$4", pp: "$8–$40" },
             ].map((row, i, arr) => (
-              <div class={`prize-row grid grid-cols-4 px-5 py-3.5 ${i < arr.length - 1 ? 'border-b border-gray-800' : ''}`}>
-                <p class="text-gray-300 text-sm">{row.combo}</p>
+              <div class={`prize-row grid grid-cols-4 px-5 py-3.5 ${i < arr.length - 1 ? 'border-b border-slate-200' : ''}`}>
+                <p class="text-slate-700 text-sm">{row.combo}</p>
                 <div class="flex items-center justify-center gap-1">
                   {row.b && <span class="inline-flex items-center justify-center w-5 h-5 bg-gray-200 text-gray-900 rounded-full text-xs font-bold">{row.b}</span>}
-                  {row.pb && row.b && <span class="text-gray-600 text-xs">+</span>}
+                  {row.pb && row.b && <span class="text-slate-500 text-xs">+</span>}
                   {row.pb && <span class="inline-flex items-center justify-center w-5 h-5 bg-red-600 text-white rounded-full text-xs font-bold">PB</span>}
                 </div>
-                <p class="text-right text-emerald-400 font-semibold text-sm">{row.base}</p>
-                <p class="text-right text-emerald-400 font-semibold text-sm">{row.pp}</p>
+                <p class="text-right text-emerald-600 font-semibold text-sm">{row.base}</p>
+                <p class="text-right text-emerald-600 font-semibold text-sm">{row.pp}</p>
               </div>
             ))}
           </div>
         </div>
-        <p class="text-gray-600 text-xs text-center mt-4">Power Play multiplica premios menores según el número sorteado (2x, 3x, 4x, 5x o 10x). No aplica al Jackpot. El premio de $1M se convierte en $2M con Power Play.</p>
+        <p class="text-slate-500 text-xs text-center mt-4">Power Play multiplica premios menores según el número sorteado (2x, 3x, 4x, 5x o 10x). No aplica al Jackpot. El premio de $1M se convierte en $2M con Power Play.</p>
       </div>
     </section>
 
@@ -475,84 +557,84 @@ const faqs = [
     <section id="estados" class="py-16 px-4">
       <div class="max-w-6xl mx-auto">
         <div class="text-center mb-12">
-          <h2 class="font-display text-3xl font-bold text-white mb-2">
-            <span class="text-red-500">45 Estados</span> + DC, Puerto Rico e Islas Vírgenes
+          <h2 class="font-display text-3xl font-bold text-blue-950 mb-2">
+            <span class="text-red-600">45 Estados</span> + DC, Puerto Rico e Islas Vírgenes
           </h2>
-          <p class="text-gray-500">Powerball se juega en casi todo Estados Unidos</p>
+          <p class="text-slate-500">Powerball se juega en casi todo Estados Unidos</p>
         </div>
         <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2">
           {["Alabama","Arizona","Arkansas"].map(s => (
-            <div class="bg-gray-900 border border-gray-800 rounded-lg p-3 text-center hover:border-red-600 transition-colors">
-              <p class="text-white font-semibold text-sm">{s}</p>
+            <div class="bg-white border border-slate-200 rounded-lg p-3 text-center hover:border-red-600 transition-colors">
+              <p class="text-blue-950 font-semibold text-sm">{s}</p>
             </div>
           ))}
-          <div class="bg-gray-900 border border-red-700 rounded-lg p-3 text-center bg-red-950/30">
-            <p class="text-red-400 font-bold text-sm">California</p>
+          <div class="bg-white border border-red-300 rounded-lg p-3 text-center bg-red-50">
+            <p class="text-red-600 font-bold text-sm">California</p>
           </div>
           {["Colorado","Connecticut","Delaware"].map(s => (
-            <div class="bg-gray-900 border border-gray-800 rounded-lg p-3 text-center hover:border-red-600 transition-colors">
-              <p class="text-white font-semibold text-sm">{s}</p>
+            <div class="bg-white border border-slate-200 rounded-lg p-3 text-center hover:border-red-600 transition-colors">
+              <p class="text-blue-950 font-semibold text-sm">{s}</p>
             </div>
           ))}
-          <div class="bg-gray-900 border border-red-700 rounded-lg p-3 text-center bg-red-950/30">
-            <p class="text-red-400 font-bold text-sm">Florida</p>
+          <div class="bg-white border border-red-300 rounded-lg p-3 text-center bg-red-50">
+            <p class="text-red-600 font-bold text-sm">Florida</p>
           </div>
           {["Georgia","Idaho"].map(s => (
-            <div class="bg-gray-900 border border-gray-800 rounded-lg p-3 text-center hover:border-red-600 transition-colors">
-              <p class="text-white font-semibold text-sm">{s}</p>
+            <div class="bg-white border border-slate-200 rounded-lg p-3 text-center hover:border-red-600 transition-colors">
+              <p class="text-blue-950 font-semibold text-sm">{s}</p>
             </div>
           ))}
-          <div class="bg-gray-900 border border-red-700 rounded-lg p-3 text-center bg-red-950/30">
-            <p class="text-red-400 font-bold text-sm">Illinois</p>
+          <div class="bg-white border border-red-300 rounded-lg p-3 text-center bg-red-50">
+            <p class="text-red-600 font-bold text-sm">Illinois</p>
           </div>
           {["Indiana","Iowa","Kansas","Kentucky","Louisiana","Maine","Maryland","Massachusetts","Michigan","Minnesota","Mississippi","Missouri","Montana","Nebraska","New Hampshire","New Jersey","New Mexico"].map(s => (
-            <div class="bg-gray-900 border border-gray-800 rounded-lg p-3 text-center hover:border-red-600 transition-colors">
-              <p class="text-white font-semibold text-sm">{s}</p>
+            <div class="bg-white border border-slate-200 rounded-lg p-3 text-center hover:border-red-600 transition-colors">
+              <p class="text-blue-950 font-semibold text-sm">{s}</p>
             </div>
           ))}
-          <div class="bg-gray-900 border border-red-700 rounded-lg p-3 text-center bg-red-950/30">
-            <p class="text-red-400 font-bold text-sm">New York</p>
+          <div class="bg-white border border-red-300 rounded-lg p-3 text-center bg-red-50">
+            <p class="text-red-600 font-bold text-sm">New York</p>
           </div>
           {["North Carolina","North Dakota","Ohio","Oklahoma","Oregon","Pennsylvania"].map(s => (
-            <div class="bg-gray-900 border border-gray-800 rounded-lg p-3 text-center hover:border-red-600 transition-colors">
-              <p class="text-white font-semibold text-sm">{s}</p>
+            <div class="bg-white border border-slate-200 rounded-lg p-3 text-center hover:border-red-600 transition-colors">
+              <p class="text-blue-950 font-semibold text-sm">{s}</p>
             </div>
           ))}
-          <div class="bg-gray-900 border border-red-700 rounded-lg p-3 text-center bg-red-950/30">
-            <p class="text-red-400 font-bold text-sm">Puerto Rico</p>
+          <div class="bg-white border border-red-300 rounded-lg p-3 text-center bg-red-50">
+            <p class="text-red-600 font-bold text-sm">Puerto Rico</p>
           </div>
           {["Rhode Island","South Carolina","South Dakota","Tennessee"].map(s => (
-            <div class="bg-gray-900 border border-gray-800 rounded-lg p-3 text-center hover:border-red-600 transition-colors">
-              <p class="text-white font-semibold text-sm">{s}</p>
+            <div class="bg-white border border-slate-200 rounded-lg p-3 text-center hover:border-red-600 transition-colors">
+              <p class="text-blue-950 font-semibold text-sm">{s}</p>
             </div>
           ))}
-          <div class="bg-gray-900 border border-red-700 rounded-lg p-3 text-center bg-red-950/30">
-            <p class="text-red-400 font-bold text-sm">Texas</p>
+          <div class="bg-white border border-red-300 rounded-lg p-3 text-center bg-red-50">
+            <p class="text-red-600 font-bold text-sm">Texas</p>
           </div>
           {["US Virgin Islands","Vermont","Virginia"].map(s => (
-            <div class="bg-gray-900 border border-gray-800 rounded-lg p-3 text-center hover:border-red-600 transition-colors">
-              <p class="text-white font-semibold text-sm">{s}</p>
+            <div class="bg-white border border-slate-200 rounded-lg p-3 text-center hover:border-red-600 transition-colors">
+              <p class="text-blue-950 font-semibold text-sm">{s}</p>
             </div>
           ))}
-          <div class="bg-gray-900 border border-gray-800 rounded-lg p-3 text-center hover:border-red-600 transition-colors">
-            <p class="text-white font-semibold text-sm">Washington</p>
+          <div class="bg-white border border-slate-200 rounded-lg p-3 text-center hover:border-red-600 transition-colors">
+            <p class="text-blue-950 font-semibold text-sm">Washington</p>
           </div>
-          <div class="bg-gray-900 border border-red-700 rounded-lg p-3 text-center bg-red-950/30">
-            <p class="text-red-400 font-bold text-sm">Washington DC</p>
+          <div class="bg-white border border-red-300 rounded-lg p-3 text-center bg-red-50">
+            <p class="text-red-600 font-bold text-sm">Washington DC</p>
           </div>
           {["West Virginia","Wisconsin","Wyoming"].map(s => (
-            <div class="bg-gray-900 border border-gray-800 rounded-lg p-3 text-center hover:border-red-600 transition-colors">
-              <p class="text-white font-semibold text-sm">{s}</p>
+            <div class="bg-white border border-slate-200 rounded-lg p-3 text-center hover:border-red-600 transition-colors">
+              <p class="text-blue-950 font-semibold text-sm">{s}</p>
             </div>
           ))}
         </div>
-        <p class="text-gray-600 text-sm text-center mt-8 max-w-3xl mx-auto">
-          <strong class="text-gray-400">Estados destacados en rojo</strong> tienen las poblaciones hispanas más grandes. Los resultados son válidos en todos los estados participantes.
+        <p class="text-slate-500 text-sm text-center mt-8 max-w-3xl mx-auto">
+          <strong class="text-slate-600">Estados destacados en rojo</strong> tienen las poblaciones hispanas más grandes. Los resultados son válidos en todos los estados participantes.
         </p>
         <div class="mt-6 text-center">
           <a
             href="/estados/"
-            class="inline-flex items-center gap-2 border border-red-700/50 text-red-400 hover:text-white hover:border-red-500 hover:bg-red-900/20 font-medium px-5 py-2.5 rounded-xl transition-all text-sm"
+            class="inline-flex items-center gap-2 border border-red-300 text-red-600 hover:text-blue-950 hover:border-red-500 hover:bg-red-50 font-medium px-5 py-2.5 rounded-xl transition-all text-sm"
           >
             <i data-lucide="book-open" class="w-4 h-4"></i>
             Guía Powerball por estado en español
@@ -566,41 +648,41 @@ const faqs = [
     <section class="py-16 px-4">
       <div class="max-w-4xl mx-auto">
         <div class="text-center mb-10">
-          <h2 class="font-display text-3xl font-bold text-white mb-2">
-            Powerball en <span class="text-red-500">Español</span> en Todo Estados Unidos
+          <h2 class="font-display text-3xl font-bold text-blue-950 mb-2">
+            Powerball en <span class="text-red-600">Español</span> en Todo Estados Unidos
           </h2>
-          <p class="text-gray-500">Sorteos lunes, miércoles y sábado a las 10:59 PM ET</p>
+          <p class="text-slate-500">Sorteos lunes, miércoles y sábado a las 10:59 PM ET</p>
         </div>
 
-        <p class="text-gray-400 text-sm leading-relaxed max-w-2xl mx-auto text-center mb-10">
+        <p class="text-slate-600 text-sm leading-relaxed max-w-2xl mx-auto text-center mb-10">
           Consulta gratis los resultados oficiales del Powerball en español. Los números ganadores se actualizan automáticamente después de cada sorteo, para que verifiques tu boleto en segundos.
         </p>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div class="bg-gray-900 border border-gray-800 rounded-2xl p-6">
-            <h3 class="font-display text-lg font-bold text-white mb-4 flex items-center gap-2">
-              <i data-lucide="map-pin" class="w-5 h-5 text-red-500"></i>
+          <div class="bg-white border border-slate-200 rounded-2xl p-6">
+            <h3 class="font-display text-lg font-bold text-blue-950 mb-4 flex items-center gap-2">
+              <i data-lucide="map-pin" class="w-5 h-5 text-red-600"></i>
               Estados donde se juega Powerball
             </h3>
-            <ul class="space-y-2 text-sm text-gray-400">
-              <li><a href="/estados/california/" class="hover:text-red-400 transition-colors"><strong class="text-gray-200">Powerball California</strong></a> — Los Ángeles, San Francisco, San Diego, Sacramento.</li>
-              <li><a href="/estados/texas/" class="hover:text-red-400 transition-colors"><strong class="text-gray-200">Powerball Texas</strong></a> — Houston, Dallas, San Antonio, Austin, El Paso.</li>
-              <li><a href="/estados/florida/" class="hover:text-red-400 transition-colors"><strong class="text-gray-200">Powerball Florida</strong></a> — Miami, Tampa, Orlando, Jacksonville.</li>
-              <li><a href="/estados/new-york/" class="hover:text-red-400 transition-colors"><strong class="text-gray-200">Powerball Nueva York</strong></a> — NYC, Buffalo, Rochester, Albany.</li>
-              <li><a href="/estados/illinois/" class="hover:text-red-400 transition-colors"><strong class="text-gray-200">Powerball Illinois</strong></a> — Chicago y área metropolitana.</li>
-              <li><a href="/estados/" class="hover:text-red-400 transition-colors"><strong class="text-gray-200">Powerball Puerto Rico</strong></a> — toda la isla, 100% en español.</li>
+            <ul class="space-y-2 text-sm text-slate-600">
+              <li><a href="/estados/california/" class="hover:text-red-600 transition-colors"><strong class="text-slate-800">Powerball California</strong></a> — Los Ángeles, San Francisco, San Diego, Sacramento.</li>
+              <li><a href="/estados/texas/" class="hover:text-red-600 transition-colors"><strong class="text-slate-800">Powerball Texas</strong></a> — Houston, Dallas, San Antonio, Austin, El Paso.</li>
+              <li><a href="/estados/florida/" class="hover:text-red-600 transition-colors"><strong class="text-slate-800">Powerball Florida</strong></a> — Miami, Tampa, Orlando, Jacksonville.</li>
+              <li><a href="/estados/new-york/" class="hover:text-red-600 transition-colors"><strong class="text-slate-800">Powerball Nueva York</strong></a> — NYC, Buffalo, Rochester, Albany.</li>
+              <li><a href="/estados/illinois/" class="hover:text-red-600 transition-colors"><strong class="text-slate-800">Powerball Illinois</strong></a> — Chicago y área metropolitana.</li>
+              <li><a href="/estados/" class="hover:text-red-600 transition-colors"><strong class="text-slate-800">Powerball Puerto Rico</strong></a> — toda la isla, 100% en español.</li>
             </ul>
           </div>
 
-          <div class="bg-gray-900 border border-gray-800 rounded-2xl p-6">
-            <h3 class="font-display text-lg font-bold text-white mb-4 flex items-center gap-2">
-              <i data-lucide="users" class="w-5 h-5 text-red-500"></i>
+          <div class="bg-white border border-slate-200 rounded-2xl p-6">
+            <h3 class="font-display text-lg font-bold text-blue-950 mb-4 flex items-center gap-2">
+              <i data-lucide="users" class="w-5 h-5 text-red-600"></i>
               Powerball para Latinos en Estados Unidos
             </h3>
-            <p class="text-gray-400 text-sm leading-relaxed">
+            <p class="text-slate-600 text-sm leading-relaxed">
               Miles de mexicanos, dominicanos, puertorriqueños, salvadoreños, guatemaltecos, hondureños, colombianos, venezolanos y cubanos en Estados Unidos juegan el Powerball cada semana. Aquí encuentras los resultados y la guía completa, siempre en español.
             </p>
-            <a href="/estados/" class="inline-flex items-center gap-2 text-red-400 hover:text-red-300 text-sm font-medium mt-4 transition-colors">
+            <a href="/estados/" class="inline-flex items-center gap-2 text-red-600 hover:text-red-600 text-sm font-medium mt-4 transition-colors">
               Ver guía Powerball por estado
               <i data-lucide="arrow-right" class="w-4 h-4"></i>
             </a>
@@ -610,13 +692,13 @@ const faqs = [
     </section>
 
     <!-- ======== RESULTADOS POR ESTADO ======== -->
-    <section class="py-16 px-4 bg-gray-900/20 border-t border-b border-gray-800">
+    <section class="py-16 px-4 bg-slate-50 border-t border-b border-slate-200">
       <div class="max-w-5xl mx-auto">
         <div class="text-center mb-10">
-          <h2 class="font-display text-3xl font-bold text-white mb-2">
-            Resultados del Powerball por <span class="text-red-500">Estado</span>
+          <h2 class="font-display text-3xl font-bold text-blue-950 mb-2">
+            Resultados del Powerball por <span class="text-red-600">Estado</span>
           </h2>
-          <p class="text-gray-500">Los mismos números ganadores aplican en todos los estados</p>
+          <p class="text-slate-500">Los mismos números ganadores aplican en todos los estados</p>
         </div>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
           {[
@@ -627,40 +709,40 @@ const faqs = [
             { name: "Powerball Illinois", desc: "Illinois Lottery Powerball en Chicago, Aurora, Naperville, Joliet, Rockford. Gran comunidad latina, especialmente mexicana y puertorriqueña. Impuesto estatal: 4.95%.", tags: ["Chicago","Aurora","Naperville"], highlight: false },
             { name: "Powerball Puerto Rico", desc: "Powerball Puerto Rico disponible en toda la isla: San Juan, Bayamón, Carolina, Ponce, Caguas, Mayagüez. 100% de la población habla español. Resultados en español desde el primer momento.", tags: ["San Juan","Bayamón","Ponce"], highlight: true },
           ].map(state => (
-            <div class={`bg-gray-900 rounded-xl p-6 hover:border-red-600 transition-colors ${state.highlight ? 'border border-red-700 bg-red-950/20' : 'border border-gray-800'}`}>
+            <div class={`bg-white rounded-xl p-6 hover:border-red-600 transition-colors ${state.highlight ? 'border border-red-300 bg-red-50' : 'border border-slate-200'}`}>
               <div class="flex items-center gap-3 mb-4">
-                <i data-lucide="map-pin" class="w-6 h-6 text-red-500"></i>
-                <h3 class="font-display text-xl font-bold text-white">{state.name}</h3>
+                <i data-lucide="map-pin" class="w-6 h-6 text-red-600"></i>
+                <h3 class="font-display text-xl font-bold text-blue-950">{state.name}</h3>
               </div>
-              <p class="text-gray-400 text-sm mb-4 leading-relaxed">{state.desc}</p>
+              <p class="text-slate-600 text-sm mb-4 leading-relaxed">{state.desc}</p>
               <div class="flex flex-wrap gap-2">
                 {state.tags.map(tag => (
-                  <span class={`text-xs px-3 py-1 rounded-full ${state.highlight ? 'bg-red-900/50 text-red-300' : 'bg-gray-800 text-gray-400'}`}>{tag}</span>
+                  <span class={`text-xs px-3 py-1 rounded-full ${state.highlight ? 'bg-red-100 text-red-700' : 'bg-slate-100 text-slate-600'}`}>{tag}</span>
                 ))}
               </div>
             </div>
           ))}
         </div>
-        <div class="mt-8 bg-gray-900 border border-gray-800 rounded-xl p-6">
-          <h3 class="font-display text-lg font-bold text-white mb-3 flex items-center gap-2">
-            <i data-lucide="info" class="w-5 h-5 text-red-500"></i>
+        <div class="mt-8 bg-white border border-slate-200 rounded-xl p-6">
+          <h3 class="font-display text-lg font-bold text-blue-950 mb-3 flex items-center gap-2">
+            <i data-lucide="info" class="w-5 h-5 text-red-600"></i>
             Importante: Números Universales
           </h3>
-          <p class="text-gray-400 text-sm leading-relaxed">
-            Los <strong class="text-white">números ganadores del Powerball son idénticos</strong> en todos los estados, territorios y jurisdicciones participantes.
+          <p class="text-slate-600 text-sm leading-relaxed">
+            Los <strong class="text-blue-950">números ganadores del Powerball son idénticos</strong> en todos los estados, territorios y jurisdicciones participantes.
             No importa si compraste tu boleto en California, Texas, Florida, New York, Puerto Rico o cualquier otro estado:
             los números sorteados son los mismos para todos. La única diferencia está en los impuestos estatales que se aplican a los premios.
           </p>
         </div>
 
         <!-- CTA GUÍA POR ESTADO -->
-        <div class="mt-6 bg-gradient-to-r from-red-900/30 to-gray-900 border border-red-800/40 rounded-2xl p-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div class="mt-6 bg-gradient-to-r from-red-50 to-white border border-red-200 rounded-2xl p-6 flex flex-col sm:flex-row items-center justify-between gap-4">
           <div>
-            <p class="text-white font-semibold text-base mb-1 flex items-center gap-2">
-              <i data-lucide="map" class="w-5 h-5 text-red-400"></i>
+            <p class="text-blue-950 font-semibold text-base mb-1 flex items-center gap-2">
+              <i data-lucide="map" class="w-5 h-5 text-red-600"></i>
               Guía completa de Powerball por estado
             </p>
-            <p class="text-gray-400 text-sm">Dónde comprar, impuestos, cómo reclamar premios y más — en español para cada estado.</p>
+            <p class="text-slate-600 text-sm">Dónde comprar, impuestos, cómo reclamar premios y más — en español para cada estado.</p>
           </div>
           <a
             href="/estados/"
@@ -674,103 +756,103 @@ const faqs = [
     </section>
 
     <!-- ======== GUÍA COMPLETA ======== -->
-    <section class="py-16 px-4 bg-gray-900/20">
+    <section class="py-16 px-4 bg-slate-50">
       <div class="max-w-4xl mx-auto">
-        <article class="bg-gray-900 border border-gray-800 rounded-2xl p-8 prose prose-invert max-w-none">
+        <article class="bg-white border border-slate-200 rounded-2xl p-8 prose prose-slate max-w-none">
 
-          <h2 class="text-2xl font-bold text-white mb-4 flex items-center gap-2">
-            <i data-lucide="info" class="w-7 h-7 text-red-500"></i>
+          <h2 class="text-2xl font-bold text-blue-950 mb-4 flex items-center gap-2">
+            <i data-lucide="info" class="w-7 h-7 text-red-600"></i>
             Guía Completa del Powerball en Español
           </h2>
 
-          <p class="text-gray-400 leading-relaxed mb-6">
-            Bienvenido a <strong class="text-white">ResultPowerball</strong>, tu fuente más confiable de resultados del Powerball en español. Somos el portal número uno para la comunidad latina en Estados Unidos que busca verificar sus números ganadores de manera rápida, precisa y completamente gratuita.
+          <p class="text-slate-600 leading-relaxed mb-6">
+            Bienvenido a <strong class="text-blue-950">ResultPowerball</strong>, tu fuente más confiable de resultados del Powerball en español. Somos el portal número uno para la comunidad latina en Estados Unidos que busca verificar sus números ganadores de manera rápida, precisa y completamente gratuita.
           </p>
 
-          <h3 class="text-xl font-bold text-white mb-3 mt-8">¿Qué es el Powerball?</h3>
-          <p class="text-gray-400 leading-relaxed mb-4">
-            El <strong class="text-white">Powerball</strong> es la lotería más grande y popular de Estados Unidos, con jackpots que regularmente superan los <strong class="text-white">$100 millones</strong> y han alcanzado récords históricos de más de <strong class="text-white">$2 mil millones de dólares</strong>. Se juega en 45 estados, el Distrito de Columbia, Puerto Rico y las Islas Vírgenes de EE.UU.
+          <h3 class="text-xl font-bold text-blue-950 mb-3 mt-8">¿Qué es el Powerball?</h3>
+          <p class="text-slate-600 leading-relaxed mb-4">
+            El <strong class="text-blue-950">Powerball</strong> es la lotería más grande y popular de Estados Unidos, con jackpots que regularmente superan los <strong class="text-blue-950">$100 millones</strong> y han alcanzado récords históricos de más de <strong class="text-blue-950">$2 mil millones de dólares</strong>. Se juega en 45 estados, el Distrito de Columbia, Puerto Rico y las Islas Vírgenes de EE.UU.
           </p>
 
-          <h3 class="text-xl font-bold text-white mb-3 mt-8">Historia del Powerball</h3>
-          <p class="text-gray-400 leading-relaxed mb-4">
-            El Powerball comenzó en 1992 y desde entonces ha creado cientos de millonarios. El formato actual requiere que los jugadores seleccionen <strong class="text-white">5 números del 1 al 69</strong> (bolas blancas) y <strong class="text-white">1 número Powerball del 1 al 26</strong> (bola roja). Este formato fue actualizado en 2015 para crear jackpots más grandes y emocionantes.
+          <h3 class="text-xl font-bold text-blue-950 mb-3 mt-8">Historia del Powerball</h3>
+          <p class="text-slate-600 leading-relaxed mb-4">
+            El Powerball comenzó en 1992 y desde entonces ha creado cientos de millonarios. El formato actual requiere que los jugadores seleccionen <strong class="text-blue-950">5 números del 1 al 69</strong> (bolas blancas) y <strong class="text-blue-950">1 número Powerball del 1 al 26</strong> (bola roja). Este formato fue actualizado en 2015 para crear jackpots más grandes y emocionantes.
           </p>
 
-          <h3 class="text-xl font-bold text-white mb-3 mt-8">Powerball para Latinos en Estados Unidos</h3>
-          <p class="text-gray-400 leading-relaxed mb-4">
-            La comunidad latina representa una parte significativa de los jugadores del Powerball en Estados Unidos. Miles de <strong class="text-white">mexicanos, dominicanos, puertorriqueños, salvadoreños, guatemaltecos, hondureños, colombianos, venezolanos, cubanos</strong> y personas de toda Latinoamérica participan cada semana con la esperanza de ganar el gran premio.
+          <h3 class="text-xl font-bold text-blue-950 mb-3 mt-8">Powerball para Latinos en Estados Unidos</h3>
+          <p class="text-slate-600 leading-relaxed mb-4">
+            La comunidad latina representa una parte significativa de los jugadores del Powerball en Estados Unidos. Miles de <strong class="text-blue-950">mexicanos, dominicanos, puertorriqueños, salvadoreños, guatemaltecos, hondureños, colombianos, venezolanos, cubanos</strong> y personas de toda Latinoamérica participan cada semana con la esperanza de ganar el gran premio.
           </p>
 
-          <h3 class="text-xl font-bold text-white mb-3 mt-8">Dónde Comprar Boletos de Powerball</h3>
-          <ul class="list-disc list-inside text-gray-400 space-y-2 mb-6">
-            <li><strong class="text-white">Tiendas de conveniencia:</strong> 7-Eleven, Circle K, QuikTrip, Wawa, Sheetz</li>
-            <li><strong class="text-white">Supermercados:</strong> Walmart, Kroger, Publix, Safeway, Albertsons</li>
-            <li><strong class="text-white">Gasolineras:</strong> La mayoría de las estaciones de servicio venden boletos</li>
-            <li><strong class="text-white">Retailers autorizados:</strong> Busca el logo oficial de la lotería estatal</li>
+          <h3 class="text-xl font-bold text-blue-950 mb-3 mt-8">Dónde Comprar Boletos de Powerball</h3>
+          <ul class="list-disc list-inside text-slate-600 space-y-2 mb-6">
+            <li><strong class="text-blue-950">Tiendas de conveniencia:</strong> 7-Eleven, Circle K, QuikTrip, Wawa, Sheetz</li>
+            <li><strong class="text-blue-950">Supermercados:</strong> Walmart, Kroger, Publix, Safeway, Albertsons</li>
+            <li><strong class="text-blue-950">Gasolineras:</strong> La mayoría de las estaciones de servicio venden boletos</li>
+            <li><strong class="text-blue-950">Retailers autorizados:</strong> Busca el logo oficial de la lotería estatal</li>
           </ul>
 
-          <h3 class="text-xl font-bold text-white mb-3 mt-8">Cómo Funciona el Power Play</h3>
-          <p class="text-gray-400 leading-relaxed mb-4">
-            El <strong class="text-white">Power Play</strong> es una opción que cuesta $1 adicional y puede multiplicar tus premios menores (todos excepto el jackpot) por <strong class="text-white">2x, 3x, 4x, 5x o incluso 10x</strong>. El multiplicador se sortea aleatoriamente antes de cada sorteo del Powerball.
+          <h3 class="text-xl font-bold text-blue-950 mb-3 mt-8">Cómo Funciona el Power Play</h3>
+          <p class="text-slate-600 leading-relaxed mb-4">
+            El <strong class="text-blue-950">Power Play</strong> es una opción que cuesta $1 adicional y puede multiplicar tus premios menores (todos excepto el jackpot) por <strong class="text-blue-950">2x, 3x, 4x, 5x o incluso 10x</strong>. El multiplicador se sortea aleatoriamente antes de cada sorteo del Powerball.
           </p>
-          <p class="text-gray-400 leading-relaxed mb-4">
-            Por ejemplo: Si ganas $50,000 acertando 4 bolas blancas + Powerball, y el Power Play sale 5x, tu premio se multiplica a <strong class="text-white">$250,000</strong>. El premio de $1 millón (5 bolas blancas sin Powerball) siempre se duplica a <strong class="text-white">$2 millones</strong> con Power Play.
+          <p class="text-slate-600 leading-relaxed mb-4">
+            Por ejemplo: Si ganas $50,000 acertando 4 bolas blancas + Powerball, y el Power Play sale 5x, tu premio se multiplica a <strong class="text-blue-950">$250,000</strong>. El premio de $1 millón (5 bolas blancas sin Powerball) siempre se duplica a <strong class="text-blue-950">$2 millones</strong> con Power Play.
           </p>
 
-          <h3 class="text-xl font-bold text-white mb-3 mt-8">Probabilidades de Ganar</h3>
-          <ul class="list-disc list-inside text-gray-400 space-y-2 mb-6">
-            <li>Jackpot (5+PB): <strong class="text-white">1 en 292,201,338</strong></li>
-            <li>$1 millón (5): <strong class="text-white">1 en 11,688,053</strong></li>
-            <li>$50,000 (4+PB): <strong class="text-white">1 en 913,129</strong></li>
-            <li>$100 (4): <strong class="text-white">1 en 36,525</strong></li>
-            <li>Cualquier premio: <strong class="text-white">1 en 24.9</strong></li>
+          <h3 class="text-xl font-bold text-blue-950 mb-3 mt-8">Probabilidades de Ganar</h3>
+          <ul class="list-disc list-inside text-slate-600 space-y-2 mb-6">
+            <li>Jackpot (5+PB): <strong class="text-blue-950">1 en 292,201,338</strong></li>
+            <li>$1 millón (5): <strong class="text-blue-950">1 en 11,688,053</strong></li>
+            <li>$50,000 (4+PB): <strong class="text-blue-950">1 en 913,129</strong></li>
+            <li>$100 (4): <strong class="text-blue-950">1 en 36,525</strong></li>
+            <li>Cualquier premio: <strong class="text-blue-950">1 en 24.9</strong></li>
           </ul>
 
-          <h3 class="text-xl font-bold text-white mb-3 mt-8">Impuestos sobre Premios del Powerball</h3>
-          <ul class="list-disc list-inside text-gray-400 space-y-2 mb-6">
-            <li><strong class="text-white">Impuesto federal:</strong> 24% se retiene automáticamente, más puedes deber hasta 37% al declarar</li>
-            <li><strong class="text-white">Impuestos estatales:</strong> Varían del 0% al 8% según el estado</li>
-            <li><strong class="text-white">Estados sin impuestos estatales:</strong> California, Florida, New Hampshire, South Dakota, Tennessee, Texas, Washington, Wyoming</li>
-            <li><strong class="text-white">NO residentes/extranjeros:</strong> 30% retención federal automática para ganadores sin SSN o ITIN</li>
+          <h3 class="text-xl font-bold text-blue-950 mb-3 mt-8">Impuestos sobre Premios del Powerball</h3>
+          <ul class="list-disc list-inside text-slate-600 space-y-2 mb-6">
+            <li><strong class="text-blue-950">Impuesto federal:</strong> 24% se retiene automáticamente, más puedes deber hasta 37% al declarar</li>
+            <li><strong class="text-blue-950">Impuestos estatales:</strong> Varían del 0% al 8% según el estado</li>
+            <li><strong class="text-blue-950">Estados sin impuestos estatales:</strong> California, Florida, New Hampshire, South Dakota, Tennessee, Texas, Washington, Wyoming</li>
+            <li><strong class="text-blue-950">NO residentes/extranjeros:</strong> 30% retención federal automática para ganadores sin SSN o ITIN</li>
           </ul>
 
-          <h3 class="text-xl font-bold text-white mb-3 mt-8">Annuity vs Lump Sum</h3>
-          <ul class="list-disc list-inside text-gray-400 space-y-2 mb-6">
-            <li><strong class="text-white">Annuity (Anualidad):</strong> Recibes el monto total del jackpot en 30 pagos anuales que aumentan 5% cada año</li>
-            <li><strong class="text-white">Lump Sum (Suma Global):</strong> Recibes todo el dinero de una vez, aproximadamente 50-60% del jackpot anunciado</li>
+          <h3 class="text-xl font-bold text-blue-950 mb-3 mt-8">Annuity vs Lump Sum</h3>
+          <ul class="list-disc list-inside text-slate-600 space-y-2 mb-6">
+            <li><strong class="text-blue-950">Annuity (Anualidad):</strong> Recibes el monto total del jackpot en 30 pagos anuales que aumentan 5% cada año</li>
+            <li><strong class="text-blue-950">Lump Sum (Suma Global):</strong> Recibes todo el dinero de una vez, aproximadamente 50-60% del jackpot anunciado</li>
           </ul>
 
-          <h3 class="text-xl font-bold text-white mb-3 mt-8">¿Qué Diferencia hay entre Powerball y Mega Millions?</h3>
-          <ul class="list-disc list-inside text-gray-400 space-y-2 mb-6">
-            <li><strong class="text-white">Powerball:</strong> Elige 5 de 69 + 1 de 26. Sorteos: Lun/Mié/Sáb a las 10:59 PM ET</li>
-            <li><strong class="text-white">Mega Millions:</strong> Elige 5 de 70 + 1 de 25. Sorteos: Mar/Vie a las 11:00 PM ET</li>
-            <li><strong class="text-white">Probabilidades:</strong> Powerball 1 en 292M vs Mega Millions 1 en 302M</li>
-            <li><strong class="text-white">Precio:</strong> Ambos cuestan $2 por boleto, con opción de multiplicador por $1 extra</li>
+          <h3 class="text-xl font-bold text-blue-950 mb-3 mt-8">¿Qué Diferencia hay entre Powerball y Mega Millions?</h3>
+          <ul class="list-disc list-inside text-slate-600 space-y-2 mb-6">
+            <li><strong class="text-blue-950">Powerball:</strong> Elige 5 de 69 + 1 de 26. Sorteos: Lun/Mié/Sáb a las 10:59 PM ET</li>
+            <li><strong class="text-blue-950">Mega Millions:</strong> Elige 5 de 70 + 1 de 25. Sorteos: Mar/Vie a las 11:00 PM ET</li>
+            <li><strong class="text-blue-950">Probabilidades:</strong> Powerball 1 en 292M vs Mega Millions 1 en 302M</li>
+            <li><strong class="text-blue-950">Precio:</strong> Ambos cuestan $2 por boleto, con opción de multiplicador por $1 extra</li>
           </ul>
 
-          <h3 class="text-xl font-bold text-white mb-3 mt-8">Cómo Cobrar tu Premio</h3>
-          <ul class="list-disc list-inside text-gray-400 space-y-2 mb-6">
-            <li><strong class="text-white">Premios hasta $600:</strong> Cobra en cualquier retailer autorizado</li>
-            <li><strong class="text-white">Premios $600-$50,000:</strong> Visita una oficina regional de lotería con ID</li>
-            <li><strong class="text-white">Premios mayores:</strong> Debes ir a las oficinas centrales de la lotería estatal</li>
-            <li><strong class="text-white">Jackpot:</strong> Programa una cita con funcionarios de lotería, considera contratar abogado y asesor financiero</li>
+          <h3 class="text-xl font-bold text-blue-950 mb-3 mt-8">Cómo Cobrar tu Premio</h3>
+          <ul class="list-disc list-inside text-slate-600 space-y-2 mb-6">
+            <li><strong class="text-blue-950">Premios hasta $600:</strong> Cobra en cualquier retailer autorizado</li>
+            <li><strong class="text-blue-950">Premios $600-$50,000:</strong> Visita una oficina regional de lotería con ID</li>
+            <li><strong class="text-blue-950">Premios mayores:</strong> Debes ir a las oficinas centrales de la lotería estatal</li>
+            <li><strong class="text-blue-950">Jackpot:</strong> Programa una cita con funcionarios de lotería, considera contratar abogado y asesor financiero</li>
           </ul>
 
-          <h3 class="text-xl font-bold text-white mb-3 mt-8">Consejos para Jugar Responsablemente</h3>
-          <ul class="list-disc list-inside text-gray-400 space-y-2 mb-6">
+          <h3 class="text-xl font-bold text-blue-950 mb-3 mt-8">Consejos para Jugar Responsablemente</h3>
+          <ul class="list-disc list-inside text-slate-600 space-y-2 mb-6">
             <li>Establece un presupuesto y nunca lo excedas</li>
             <li>Juega solo con dinero que puedas permitirte perder</li>
             <li>No gastes dinero de renta, comida o facturas en la lotería</li>
             <li>Recuerda que el Powerball es entretenimiento, no una inversión</li>
           </ul>
 
-          <div class="bg-red-950/30 border border-red-900/50 rounded-xl p-6 mt-8">
-            <h3 class="text-xl font-bold text-red-400 mb-3 flex items-center gap-2">
+          <div class="bg-red-50 border border-red-200 rounded-xl p-6 mt-8">
+            <h3 class="text-xl font-bold text-red-600 mb-3 flex items-center gap-2">
               <i data-lucide="alert-circle" class="w-6 h-6"></i>
               Importante: Firma tu Boleto
             </h3>
-            <p class="text-gray-300 mb-0">
+            <p class="text-slate-700 mb-0">
               <strong>SIEMPRE</strong> firma la parte posterior de tu boleto inmediatamente después de comprarlo. Un boleto sin firmar puede ser cobrado por cualquier persona que lo encuentre. Tu firma es tu única prueba de propiedad.
             </p>
           </div>
@@ -783,31 +865,31 @@ const faqs = [
     </section>
 
     <!-- ======== ESTADÍSTICAS ======== -->
-    <section class="py-16 px-4 bg-gray-900/20 border-t border-b border-gray-800">
+    <section class="py-16 px-4 bg-slate-50 border-t border-b border-slate-200">
       <div class="max-w-5xl mx-auto">
         <div class="text-center mb-10">
-          <h2 class="font-display text-3xl font-bold text-white mb-2">
-            Estadísticas del <span class="text-red-500">Powerball</span>
+          <h2 class="font-display text-3xl font-bold text-blue-950 mb-2">
+            Estadísticas del <span class="text-red-600">Powerball</span>
           </h2>
-          <p class="text-gray-500">Números más y menos sorteados en la historia</p>
+          <p class="text-slate-500">Números más y menos sorteados en la historia</p>
         </div>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <div class="bg-gray-900 border border-gray-800 rounded-2xl p-8">
+          <div class="bg-white border border-slate-200 rounded-2xl p-8">
             <div class="flex items-center gap-3 mb-6">
               <div class="bg-red-600 rounded-lg p-2">
                 <i data-lucide="trending-up" class="w-6 h-6 text-white"></i>
               </div>
               <div>
-                <h3 class="font-display text-2xl font-bold text-white">Números Calientes</h3>
-                <p class="text-gray-500 text-sm">Los más sorteados históricamente</p>
+                <h3 class="font-display text-2xl font-bold text-blue-950">Números Calientes</h3>
+                <p class="text-slate-500 text-sm">Los más sorteados históricamente</p>
               </div>
             </div>
             <div class="space-y-4">
               <div>
-                <p class="text-gray-400 text-xs uppercase tracking-widest mb-3">Bolas Blancas (1-69)</p>
+                <p class="text-slate-600 text-xs uppercase tracking-widest mb-3">Bolas Blancas (1-69)</p>
                 <div class="flex flex-wrap gap-2">
                   {[{n:"32",label:"Más común"},{n:"41"},{n:"16"},{n:"23"},{n:"28"}].map((b,i) => (
-                    <div class={`text-white font-bold rounded-lg px-4 py-2 text-center ${i===0?'bg-gradient-to-br from-red-600 to-red-700':'bg-red-600/'+(80-i*15)}`}>
+                    <div class={`text-white font-bold rounded-lg px-4 py-2 text-center ${i===0?'bg-gradient-to-br from-red-600 to-red-700':'bg-red-500'}`}>
                       <div class="text-xl">{b.n}</div>
                       {b.label && <div class="text-xs opacity-80">{b.label}</div>}
                     </div>
@@ -815,10 +897,10 @@ const faqs = [
                 </div>
               </div>
               <div>
-                <p class="text-gray-400 text-xs uppercase tracking-widest mb-3">Powerball Rojo (1-26)</p>
+                <p class="text-slate-600 text-xs uppercase tracking-widest mb-3">Powerball Rojo (1-26)</p>
                 <div class="flex flex-wrap gap-2">
                   {[{n:"18",label:"Más común"},{n:"24"},{n:"6"},{n:"20"}].map((b,i) => (
-                    <div class={`text-white font-bold rounded-lg px-4 py-2 text-center ${i===0?'bg-gradient-to-br from-red-600 to-red-700':'bg-red-600/'+(80-i*20)}`}>
+                    <div class={`text-white font-bold rounded-lg px-4 py-2 text-center ${i===0?'bg-gradient-to-br from-red-600 to-red-700':'bg-red-500'}`}>
                       <div class="text-xl">{b.n}</div>
                       {b.label && <div class="text-xs opacity-80">{b.label}</div>}
                     </div>
@@ -827,22 +909,22 @@ const faqs = [
               </div>
             </div>
           </div>
-          <div class="bg-gray-900 border border-gray-800 rounded-2xl p-8">
+          <div class="bg-white border border-slate-200 rounded-2xl p-8">
             <div class="flex items-center gap-3 mb-6">
               <div class="bg-blue-600 rounded-lg p-2">
                 <i data-lucide="trending-down" class="w-6 h-6 text-white"></i>
               </div>
               <div>
-                <h3 class="font-display text-2xl font-bold text-white">Números Fríos</h3>
-                <p class="text-gray-500 text-sm">Los menos sorteados históricamente</p>
+                <h3 class="font-display text-2xl font-bold text-blue-950">Números Fríos</h3>
+                <p class="text-slate-500 text-sm">Los menos sorteados históricamente</p>
               </div>
             </div>
             <div class="space-y-4">
               <div>
-                <p class="text-gray-400 text-xs uppercase tracking-widest mb-3">Bolas Blancas (1-69)</p>
+                <p class="text-slate-600 text-xs uppercase tracking-widest mb-3">Bolas Blancas (1-69)</p>
                 <div class="flex flex-wrap gap-2">
                   {[{n:"60",label:"Menos común"},{n:"66"},{n:"65"},{n:"67"},{n:"68"}].map((b,i) => (
-                    <div class={`text-white font-bold rounded-lg px-4 py-2 text-center ${i===0?'bg-gradient-to-br from-blue-600 to-blue-700':'bg-blue-600/'+(80-i*15)}`}>
+                    <div class={`text-white font-bold rounded-lg px-4 py-2 text-center ${i===0?'bg-gradient-to-br from-blue-800 to-blue-900':'bg-blue-800'}`}>
                       <div class="text-xl">{b.n}</div>
                       {b.label && <div class="text-xs opacity-80">{b.label}</div>}
                     </div>
@@ -850,10 +932,10 @@ const faqs = [
                 </div>
               </div>
               <div>
-                <p class="text-gray-400 text-xs uppercase tracking-widest mb-3">Powerball Rojo (1-26)</p>
+                <p class="text-slate-600 text-xs uppercase tracking-widest mb-3">Powerball Rojo (1-26)</p>
                 <div class="flex flex-wrap gap-2">
                   {[{n:"15",label:"Menos común"},{n:"26"},{n:"13"},{n:"1"}].map((b,i) => (
-                    <div class={`text-white font-bold rounded-lg px-4 py-2 text-center ${i===0?'bg-gradient-to-br from-blue-600 to-blue-700':'bg-blue-600/'+(80-i*20)}`}>
+                    <div class={`text-white font-bold rounded-lg px-4 py-2 text-center ${i===0?'bg-gradient-to-br from-blue-800 to-blue-900':'bg-blue-800'}`}>
                       <div class="text-xl">{b.n}</div>
                       {b.label && <div class="text-xs opacity-80">{b.label}</div>}
                     </div>
@@ -864,14 +946,14 @@ const faqs = [
           </div>
         </div>
 
-        <div class="mt-8 bg-gray-900 border border-gray-800 rounded-xl p-6">
+        <div class="mt-8 bg-white border border-slate-200 rounded-xl p-6">
           <div class="flex gap-3">
-            <i data-lucide="info" class="w-6 h-6 text-blue-400 flex-shrink-0 mt-1"></i>
+            <i data-lucide="info" class="w-6 h-6 text-blue-700 flex-shrink-0 mt-1"></i>
             <div>
-              <h3 class="font-bold text-white mb-2">Importante sobre Estadísticas</h3>
-              <p class="text-gray-400 text-sm leading-relaxed">
+              <h3 class="font-bold text-blue-950 mb-2">Importante sobre Estadísticas</h3>
+              <p class="text-slate-600 text-sm leading-relaxed">
                 Aunque estos números han salido con más o menos frecuencia históricamente,
-                <strong class="text-white">cada sorteo del Powerball es completamente aleatorio e independiente</strong>.
+                <strong class="text-blue-950">cada sorteo del Powerball es completamente aleatorio e independiente</strong>.
                 Las probabilidades matemáticas son exactamente las mismas para todos los números en cada sorteo.
               </p>
             </div>
@@ -879,20 +961,20 @@ const faqs = [
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-8">
-          <div class="bg-gray-900 border border-gray-800 rounded-xl p-6 text-center">
-            <div class="text-4xl font-display font-bold text-red-500 mb-2">3</div>
-            <p class="text-gray-400 text-sm">Sorteos por semana</p>
-            <p class="text-gray-600 text-xs mt-1">Lunes, Miércoles, Sábado</p>
+          <div class="bg-white border border-slate-200 rounded-xl p-6 text-center">
+            <div class="text-4xl font-display font-bold text-red-600 mb-2">3</div>
+            <p class="text-slate-600 text-sm">Sorteos por semana</p>
+            <p class="text-slate-500 text-xs mt-1">Lunes, Miércoles, Sábado</p>
           </div>
-          <div class="bg-gray-900 border border-gray-800 rounded-xl p-6 text-center">
-            <div class="text-4xl font-display font-bold text-emerald-500 mb-2">156</div>
-            <p class="text-gray-400 text-sm">Sorteos al año</p>
-            <p class="text-gray-600 text-xs mt-1">Aproximadamente</p>
+          <div class="bg-white border border-slate-200 rounded-xl p-6 text-center">
+            <div class="text-4xl font-display font-bold text-emerald-600 mb-2">156</div>
+            <p class="text-slate-600 text-sm">Sorteos al año</p>
+            <p class="text-slate-500 text-xs mt-1">Aproximadamente</p>
           </div>
-          <div class="bg-gray-900 border border-gray-800 rounded-xl p-6 text-center">
-            <div class="text-4xl font-display font-bold text-yellow-500 mb-2">9</div>
-            <p class="text-gray-400 text-sm">Niveles de premios</p>
-            <p class="text-gray-600 text-xs mt-1">Desde $4 hasta Jackpot</p>
+          <div class="bg-white border border-slate-200 rounded-xl p-6 text-center">
+            <div class="text-4xl font-display font-bold text-amber-600 mb-2">9</div>
+            <p class="text-slate-600 text-sm">Niveles de premios</p>
+            <p class="text-slate-500 text-xs mt-1">Desde $4 hasta Jackpot</p>
           </div>
         </div>
       </div>
@@ -902,100 +984,100 @@ const faqs = [
     <section class="py-16 px-4">
       <div class="max-w-5xl mx-auto">
         <div class="text-center mb-10">
-          <h2 class="font-display text-3xl font-bold text-white mb-2">
-            Jackpots <span class="text-red-500">Históricos</span> del Powerball
+          <h2 class="font-display text-3xl font-bold text-blue-950 mb-2">
+            Jackpots <span class="text-red-600">Históricos</span> del Powerball
           </h2>
-          <p class="text-gray-500">Los premios más grandes en la historia de la lotería</p>
+          <p class="text-slate-500">Los premios más grandes en la historia de la lotería</p>
         </div>
         <div class="space-y-4">
-          <div class="bg-gradient-to-r from-yellow-900/30 to-gray-900 border border-yellow-600/40 rounded-xl p-6 hover:border-yellow-500 transition-colors">
+          <div class="bg-gradient-to-r from-amber-50 to-white border border-amber-300 rounded-xl p-6 hover:border-yellow-500 transition-colors">
             <div class="flex items-center justify-between flex-wrap gap-4">
               <div class="flex items-center gap-4">
                 <div class="bg-yellow-600 rounded-full w-12 h-12 flex items-center justify-center flex-shrink-0">
                   <span class="text-white font-display text-xl font-bold">1</span>
                 </div>
                 <div>
-                  <p class="font-display text-3xl font-bold text-yellow-400">$2.04 Mil Millones</p>
-                  <p class="text-gray-400 text-sm mt-1">7 de Noviembre, 2022 • California</p>
-                  <p class="text-gray-500 text-xs mt-1">Premio en efectivo: $997.6 millones</p>
+                  <p class="font-display text-3xl font-bold text-amber-600">$2.04 Mil Millones</p>
+                  <p class="text-slate-600 text-sm mt-1">7 de Noviembre, 2022 • California</p>
+                  <p class="text-slate-500 text-xs mt-1">Premio en efectivo: $997.6 millones</p>
                 </div>
               </div>
-              <div class="bg-yellow-500/10 border border-yellow-500/30 rounded-lg px-4 py-2">
-                <p class="text-yellow-400 font-bold text-sm">Récord Mundial</p>
+              <div class="bg-amber-50 border border-amber-300 rounded-lg px-4 py-2">
+                <p class="text-amber-600 font-bold text-sm">Récord Mundial</p>
               </div>
             </div>
           </div>
-          <div class="bg-gradient-to-r from-orange-900/20 to-gray-900 border border-gray-800 rounded-xl p-6 hover:border-orange-600 transition-colors">
+          <div class="bg-gradient-to-r from-orange-50 to-white border border-slate-200 rounded-xl p-6 hover:border-orange-600 transition-colors">
             <div class="flex items-center gap-4">
               <div class="bg-orange-600 rounded-full w-12 h-12 flex items-center justify-center flex-shrink-0">
                 <span class="text-white font-display text-xl font-bold">2</span>
               </div>
               <div>
-                <p class="font-display text-2xl font-bold text-orange-400">$1.765 Mil Millones</p>
-                <p class="text-gray-400 text-sm mt-1">11 de Octubre, 2023 • California</p>
-                <p class="text-gray-500 text-xs mt-1">Premio en efectivo: $774.1 millones</p>
+                <p class="font-display text-2xl font-bold text-orange-600">$1.765 Mil Millones</p>
+                <p class="text-slate-600 text-sm mt-1">11 de Octubre, 2023 • California</p>
+                <p class="text-slate-500 text-xs mt-1">Premio en efectivo: $774.1 millones</p>
               </div>
             </div>
           </div>
-          <div class="bg-gray-900 border border-gray-800 rounded-xl p-6 hover:border-red-600 transition-colors">
+          <div class="bg-white border border-slate-200 rounded-xl p-6 hover:border-red-600 transition-colors">
             <div class="flex items-center gap-4">
               <div class="bg-red-600 rounded-full w-12 h-12 flex items-center justify-center flex-shrink-0">
                 <span class="text-white font-display text-xl font-bold">3</span>
               </div>
               <div>
-                <p class="font-display text-2xl font-bold text-red-400">$1.586 Mil Millones</p>
-                <p class="text-gray-400 text-sm mt-1">13 de Enero, 2016 • Compartido entre 3 ganadores</p>
-                <p class="text-gray-500 text-xs mt-1">California, Florida, Tennessee</p>
+                <p class="font-display text-2xl font-bold text-red-600">$1.586 Mil Millones</p>
+                <p class="text-slate-600 text-sm mt-1">13 de Enero, 2016 • Compartido entre 3 ganadores</p>
+                <p class="text-slate-500 text-xs mt-1">California, Florida, Tennessee</p>
               </div>
             </div>
           </div>
-          <div class="bg-gray-900 border border-gray-800 rounded-xl p-6 hover:border-red-600 transition-colors">
+          <div class="bg-white border border-slate-200 rounded-xl p-6 hover:border-red-600 transition-colors">
             <div class="flex items-center gap-4">
-              <div class="bg-gray-700 rounded-full w-12 h-12 flex items-center justify-center flex-shrink-0">
+              <div class="bg-blue-900 rounded-full w-12 h-12 flex items-center justify-center flex-shrink-0">
                 <span class="text-white font-display text-xl font-bold">4</span>
               </div>
               <div>
-                <p class="font-display text-xl font-bold text-white">$1.326 Mil Millones</p>
-                <p class="text-gray-400 text-sm mt-1">6 de Abril, 2024 • Oregon</p>
+                <p class="font-display text-xl font-bold text-blue-950">$1.326 Mil Millones</p>
+                <p class="text-slate-600 text-sm mt-1">6 de Abril, 2024 • Oregon</p>
               </div>
             </div>
           </div>
-          <div class="bg-gray-900 border border-gray-800 rounded-xl p-6 hover:border-red-600 transition-colors">
+          <div class="bg-white border border-slate-200 rounded-xl p-6 hover:border-red-600 transition-colors">
             <div class="flex items-center gap-4">
-              <div class="bg-gray-700 rounded-full w-12 h-12 flex items-center justify-center flex-shrink-0">
+              <div class="bg-blue-900 rounded-full w-12 h-12 flex items-center justify-center flex-shrink-0">
                 <span class="text-white font-display text-xl font-bold">5</span>
               </div>
               <div>
-                <p class="font-display text-xl font-bold text-white">$1.08 Mil Millones</p>
-                <p class="text-gray-400 text-sm mt-1">19 de Julio, 2023 • California</p>
+                <p class="font-display text-xl font-bold text-blue-950">$1.08 Mil Millones</p>
+                <p class="text-slate-600 text-sm mt-1">19 de Julio, 2023 • California</p>
               </div>
             </div>
           </div>
         </div>
         <div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div class="bg-gray-900 border border-gray-800 rounded-xl p-6">
-            <h3 class="font-display text-xl font-bold text-white mb-4 flex items-center gap-2">
-              <i data-lucide="trophy" class="w-6 h-6 text-yellow-500"></i>
+          <div class="bg-white border border-slate-200 rounded-xl p-6">
+            <h3 class="font-display text-xl font-bold text-blue-950 mb-4 flex items-center gap-2">
+              <i data-lucide="trophy" class="w-6 h-6 text-amber-600"></i>
               Estado con Más Jackpots
             </h3>
-            <p class="text-gray-400 text-sm leading-relaxed mb-3">
-              <strong class="text-white">California</strong> lidera con el mayor número de ganadores del jackpot del Powerball, incluyendo los 2 premios más grandes de la historia.
+            <p class="text-slate-600 text-sm leading-relaxed mb-3">
+              <strong class="text-blue-950">California</strong> lidera con el mayor número de ganadores del jackpot del Powerball, incluyendo los 2 premios más grandes de la historia.
             </p>
             <div class="flex items-center gap-2">
               <div class="h-2 bg-yellow-600 rounded-full flex-1"></div>
-              <span class="text-yellow-500 font-bold">California</span>
+              <span class="text-amber-600 font-bold">California</span>
             </div>
           </div>
-          <div class="bg-gray-900 border border-gray-800 rounded-xl p-6">
-            <h3 class="font-display text-xl font-bold text-white mb-4 flex items-center gap-2">
-              <i data-lucide="calendar" class="w-6 h-6 text-emerald-500"></i>
+          <div class="bg-white border border-slate-200 rounded-xl p-6">
+            <h3 class="font-display text-xl font-bold text-blue-950 mb-4 flex items-center gap-2">
+              <i data-lucide="calendar" class="w-6 h-6 text-emerald-600"></i>
               Mayor Racha sin Ganador
             </h3>
-            <p class="text-gray-400 text-sm leading-relaxed mb-3">
-              El récord es de <strong class="text-white">41 sorteos consecutivos</strong> sin un ganador del jackpot, lo que llevó al premio de $2.04 mil millones en 2022.
+            <p class="text-slate-600 text-sm leading-relaxed mb-3">
+              El récord es de <strong class="text-blue-950">41 sorteos consecutivos</strong> sin un ganador del jackpot, lo que llevó al premio de $2.04 mil millones en 2022.
             </p>
-            <div class="bg-emerald-500/10 border border-emerald-500/30 rounded-lg px-4 py-2 inline-block">
-              <p class="text-emerald-400 font-bold">41 sorteos</p>
+            <div class="bg-emerald-50 border border-emerald-200 rounded-lg px-4 py-2 inline-block">
+              <p class="text-emerald-600 font-bold">41 sorteos</p>
             </div>
           </div>
         </div>
@@ -1006,24 +1088,24 @@ const faqs = [
     <section id="faq" class="py-16 px-4">
       <div class="max-w-3xl mx-auto">
         <div class="text-center mb-10">
-          <h2 class="font-display text-3xl font-bold text-white mb-2">Preguntas <span class="text-red-500">Frecuentes</span></h2>
-          <p class="text-gray-500">Todo lo que necesitas saber sobre el Powerball</p>
+          <h2 class="font-display text-3xl font-bold text-blue-950 mb-2">Preguntas <span class="text-red-600">Frecuentes</span></h2>
+          <p class="text-slate-500">Todo lo que necesitas saber sobre el Powerball</p>
         </div>
         <div class="space-y-3" id="faq-list">
           {faqs.map((faq, i) => (
-            <div class="bg-gray-900 border border-gray-800 rounded-xl overflow-hidden">
+            <div class="bg-white border border-slate-200 rounded-xl overflow-hidden">
               <button
-                class="w-full flex items-center justify-between px-5 py-4 text-left hover:bg-gray-800/40 transition-colors"
+                class="w-full flex items-center justify-between px-5 py-4 text-left hover:bg-slate-50 transition-colors"
                 onclick={`toggleFaq(${i})`}
               >
                 <div class="flex items-center gap-3 pr-4">
-                  <i data-lucide="help-circle" class="w-5 h-5 text-red-500 flex-shrink-0"></i>
-                  <span class="text-white font-medium text-sm">{faq.pregunta}</span>
+                  <i data-lucide="help-circle" class="w-5 h-5 text-red-600 flex-shrink-0"></i>
+                  <span class="text-blue-950 font-medium text-sm">{faq.pregunta}</span>
                 </div>
-                <i data-lucide="chevron-down" class={`w-5 h-5 text-gray-500 faq-chevron flex-shrink-0`} id={`chevron-${i}`}></i>
+                <i data-lucide="chevron-down" class={`w-5 h-5 text-slate-500 faq-chevron flex-shrink-0`} id={`chevron-${i}`}></i>
               </button>
               <div class="faq-body px-5" id={`faq-body-${i}`}>
-                <p class="text-gray-400 text-sm leading-relaxed" set:html={faq.respuesta}></p>
+                <p class="text-slate-600 text-sm leading-relaxed" set:html={faq.respuesta}></p>
               </div>
             </div>
           ))}

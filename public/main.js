@@ -58,10 +58,10 @@ function setTextoOPendiente(el, valor, fallback) {
   fallback = fallback || 'Se actualizará pronto';
   if (valor) {
     el.textContent = valor;
-    el.classList.remove('text-gray-500', 'text-base');
+    el.classList.remove('text-slate-500', 'text-base');
   } else {
     el.textContent = fallback;
-    el.classList.add('text-gray-500', 'text-base');
+    el.classList.add('text-slate-500', 'text-base');
   }
 }
 
@@ -116,9 +116,9 @@ async function cargarResultados() {
     const jackpotStatusEl = document.getElementById('jackpot-status');
     if (jackpotStatusEl) {
       if (s.jackpot_ganado) {
-        jackpotStatusEl.innerHTML = '<span class="text-green-400 font-semibold">✅ ¡Jackpot ganado' + (s.ganador_estado ? ' en ' + s.ganador_estado : '') + '!</span>';
+        jackpotStatusEl.innerHTML = '<span class="text-emerald-600 font-semibold">✅ ¡Jackpot ganado' + (s.ganador_estado ? ' en ' + s.ganador_estado : '') + '!</span>';
       } else {
-        jackpotStatusEl.innerHTML = '<span class="text-gray-400">❌ Nadie ganó el jackpot — se acumula para el próximo sorteo</span>';
+        jackpotStatusEl.innerHTML = '<span class="text-slate-600">❌ Nadie ganó el jackpot — se acumula para el próximo sorteo</span>';
       }
     }
 

@@ -82,37 +82,37 @@ const jsonLdBreadcrumb = {
   <section class="hero-bg pt-12 pb-14 px-4">
     <div class="max-w-3xl mx-auto">
       <!-- Breadcrumb -->
-      <nav class="flex items-center justify-center gap-2 text-xs text-gray-500 mb-8 flex-wrap">
-        <a href="/" class="hover:text-red-400 transition-colors">Inicio</a>
+      <nav class="flex items-center justify-center gap-2 text-xs text-slate-500 mb-8 flex-wrap">
+        <a href="/" class="hover:text-red-600 transition-colors">Inicio</a>
         <span>›</span>
-        <a href="/resultados/" class="hover:text-red-400 transition-colors">Resultados anteriores</a>
+        <a href="/resultados/" class="hover:text-red-600 transition-colors">Resultados anteriores</a>
         <span>›</span>
-        <span class="text-gray-300">{fechaLarga(sorteo.fecha)}</span>
+        <span class="text-slate-700">{fechaLarga(sorteo.fecha)}</span>
       </nav>
 
-      <h1 class="font-display text-3xl md:text-4xl font-bold text-white mb-3 tracking-tight leading-tight text-center">
-        Resultados del <span class="text-red-500">Powerball</span><br />
-        <span class="text-2xl md:text-3xl text-gray-300">{fechaTarjeta(sorteo.fecha)}</span>
+      <h1 class="font-display text-3xl md:text-4xl font-bold text-blue-950 mb-3 tracking-tight leading-tight text-center">
+        Resultados del <span class="text-red-600">Powerball</span><br />
+        <span class="text-2xl md:text-3xl text-slate-700">{fechaTarjeta(sorteo.fecha)}</span>
       </h1>
-      <p class="text-gray-500 mb-10 text-base max-w-xl mx-auto text-center">
+      <p class="text-slate-500 mb-10 text-base max-w-xl mx-auto text-center">
         Números ganadores oficiales del sorteo — válidos en los 45 estados participantes, DC, Puerto Rico e Islas Vírgenes.
       </p>
 
       <!-- TARJETA DE NÚMEROS -->
-      <div class="bg-gray-900 border border-gray-800 rounded-2xl p-8 card-glow max-w-2xl mx-auto">
+      <div class="bg-white border border-slate-200 rounded-2xl p-8 card-glow max-w-2xl mx-auto">
         <div class="flex items-center justify-center gap-2 flex-wrap mb-2">
           <div class="flex gap-2 flex-wrap justify-center">
             {sorteo.blancos.map((n) => <div class="ball-white">{n}</div>)}
           </div>
-          <div class="w-px h-12 bg-gray-700 mx-1"></div>
+          <div class="w-px h-12 bg-slate-200 mx-1"></div>
           <div class="ball-red">{sorteo.powerball}</div>
         </div>
-        <p class="text-center text-red-500 text-xs font-semibold uppercase tracking-widest mb-5">Powerball</p>
+        <p class="text-center text-red-600 text-xs font-semibold uppercase tracking-widest mb-5">Powerball</p>
         {sorteo.powerplay && (
           <div class="flex justify-center">
-            <div class="bg-red-600/15 border border-red-600/35 text-red-400 text-sm font-semibold rounded-full px-5 py-1.5 flex items-center gap-2">
+            <div class="bg-red-50 border border-red-200 text-red-600 text-sm font-semibold rounded-full px-5 py-1.5 flex items-center gap-2">
               <i data-lucide="zap" class="w-4 h-4"></i>
-              Power Play · <span class="text-white font-bold">{sorteo.powerplay}x</span>
+              Power Play · <span class="text-blue-950 font-bold">{sorteo.powerplay}x</span>
             </div>
           </div>
         )}
@@ -121,18 +121,18 @@ const jsonLdBreadcrumb = {
       <!-- NAVEGACIÓN ENTRE SORTEOS -->
       <div class="flex items-center justify-between gap-3 max-w-2xl mx-auto mt-6">
         {masAntiguo ? (
-          <a href={`/resultados/${masAntiguo.fecha}/`} class="inline-flex items-center gap-2 text-gray-400 hover:text-red-400 text-sm transition-colors">
+          <a href={`/resultados/${masAntiguo.fecha}/`} class="inline-flex items-center gap-2 text-slate-600 hover:text-red-600 text-sm transition-colors">
             <i data-lucide="chevron-left" class="w-4 h-4"></i>
             Sorteo anterior
           </a>
         ) : <span></span>}
         {masReciente ? (
-          <a href={`/resultados/${masReciente.fecha}/`} class="inline-flex items-center gap-2 text-gray-400 hover:text-red-400 text-sm transition-colors">
+          <a href={`/resultados/${masReciente.fecha}/`} class="inline-flex items-center gap-2 text-slate-600 hover:text-red-600 text-sm transition-colors">
             Sorteo siguiente
             <i data-lucide="chevron-right" class="w-4 h-4"></i>
           </a>
         ) : (
-          <a href="/" class="inline-flex items-center gap-2 text-red-400 hover:text-red-300 text-sm font-medium transition-colors">
+          <a href="/" class="inline-flex items-center gap-2 text-red-600 hover:text-red-600 text-sm font-medium transition-colors">
             Ver el último resultado
             <i data-lucide="chevron-right" class="w-4 h-4"></i>
           </a>
@@ -144,41 +144,41 @@ const jsonLdBreadcrumb = {
   <!-- DETALLE EN TEXTO -->
   <section class="py-12 px-4">
     <div class="max-w-3xl mx-auto space-y-8">
-      <div class="bg-gray-900 border border-gray-800 rounded-2xl p-6">
-        <h2 class="font-display text-xl font-bold text-white mb-3">
+      <div class="bg-white border border-slate-200 rounded-2xl p-6">
+        <h2 class="font-display text-xl font-bold text-blue-950 mb-3">
           ¿Qué números salieron en el Powerball el {fechaLarga(sorteo.fecha)}?
         </h2>
-        <p class="text-gray-400 text-sm leading-relaxed">
-          Los números ganadores del sorteo del Powerball del <strong class="text-white">{fechaConDia(sorteo.fecha)}</strong> fueron:
-          bolas blancas <strong class="text-white">{sorteo.blancos.join(', ')}</strong> y el número Powerball
-          <strong class="text-red-400"> {sorteo.powerball}</strong>.
-          {sorteo.powerplay && <Fragment> El multiplicador Power Play fue <strong class="text-white">{sorteo.powerplay}x</strong>.</Fragment>}
+        <p class="text-slate-600 text-sm leading-relaxed">
+          Los números ganadores del sorteo del Powerball del <strong class="text-blue-950">{fechaConDia(sorteo.fecha)}</strong> fueron:
+          bolas blancas <strong class="text-blue-950">{sorteo.blancos.join(', ')}</strong> y el número Powerball
+          <strong class="text-red-600"> {sorteo.powerball}</strong>.
+          {sorteo.powerplay && <Fragment> El multiplicador Power Play fue <strong class="text-blue-950">{sorteo.powerplay}x</strong>.</Fragment>}
           Estos números son válidos en todos los estados participantes: el sorteo es nacional y los números ganadores son los mismos en California, Texas, Florida, New York y el resto del país.
         </p>
       </div>
 
-      <div class="bg-gray-900 border border-gray-800 rounded-2xl p-6">
-        <h2 class="font-display text-xl font-bold text-white mb-3">¿Cómo verificar tu boleto?</h2>
-        <p class="text-gray-400 text-sm leading-relaxed mb-3">
+      <div class="bg-white border border-slate-200 rounded-2xl p-6">
+        <h2 class="font-display text-xl font-bold text-blue-950 mb-3">¿Cómo verificar tu boleto?</h2>
+        <p class="text-slate-600 text-sm leading-relaxed mb-3">
           Compara tus números con los de arriba. Hay 9 niveles de premios: desde $4 (por acertar solo el Powerball) hasta el jackpot (5 bolas blancas + Powerball). Si tienes Power Play, los premios menores se multiplican{sorteo.powerplay ? ` por ${sorteo.powerplay}x en este sorteo` : ''}.
         </p>
-        <a href="/#premios" class="inline-flex items-center gap-2 text-red-400 hover:text-red-300 text-sm font-medium transition-colors">
+        <a href="/#premios" class="inline-flex items-center gap-2 text-red-600 hover:text-red-600 text-sm font-medium transition-colors">
           Ver tabla completa de premios
           <i data-lucide="arrow-right" class="w-4 h-4"></i>
         </a>
       </div>
 
-      <div class="bg-gradient-to-r from-red-900/30 to-gray-900 border border-red-800/40 rounded-2xl p-6 text-center">
-        <p class="text-white font-semibold mb-1">
+      <div class="bg-gradient-to-r from-red-50 to-white border border-red-200 rounded-2xl p-6 text-center">
+        <p class="text-blue-950 font-semibold mb-1">
           {esUltimo ? 'Este es el resultado más reciente' : '¿Buscas el último sorteo?'}
         </p>
-        <p class="text-gray-400 text-sm mb-4">Los sorteos del Powerball son cada lunes, miércoles y sábado a las 10:59 PM ET.</p>
+        <p class="text-slate-600 text-sm mb-4">Los sorteos del Powerball son cada lunes, miércoles y sábado a las 10:59 PM ET.</p>
         <div class="flex flex-wrap justify-center gap-3">
           <a href="/" class="inline-flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white font-semibold px-5 py-2.5 rounded-xl transition-colors text-sm">
             <i data-lucide="zap" class="w-4 h-4"></i>
             Resultados de hoy
           </a>
-          <a href="/resultados/" class="inline-flex items-center gap-2 border border-gray-700 hover:border-red-600 text-gray-300 hover:text-white font-semibold px-5 py-2.5 rounded-xl transition-colors text-sm">
+          <a href="/resultados/" class="inline-flex items-center gap-2 border border-slate-300 hover:border-red-600 text-slate-700 hover:text-blue-950 font-semibold px-5 py-2.5 rounded-xl transition-colors text-sm">
             <i data-lucide="history" class="w-4 h-4"></i>
             Todos los sorteos
           </a>

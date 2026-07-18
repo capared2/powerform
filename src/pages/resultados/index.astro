@@ -70,18 +70,18 @@ const jsonLdCollectionPage = {
     <script type="application/ld+json" set:html={JSON.stringify(jsonLdCollectionPage)} />
   </Fragment>
 
-  <section class="bg-gradient-to-b from-gray-900 to-gray-950 py-12 px-4 border-b border-gray-800">
+  <section class="bg-gradient-to-b from-blue-50 to-white py-12 px-4 border-b border-slate-200">
     <div class="max-w-4xl mx-auto text-center">
-      <nav class="flex items-center justify-center gap-2 text-xs text-gray-500 mb-6">
-        <a href="/" class="hover:text-red-400 transition-colors">Inicio</a>
+      <nav class="flex items-center justify-center gap-2 text-xs text-slate-500 mb-6">
+        <a href="/" class="hover:text-red-600 transition-colors">Inicio</a>
         <span>›</span>
-        <span class="text-gray-300">Resultados anteriores</span>
+        <span class="text-slate-700">Resultados anteriores</span>
       </nav>
-      <h1 class="font-display text-4xl sm:text-5xl font-bold text-white mb-4 leading-tight">
+      <h1 class="font-display text-4xl sm:text-5xl font-bold text-blue-950 mb-4 leading-tight">
         Resultados Anteriores<br />
-        <span class="text-red-500">del Powerball</span>
+        <span class="text-red-600">del Powerball</span>
       </h1>
-      <p class="text-gray-400 text-base max-w-2xl mx-auto leading-relaxed">
+      <p class="text-slate-600 text-base max-w-2xl mx-auto leading-relaxed">
         Historial completo de números ganadores del Powerball, sorteo por sorteo. Encuentra los resultados de cualquier fecha y verifica tu boleto — los boletos del Powerball se pueden cobrar hasta 90 días o más después del sorteo, según el estado.
       </p>
     </div>
@@ -89,28 +89,28 @@ const jsonLdCollectionPage = {
 
   <section class="max-w-4xl mx-auto px-4 py-12">
     {sorteos.length === 0 ? (
-      <div class="bg-gray-900 border border-gray-800 rounded-2xl p-10 text-center">
-        <i data-lucide="clock" class="w-10 h-10 text-red-500 mx-auto mb-4"></i>
-        <p class="text-gray-200 font-semibold mb-1">El historial se está preparando</p>
-        <p class="text-gray-500 text-sm">
+      <div class="bg-white border border-slate-200 rounded-2xl p-10 text-center">
+        <i data-lucide="clock" class="w-10 h-10 text-red-600 mx-auto mb-4"></i>
+        <p class="text-slate-800 font-semibold mb-1">El historial se está preparando</p>
+        <p class="text-slate-500 text-sm">
           Los resultados de cada sorteo se publican aquí automáticamente después de los sorteos de los lunes, miércoles y sábados.
-          Mientras tanto, consulta los <a href="/" class="text-red-400 hover:underline">resultados más recientes</a>.
+          Mientras tanto, consulta los <a href="/" class="text-red-600 hover:underline">resultados más recientes</a>.
         </p>
       </div>
     ) : (
       meses.map((mes) => (
         <div class="mb-10">
-          <h2 class="font-display text-2xl font-bold text-white mb-5 flex items-center gap-2">
-            <i data-lucide="calendar" class="w-5 h-5 text-red-500"></i>
+          <h2 class="font-display text-2xl font-bold text-blue-950 mb-5 flex items-center gap-2">
+            <i data-lucide="calendar" class="w-5 h-5 text-red-600"></i>
             {mes.titulo}
           </h2>
           <div class="space-y-2">
             {mes.sorteos.map((sorteo) => (
               <a
                 href={`/resultados/${sorteo.fecha}/`}
-                class="group flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 bg-gray-900 border border-gray-800 hover:border-red-700/60 rounded-xl px-5 py-4 transition-all hover:bg-gray-800/60"
+                class="group flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 bg-white border border-slate-200 hover:border-red-400 rounded-xl px-5 py-4 transition-all hover:bg-blue-50"
               >
-                <span class="text-white text-sm font-medium group-hover:text-red-400 transition-colors capitalize">
+                <span class="text-blue-950 text-sm font-medium group-hover:text-red-600 transition-colors capitalize">
                   {fechaConDia(sorteo.fecha)}
                 </span>
                 <span class="flex items-center gap-1.5 flex-wrap">
@@ -119,7 +119,7 @@ const jsonLdCollectionPage = {
                   ))}
                   <span class="inline-flex items-center justify-center w-7 h-7 bg-red-600 text-white rounded-full text-xs font-bold">{sorteo.powerball}</span>
                   {sorteo.powerplay && (
-                    <span class="text-gray-500 text-xs ml-1.5">PP {sorteo.powerplay}x</span>
+                    <span class="text-slate-500 text-xs ml-1.5">PP {sorteo.powerplay}x</span>
                   )}
                 </span>
               </a>
@@ -129,13 +129,13 @@ const jsonLdCollectionPage = {
       ))
     )}
 
-    <div class="mt-4 bg-gray-900 border border-gray-800 rounded-2xl p-6">
-      <h2 class="font-display text-lg font-bold text-white mb-3">Sobre este historial</h2>
-      <p class="text-gray-400 text-sm leading-relaxed">
+    <div class="mt-4 bg-white border border-slate-200 rounded-2xl p-6">
+      <h2 class="font-display text-lg font-bold text-blue-950 mb-3">Sobre este historial</h2>
+      <p class="text-slate-600 text-sm leading-relaxed">
         Los números ganadores del Powerball son los mismos en todos los estados participantes. Cada página del historial incluye
         las 5 bolas blancas, el número Powerball y el multiplicador Power Play del sorteo. Los sorteos se realizan los
-        <strong class="text-white"> lunes, miércoles y sábados a las 10:59 PM ET</strong> y este historial se actualiza automáticamente.
-        Para reclamar un premio, verifica los plazos de tu estado en nuestra <a href="/estados/" class="text-red-400 hover:underline">guía por estado</a>.
+        <strong class="text-blue-950"> lunes, miércoles y sábados a las 10:59 PM ET</strong> y este historial se actualiza automáticamente.
+        Para reclamar un premio, verifica los plazos de tu estado en nuestra <a href="/estados/" class="text-red-600 hover:underline">guía por estado</a>.
       </p>
     </div>
   </section>
