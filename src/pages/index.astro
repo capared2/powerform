@@ -10,11 +10,13 @@ import { fechaLarga, fechaConDia, fechaTarjeta } from '../utils/fechas.js';
 const ultimo = resultadosData.sorteos?.[0] ?? null;
 
 // Datos multi-juego del backend (capa2): Mega Millions, Lotto America, Cash4Life
-// y Double Play del Powerball. Solo se muestran juegos con sorteo vigente.
+// y Double Play del Powerball. Todos los juegos se muestran siempre: con
+// placeholder si aún no hay datos, y con nota si el último dato está atrasado.
 const juegosBackend = sorteosData.juegos ?? {};
-const otrosSorteos = OTROS_JUEGOS
-  .map((id) => ({ id, meta: JUEGOS[id], data: juegosBackend[id] }))
-  .filter(({ data }) => data && esVigente(data.sorteo.fecha));
+const otrosSorteos = OTROS_JUEGOS.map((id) => {
+  const data = juegosBackend[id] ?? null;
+  return { id, meta: JUEGOS[id], data, vigente: data ? esVigente(data.sorteo.fecha) : false };
+});
 
 // Double Play: solo si el backend lo trae para el mismo sorteo que muestra la tarjeta.
 const dobleJugada =
@@ -23,11 +25,11 @@ const dobleJugada =
     : null;
 
 const title = ultimo
-  ? `Resultados Powerball hoy: números del ${fechaLarga(ultimo.fecha)}`
-  : 'Resultados Powerball HOY en Español | Números Ganadores USA';
+  ? `Resultados Powerball hoy: números del ${fechaLarga(ultimo.fecha)} y más loterías`
+  : 'Resultados Powerball, Mega Millions y Loterías USA HOY en Español';
 const description = ultimo
-  ? `Números ganadores del Powerball del ${fechaConDia(ultimo.fecha)}: ${ultimo.blancos.join(', ')} y Powerball ${ultimo.powerball}.${ultimo.powerplay ? ` Power Play ${ultimo.powerplay}x.` : ''} Resultados en español actualizados cada sorteo.`
-  : 'Resultados oficiales del Powerball HOY en español: números ganadores, jackpot en vivo y Power Play. Sorteos lunes, miércoles y sábado. Verifica tu boleto gratis.';
+  ? `Números ganadores del Powerball del ${fechaConDia(ultimo.fecha)}: ${ultimo.blancos.join(', ')} y Powerball ${ultimo.powerball}.${ultimo.powerplay ? ` Power Play ${ultimo.powerplay}x.` : ''} También Mega Millions, Lotto America y Cash4Life en español.`
+  : 'Resultados oficiales de las loterías de USA en español: Powerball, Mega Millions, Lotto America y Cash4Life. Números ganadores actualizados después de cada sorteo.';
 const fechaModificacion = ultimo ? ultimo.fecha : '2026-02-03';
 
 const faqs = [
@@ -75,7 +77,7 @@ const faqs = [
 >
   <!-- Page-specific head: keywords, OG, Twitter, JSON-LD, geo -->
   <Fragment slot="head">
-    <meta name="keywords" content="resultados powerball hoy, números ganadores powerball, powerball en español, loteria powerball resultados, powerball estados unidos, powerball california, powerball texas, powerball florida, powerball nueva york, powerball puerto rico, como jugar powerball, jackpot powerball hoy, powerball esta semana, verificar powerball, powerball premio estimado, powerball ganadores hoy, powerball último sorteo, números calientes powerball, números fríos powerball, estadísticas powerball, power play que es, cuanto cuesta powerball, donde comprar powerball, como cobrar powerball, probabilidades powerball, premio en efectivo powerball, powerball millones, mega millions vs powerball, powerball online, consultar powerball, sorteo powerball en vivo, powerball latinos, powerball hispanos, powerball mexicanos en usa, powerball dominicanos, powerball salvadoreños, powerball guatemaltecos, powerball hondureños en usa, powerball colombia, powerball venezuela, powerball argentina, powerball chile, powerball peru, powerball ecuador, powerball latinoamerica, powerball español usa, loteria americana en español, cuando juega powerball hoy, a que hora es el sorteo powerball, numeros ganadores powerball ayer, powerball cuanto esta hoy, resultado loteria powerball, powerball en vivo" />
+    <meta name="keywords" content="resultados powerball hoy, números ganadores powerball, powerball en español, loteria powerball resultados, powerball estados unidos, powerball california, powerball texas, powerball florida, powerball nueva york, powerball puerto rico, como jugar powerball, jackpot powerball hoy, powerball esta semana, verificar powerball, powerball premio estimado, powerball ganadores hoy, powerball último sorteo, números calientes powerball, números fríos powerball, estadísticas powerball, power play que es, cuanto cuesta powerball, donde comprar powerball, como cobrar powerball, probabilidades powerball, premio en efectivo powerball, powerball millones, mega millions vs powerball, powerball online, consultar powerball, sorteo powerball en vivo, powerball latinos, powerball hispanos, powerball mexicanos en usa, powerball dominicanos, powerball salvadoreños, powerball guatemaltecos, powerball hondureños en usa, powerball colombia, powerball venezuela, powerball argentina, powerball chile, powerball peru, powerball ecuador, powerball latinoamerica, powerball español usa, loteria americana en español, cuando juega powerball hoy, a que hora es el sorteo powerball, numeros ganadores powerball ayer, powerball cuanto esta hoy, resultado loteria powerball, powerball en vivo, resultados mega millions hoy, mega millions en español, numeros ganadores mega millions, resultados lotto america, lotto america en español, resultados cash4life, cash4life en español, loterias de estados unidos en español, resultados loterias usa" />
     <meta name="theme-color" content="#DC2626" />
     <link rel="manifest" href="/manifest.json" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -112,9 +114,9 @@ const faqs = [
       '@context': 'https://schema.org',
       '@type': 'WebSite',
       name: 'ResultPowerball',
-      alternateName: ['Resultados Powerball', 'Powerball en Español', 'Números Ganadores Powerball'],
+      alternateName: ['Resultados Powerball', 'Powerball en Español', 'Números Ganadores Powerball', 'Resultados Loterías USA'],
       url: 'https://resultpowerball.com/',
-      description: 'Resultados del Powerball en español. Números ganadores actualizados después de cada sorteo, válidos en todos los estados de USA.',
+      description: 'Resultados de las loterías de USA en español: Powerball, Mega Millions, Lotto America y Cash4Life. Números ganadores actualizados después de cada sorteo.',
       inLanguage: 'es',
       publisher: {
         '@type': 'Organization',
@@ -170,10 +172,10 @@ const faqs = [
         </div>
 
         <h1 class="font-display text-4xl md:text-5xl font-bold text-blue-950 mb-2 tracking-tight leading-tight">
-          Resultados del <span class="text-red-600">Powerball</span> de Hoy
+          Resultados del <span class="text-red-600">Powerball</span> y Loterías USA
         </h1>
         <p class="text-slate-500 mb-10 text-base max-w-xl mx-auto">
-          Números ganadores actualizados cada sorteo · Lunes, Miércoles y Sábado
+          Powerball · Mega Millions · Lotto America · Cash4Life — números ganadores actualizados después de cada sorteo
         </p>
 
         <div class="max-w-2xl mx-auto">
@@ -278,94 +280,125 @@ const faqs = [
         </div>
 
         <p class="text-slate-500 text-sm max-w-2xl mx-auto mt-10 leading-relaxed">
-          En esta página encontrarás los <strong class="text-slate-500">resultados del último sorteo del Powerball</strong> actualizados en tiempo real.
-          Incluye los números ganadores, el número Powerball, el multiplicador Power Play y los montos del jackpot. Visítanos cada
-          <strong class="text-slate-500">lunes, miércoles y sábado</strong> después de las 10:59 PM ET para ver los nuevos resultados.
+          En esta página encontrarás los <strong class="text-slate-500">resultados de las principales loterías de Estados Unidos</strong> actualizados después de cada sorteo:
+          Powerball (con Power Play y montos del jackpot), <a href="/mega-millions/" class="text-red-600 hover:underline">Mega Millions</a>,
+          <a href="/lotto-america/" class="text-red-600 hover:underline">Lotto America</a> y <a href="/cash4life/" class="text-red-600 hover:underline">Cash4Life</a>.
+          Cada sorteo tiene su propia página con números ganadores, cómo jugar y preguntas frecuentes — todo en español.
         </p>
       </div>
     </section>
 
-    <!-- ======== OTROS SORTEOS (datos del backend multi-juego) ======== -->
-    {otrosSorteos.length > 0 && (
-      <section id="otros-sorteos" class="py-14 px-4">
-        <div class="max-w-5xl mx-auto">
-          <div class="text-center mb-10">
-            <h2 class="font-display text-3xl font-bold text-blue-950 mb-2">
-              Otros <span class="text-red-600">Sorteos</span> de Loterías en USA
-            </h2>
-            <p class="text-slate-500">{otrosSorteos.map(({ meta }) => meta.nombre).join(' · ')} — números ganadores del último sorteo</p>
-          </div>
-          <div class="flex flex-wrap justify-center gap-5">
-            {otrosSorteos.map(({ id, meta, data }) => {
-              const especial = data.sorteo[meta.bolaEspecialKey];
-              const mult = meta.multiplicadorKey ? data.sorteo[meta.multiplicadorKey] : null;
-              const premio = formatearDineroCorto(data.proximo_sorteo?.premio_estimado)
-                ?? data.proximo_sorteo?.premio_descripcion ?? null;
-              return (
-                <article class="bg-white border border-slate-200 rounded-2xl p-6 flex flex-col w-full sm:w-80 shadow-sm">
-                  <div class="flex items-center justify-between mb-1">
-                    <h3 class={`font-display text-xl font-bold ${meta.acentoClases}`}>{meta.nombre}</h3>
-                    <i data-lucide="sparkles" class={`w-5 h-5 ${meta.acentoClases}`}></i>
-                  </div>
-                  <p class="text-slate-500 text-xs mb-4">Sorteo del {fechaConDia(data.sorteo.fecha)}</p>
-                  <div class="flex items-center gap-1.5 flex-wrap mb-3">
-                    {data.sorteo.blancos.map((n) => (
-                      <span class="inline-flex items-center justify-center w-9 h-9 bg-gray-200 text-gray-900 rounded-full text-sm font-bold">{n}</span>
-                    ))}
-                    {Number.isInteger(especial) && (
-                      <span class={`inline-flex items-center justify-center w-9 h-9 rounded-full text-sm font-bold ml-1 ${meta.bolaClases}`}>{especial}</span>
-                    )}
-                  </div>
-                  <p class={`text-xs font-semibold uppercase tracking-widest mb-4 ${meta.acentoClases}`}>
-                    {meta.bolaEspecialNombre}
-                    {mult ? ` · ${meta.multiplicadorNombre} ${mult}x` : ''}
-                  </p>
-                  {premio && (
-                    <div class="bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 mb-4">
-                      <p class="text-slate-500 text-xs uppercase tracking-widest mb-0.5">Próximo premio</p>
-                      <p class="font-display text-lg font-bold text-amber-600">{premio}</p>
+    <!-- ======== TODOS LOS SORTEOS (datos del backend multi-juego) ======== -->
+    <section id="sorteos" class="py-14 px-4">
+      <div class="max-w-5xl mx-auto">
+        <div class="text-center mb-10">
+          <h2 class="font-display text-3xl font-bold text-blue-950 mb-2">
+            Todos los <span class="text-red-600">Sorteos</span> de Loterías en USA
+          </h2>
+          <p class="text-slate-500">Mega Millions · Lotto America · Cash4Life — cada sorteo con su propia página de resultados</p>
+        </div>
+        <div class="flex flex-wrap justify-center gap-5">
+          {otrosSorteos.map(({ id, meta, data, vigente }) => {
+            const especial = data ? data.sorteo[meta.bolaEspecialKey] : null;
+            const mult = data && meta.multiplicadorKey ? data.sorteo[meta.multiplicadorKey] : null;
+            const premio = data
+              ? formatearDineroCorto(data.proximo_sorteo?.premio_estimado) ?? data.proximo_sorteo?.premio_descripcion ?? null
+              : null;
+            return (
+              <article class="bg-white border border-slate-200 rounded-2xl p-6 flex flex-col w-full sm:w-80 shadow-sm">
+                <div class="flex items-center justify-between mb-1">
+                  <h3 class={`font-display text-xl font-bold ${meta.acentoClases}`}>
+                    <a href={`/${meta.slug}/`} class="hover:underline">{meta.nombre}</a>
+                  </h3>
+                  <i data-lucide="sparkles" class={`w-5 h-5 ${meta.acentoClases}`}></i>
+                </div>
+                {data ? (
+                  <>
+                    <p class="text-slate-500 text-xs mb-4">Sorteo del {fechaConDia(data.sorteo.fecha)}</p>
+                    <div class="flex items-center gap-1.5 flex-wrap mb-3">
+                      {data.sorteo.blancos.map((n) => (
+                        <span class="inline-flex items-center justify-center w-9 h-9 bg-gray-200 text-gray-900 rounded-full text-sm font-bold">{n}</span>
+                      ))}
+                      {Number.isInteger(especial) && (
+                        <span class={`inline-flex items-center justify-center w-9 h-9 rounded-full text-sm font-bold ml-1 ${meta.bolaClases}`}>{especial}</span>
+                      )}
                     </div>
-                  )}
-                  <p class="text-slate-500 text-xs mt-auto flex items-center gap-1.5">
+                    <p class={`text-xs font-semibold uppercase tracking-widest mb-4 ${meta.acentoClases}`}>
+                      {meta.bolaEspecialNombre}
+                      {mult ? ` · ${meta.multiplicadorNombre} ${mult}x` : ''}
+                    </p>
+                    {!vigente && (
+                      <p class="text-amber-700 text-xs bg-amber-50 border border-amber-300 rounded-lg px-3 py-2 mb-4">
+                        Último resultado disponible — se actualizará automáticamente.
+                      </p>
+                    )}
+                    {premio && (
+                      <div class="bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 mb-4">
+                        <p class="text-slate-500 text-xs uppercase tracking-widest mb-0.5">Próximo premio</p>
+                        <p class="font-display text-lg font-bold text-amber-600">{premio}</p>
+                      </div>
+                    )}
+                  </>
+                ) : (
+                  <>
+                    <p class="text-slate-500 text-xs mb-4">{meta.tagline}</p>
+                    <div class="bg-slate-50 border border-slate-200 rounded-xl px-4 py-4 mb-4 text-center">
+                      <i data-lucide="clock" class={`w-6 h-6 mx-auto mb-2 ${meta.acentoClases}`}></i>
+                      <p class="text-slate-600 text-xs leading-relaxed">
+                        Los resultados se publicarán aquí automáticamente después del próximo sorteo.
+                      </p>
+                    </div>
+                    <p class="text-slate-500 text-xs mb-4">{meta.formato}</p>
+                  </>
+                )}
+                <div class="mt-auto pt-2 border-t border-slate-200 flex items-center justify-between gap-2">
+                  <p class="text-slate-500 text-xs flex items-center gap-1.5">
                     <i data-lucide="clock" class="w-3.5 h-3.5"></i>
                     {meta.dias} · {meta.hora}
                   </p>
-                </article>
-              );
-            })}
-          </div>
-          <p class="text-slate-500 text-xs text-center mt-6 max-w-2xl mx-auto">
-            Resultados oficiales del último sorteo de cada juego, actualizados automáticamente. Verifica siempre tu boleto en el sitio oficial de la lotería de tu estado.
-          </p>
+                  <a href={`/${meta.slug}/`} class="inline-flex items-center gap-1 text-red-600 hover:text-red-500 text-xs font-semibold whitespace-nowrap transition-colors">
+                    Ver más
+                    <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+                  </a>
+                </div>
+              </article>
+            );
+          })}
         </div>
-      </section>
-    )}
+        <p class="text-slate-500 text-xs text-center mt-6 max-w-2xl mx-auto">
+          Resultados oficiales del último sorteo de cada juego, actualizados automáticamente. Cada sorteo tiene su página con números ganadores, cómo jugar y preguntas frecuentes. Verifica siempre tu boleto en el sitio oficial de la lotería de tu estado.
+        </p>
+      </div>
+    </section>
 
     <!-- ======== HORARIOS SIMPLES ======== -->
     <section class="py-10 px-4 bg-slate-50 border-t border-b border-slate-200">
-      <div class="max-w-3xl mx-auto">
+      <div class="max-w-5xl mx-auto">
         <h2 class="font-display text-xl font-bold text-blue-950 text-center mb-6">
           <span class="text-red-600">Horarios</span> de los Sorteos
         </h2>
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-          <div class="bg-white border border-slate-200 rounded-xl p-5 text-center">
-            <i data-lucide="sunrise" class="w-7 h-7 text-amber-500 mx-auto mb-2"></i>
-            <p class="font-display text-lg font-bold text-blue-950">Lunes</p>
-            <p class="text-slate-500 text-sm">10:59 PM ET</p>
-            <p class="text-slate-500 text-xs mt-1">9:59 PM CST</p>
-          </div>
-          <div class="bg-white border border-red-300 rounded-xl p-5 text-center">
-            <i data-lucide="sun" class="w-7 h-7 text-orange-600 mx-auto mb-2"></i>
-            <p class="font-display text-lg font-bold text-blue-950">Miércoles</p>
-            <p class="text-slate-500 text-sm">10:59 PM ET</p>
-            <p class="text-slate-500 text-xs mt-1">9:59 PM CST</p>
-          </div>
-          <div class="bg-white border border-slate-200 rounded-xl p-5 text-center">
-            <i data-lucide="moon" class="w-7 h-7 text-sky-600 mx-auto mb-2"></i>
-            <p class="font-display text-lg font-bold text-blue-950">Sábado</p>
-            <p class="text-slate-500 text-sm">10:59 PM ET</p>
-            <p class="text-slate-500 text-xs mt-1">9:59 PM CST</p>
-          </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          {['powerball', ...OTROS_JUEGOS].map((id) => {
+            const meta = JUEGOS[id];
+            return (
+              <div class={`bg-white rounded-xl p-5 text-center border ${id === 'powerball' ? 'border-red-300' : 'border-slate-200'}`}>
+                <p class={`font-display text-lg font-bold ${meta.acentoClases}`}>{meta.nombre}</p>
+                <p class="text-blue-950 text-sm font-semibold mt-1">{meta.dias}</p>
+                <p class="text-slate-500 text-sm">{meta.hora}</p>
+                {meta.slug ? (
+                  <a href={`/${meta.slug}/`} class="inline-flex items-center gap-1 text-red-600 hover:text-red-500 text-xs font-semibold mt-2 transition-colors">
+                    Ver resultados
+                    <i data-lucide="arrow-right" class="w-3 h-3"></i>
+                  </a>
+                ) : (
+                  <a href="#resultados" class="inline-flex items-center gap-1 text-red-600 hover:text-red-500 text-xs font-semibold mt-2 transition-colors">
+                    Ver resultados
+                    <i data-lucide="arrow-up" class="w-3 h-3"></i>
+                  </a>
+                )}
+              </div>
+            );
+          })}
         </div>
       </div>
     </section>

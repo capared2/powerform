@@ -1,0 +1,278 @@
+---
+import Layout from '../layouts/Layout.astro';
+import sorteosData from '../data/sorteos.json';
+import { JUEGOS, JUEGOS_CON_PAGINA, esVigente, formatearDineroCorto } from '../data/juegos.js';
+import { fechaLarga, fechaConDia, fechaTarjeta } from '../utils/fechas.js';
+
+export async function getStaticPaths() {
+  return JUEGOS_CON_PAGINA.map((id) => ({
+    params: { juego: JUEGOS[id].slug },
+    props: { id },
+  }));
+}
+
+const { id } = Astro.props;
+const meta = JUEGOS[id];
+const data = sorteosData.juegos?.[id] ?? null;
+const sorteo = data?.sorteo ?? null;
+const especial = sorteo ? sorteo[meta.bolaEspecialKey] : null;
+const mult = sorteo && meta.multiplicadorKey ? sorteo[meta.multiplicadorKey] : null;
+const vigente = sorteo ? esVigente(sorteo.fecha) : false;
+const premio = formatearDineroCorto(data?.proximo_sorteo?.premio_estimado)
+  ?? data?.proximo_sorteo?.premio_descripcion ?? null;
+const premioEfectivo = formatearDineroCorto(data?.proximo_sorteo?.premio_efectivo);
+
+const siteUrl = 'https://resultpowerball.com';
+const canonicalUrl = `${siteUrl}/${meta.slug}/`;
+const ogImageAbsolute = `${siteUrl}/powerball-estados.jpg`;
+
+const title = sorteo
+  ? `Resultados ${meta.nombre} hoy: números del ${fechaLarga(sorteo.fecha)}`
+  : `Resultados ${meta.nombre} HOY en Español | Números Ganadores USA`;
+const description = sorteo
+  ? `Números ganadores del ${meta.nombre} del ${fechaConDia(sorteo.fecha)}: ${sorteo.blancos.join(', ')} y ${meta.bolaEspecialNombre} ${especial}. Resultados en español, cómo jugar y premios.`
+  : `Resultados del ${meta.nombre} en español: números ganadores, cómo jugar, premios y horarios. ${meta.tagline}. Sorteos: ${meta.dias.toLowerCase()} a las ${meta.hora}.`;
+
+const jsonLdBreadcrumb = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Inicio', item: `${siteUrl}/` },
+    { '@type': 'ListItem', position: 2, name: meta.nombre, item: canonicalUrl },
+  ],
+};
+
+const jsonLdArticle = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: title,
+  description,
+  image: ogImageAbsolute,
+  author: { '@type': 'Organization', name: 'ResultPowerball' },
+  publisher: {
+    '@type': 'Organization',
+    name: 'ResultPowerball',
+    logo: { '@type': 'ImageObject', url: `${siteUrl}/logo.svg` },
+  },
+  url: canonicalUrl,
+  mainEntityOfPage: canonicalUrl,
+  ...(sorteo ? { datePublished: sorteo.fecha, dateModified: sorteo.fecha } : {}),
+};
+
+const jsonLdFaq = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: meta.faqs.map((faq) => ({
+    '@type': 'Question',
+    name: faq.pregunta,
+    acceptedAnswer: { '@type': 'Answer', text: faq.respuesta },
+  })),
+};
+
+const otrasPaginas = JUEGOS_CON_PAGINA.filter((j) => j !== id);
+---
+
+<Layout
+  title={title}
+  description={description}
+  canonical={canonicalUrl}
+  robots="index, follow"
+  fullNav={false}
+>
+  <Fragment slot="head">
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:image" content={ogImageAbsolute} />
+    <meta property="og:site_name" content="ResultPowerball" />
+    <meta property="og:locale" content="es_US" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImageAbsolute} />
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLdBreadcrumb)} />
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLdArticle)} />
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLdFaq)} />
+  </Fragment>
+
+  <!-- HERO + RESULTADO -->
+  <section class="hero-bg pt-12 pb-14 px-4">
+    <div class="max-w-3xl mx-auto">
+      <nav class="flex items-center justify-center gap-2 text-xs text-slate-500 mb-8 flex-wrap">
+        <a href="/" class="hover:text-red-600 transition-colors">Inicio</a>
+        <span>›</span>
+        <span class="text-slate-700">{meta.nombre}</span>
+      </nav>
+
+      <h1 class="font-display text-3xl md:text-4xl font-bold text-blue-950 mb-3 tracking-tight leading-tight text-center">
+        Resultados de <span class={meta.acentoClases}>{meta.nombre}</span> de Hoy
+      </h1>
+      <p class="text-slate-500 mb-10 text-base max-w-xl mx-auto text-center">
+        {meta.tagline} · Sorteos: {meta.dias.toLowerCase()} a las {meta.hora}
+      </p>
+
+      {sorteo ? (
+        <div class="bg-white border border-slate-200 rounded-2xl p-8 card-glow max-w-2xl mx-auto">
+          <div class="flex items-center justify-center gap-2 text-slate-500 mb-6">
+            <i data-lucide="calendar" class="w-4 h-4"></i>
+            <span class="text-sm font-medium">{fechaTarjeta(sorteo.fecha)}</span>
+          </div>
+          <div class="flex items-center justify-center gap-2 flex-wrap mb-2">
+            <div class="flex gap-2 flex-wrap justify-center">
+              {sorteo.blancos.map((n) => <div class="ball-white">{n}</div>)}
+            </div>
+            {Number.isInteger(especial) && (
+              <>
+                <div class="w-px h-12 bg-slate-200 mx-1"></div>
+                <div class={`ball-especial ${meta.bolaClases}`}>{especial}</div>
+              </>
+            )}
+          </div>
+          <p class={`text-center text-xs font-semibold uppercase tracking-widest mb-5 ${meta.acentoClases}`}>{meta.bolaEspecialNombre}</p>
+          {mult && (
+            <div class="flex justify-center mb-5">
+              <div class="bg-red-50 border border-red-200 text-red-600 text-sm font-semibold rounded-full px-5 py-1.5 flex items-center gap-2">
+                <i data-lucide="zap" class="w-4 h-4"></i>
+                {meta.multiplicadorNombre} · <span class="text-blue-950 font-bold">{mult}x</span>
+              </div>
+            </div>
+          )}
+          {premio && (
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-3">
+              <div class="bg-slate-50 border border-slate-200 rounded-xl p-4 text-center">
+                <p class="text-slate-500 text-xs uppercase tracking-widest mb-1.5">Próximo premio *</p>
+                <p class="font-display text-xl font-bold text-amber-600">{premio}</p>
+              </div>
+              <div class="bg-slate-50 border border-slate-200 rounded-xl p-4 text-center">
+                <p class="text-slate-500 text-xs uppercase tracking-widest mb-1.5">En efectivo *</p>
+                <p class="font-display text-xl font-bold text-emerald-600">{premioEfectivo ?? '—'}</p>
+              </div>
+            </div>
+          )}
+          {premio && (
+            <p class="text-center text-slate-500 text-xs leading-relaxed">
+              * Montos estimados del próximo sorteo; pueden estar desactualizados. Verifica el monto oficial en el sitio de la lotería.
+            </p>
+          )}
+          {!vigente && (
+            <div class="mt-5 bg-amber-50 border border-amber-300 rounded-xl px-4 py-3 text-center">
+              <p class="text-amber-700 text-xs leading-relaxed">
+                Este es el último resultado disponible en nuestra fuente de datos. Los resultados nuevos se publican aquí automáticamente.
+              </p>
+            </div>
+          )}
+        </div>
+      ) : (
+        <div class="bg-white border border-slate-200 rounded-2xl p-10 text-center card-glow max-w-2xl mx-auto">
+          <i data-lucide="clock" class={`w-10 h-10 mx-auto mb-4 ${meta.acentoClases}`}></i>
+          <p class="text-blue-950 font-semibold mb-1">Los resultados se publicarán aquí automáticamente</p>
+          <p class="text-slate-500 text-sm">
+            Estamos conectando los resultados de {meta.nombre}. Los sorteos son {meta.dias.toLowerCase()} a las {meta.hora}.
+          </p>
+        </div>
+      )}
+
+      <div class="flex flex-wrap justify-center gap-3 mt-8">
+        <a href="/" class="inline-flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white font-semibold px-5 py-2.5 rounded-xl transition-colors text-sm">
+          <i data-lucide="zap" class="w-4 h-4"></i>
+          Resultados del Powerball
+        </a>
+        {otrasPaginas.map((j) => (
+          <a href={`/${JUEGOS[j].slug}/`} class="inline-flex items-center gap-2 border border-slate-300 hover:border-red-600 text-slate-700 hover:text-blue-950 font-semibold px-5 py-2.5 rounded-xl transition-colors text-sm">
+            {JUEGOS[j].nombre}
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- DATOS DEL JUEGO -->
+  <section class="py-12 px-4 bg-slate-50 border-t border-b border-slate-200">
+    <div class="max-w-4xl mx-auto">
+      <h2 class="font-display text-2xl font-bold text-blue-950 text-center mb-8">
+        ¿Cómo Funciona el <span class={meta.acentoClases}>{meta.nombre}</span>?
+      </h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div class="bg-white border border-slate-200 rounded-xl p-5 text-center">
+          <i data-lucide="hash" class={`w-6 h-6 mx-auto mb-2 ${meta.acentoClases}`}></i>
+          <p class="text-blue-950 font-semibold text-sm mb-1">Formato</p>
+          <p class="text-slate-600 text-xs leading-relaxed">{meta.formato}</p>
+        </div>
+        <div class="bg-white border border-slate-200 rounded-xl p-5 text-center">
+          <i data-lucide="dollar-sign" class={`w-6 h-6 mx-auto mb-2 ${meta.acentoClases}`}></i>
+          <p class="text-blue-950 font-semibold text-sm mb-1">Precio</p>
+          <p class="text-slate-600 text-xs leading-relaxed">{meta.precio}</p>
+        </div>
+        <div class="bg-white border border-slate-200 rounded-xl p-5 text-center">
+          <i data-lucide="trophy" class={`w-6 h-6 mx-auto mb-2 ${meta.acentoClases}`}></i>
+          <p class="text-blue-950 font-semibold text-sm mb-1">Premio</p>
+          <p class="text-slate-600 text-xs leading-relaxed">{meta.premioMinimo}</p>
+        </div>
+        <div class="bg-white border border-slate-200 rounded-xl p-5 text-center">
+          <i data-lucide="map-pin" class={`w-6 h-6 mx-auto mb-2 ${meta.acentoClases}`}></i>
+          <p class="text-blue-950 font-semibold text-sm mb-1">Dónde se juega</p>
+          <p class="text-slate-600 text-xs leading-relaxed">{meta.donde}</p>
+        </div>
+      </div>
+      <p class="text-slate-600 text-sm leading-relaxed max-w-2xl mx-auto text-center mt-8">{meta.descripcion}</p>
+    </div>
+  </section>
+
+  <!-- CÓMO JUGAR -->
+  <section class="py-12 px-4">
+    <div class="max-w-3xl mx-auto">
+      <h2 class="font-display text-2xl font-bold text-blue-950 mb-6 flex items-center gap-2">
+        <i data-lucide="ticket" class={`w-6 h-6 ${meta.acentoClases}`}></i>
+        Cómo Jugar {meta.nombre} Paso a Paso
+      </h2>
+      <ol class="space-y-4">
+        {meta.comoJugar.map((paso, i) => (
+          <li class="flex gap-4 bg-white border border-slate-200 rounded-xl p-4">
+            <div class="w-8 h-8 bg-red-600 rounded-full flex items-center justify-center flex-shrink-0 text-white font-bold text-sm">
+              {i + 1}
+            </div>
+            <p class="text-slate-600 text-sm leading-relaxed">{paso}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="py-12 px-4 bg-slate-50 border-t border-b border-slate-200">
+    <div class="max-w-3xl mx-auto">
+      <h2 class="font-display text-2xl font-bold text-blue-950 mb-6 flex items-center gap-2">
+        <i data-lucide="help-circle" class={`w-6 h-6 ${meta.acentoClases}`}></i>
+        Preguntas Frecuentes — {meta.nombre}
+      </h2>
+      <div class="space-y-3">
+        {meta.faqs.map((faq, i) => (
+          <details class="bg-white border border-slate-200 rounded-xl group" open={i === 0}>
+            <summary class="flex items-center justify-between px-5 py-4 cursor-pointer text-blue-950 font-medium text-sm select-none hover:text-red-600 transition-colors">
+              {faq.pregunta}
+              <i data-lucide="chevron-down" class="w-4 h-4 text-red-600 flex-shrink-0 ml-3 group-open:rotate-180 transition-transform"></i>
+            </summary>
+            <div class="px-5 pb-4 text-slate-600 text-sm leading-relaxed border-t border-slate-200 pt-3">
+              {faq.respuesta}
+            </div>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="py-12 px-4">
+    <div class="max-w-3xl mx-auto">
+      <div class="bg-gradient-to-r from-red-50 to-white border border-red-200 rounded-2xl p-6 text-center">
+        <p class="text-blue-950 font-semibold mb-1">Todos los sorteos de loterías USA en un solo lugar</p>
+        <p class="text-slate-600 text-sm mb-4">Powerball, Mega Millions, Lotto America y Cash4Life — resultados en español después de cada sorteo.</p>
+        <a href="/#sorteos" class="inline-flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white font-semibold px-5 py-2.5 rounded-xl transition-colors text-sm">
+          <i data-lucide="layout-grid" class="w-4 h-4"></i>
+          Ver todos los sorteos
+        </a>
+      </div>
+    </div>
+  </section>
+</Layout>

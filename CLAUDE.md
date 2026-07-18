@@ -25,7 +25,8 @@ src/
   layouts/
     Layout.astro         # Layout global: head, header, footer (SIN anuncios)
   pages/
-    index.astro          # Home: resultados renderizados en build-time, FAQ, estados, guía
+    index.astro          # Home multi-sorteo: Powerball + tarjetas de todos los juegos
+    [juego].astro        # 1 página por sorteo: /mega-millions/, /lotto-america/, /cash4life/
     contacto.astro
     terminos.astro
     privacidad.astro
@@ -67,13 +68,20 @@ public/
 6. **Multi-juego (jul 2026):** el backend `capared2/capa2` scrapea Powerball
    (+ Double Play), Mega Millions, Lotto America y Cash4Life y commitea
    `resultados_todos.json` a su main. `scripts/update-sorteos.mjs` lo baja de
-   raw.githubusercontent.com → `src/data/sorteos.json`. La home renderiza en
-   build-time la sección "Otros Sorteos" (#otros-sorteos) con una tarjeta por
-   juego, y Double Play dentro de la tarjeta Powerball si el backend lo trae
-   para la misma fecha. Solo se muestran juegos con sorteo de hace ≤30 días
-   (`esVigente()` en `src/data/juegos.js`): si una fuente del backend se
-   atrasa (p. ej. Cash4Life en data.ny.gov), la tarjeta desaparece sola y
-   vuelve cuando llegan datos frescos. El workflow corre ambos scripts.
+   raw.githubusercontent.com → `src/data/sorteos.json`. El sitio ya NO es solo
+   Powerball: cubre todos los sorteos.
+   - **Home** = portal multi-sorteo: tarjeta principal del Powerball (con
+     refresco client-side y Double Play si el backend lo trae para la misma
+     fecha) + sección `#sorteos` con tarjeta de CADA juego, siempre visible:
+     con números si hay datos, placeholder si no hay, y nota ámbar si el
+     último dato tiene más de 30 días (`esVigente()` en `src/data/juegos.js`).
+   - **Páginas por sorteo** (`src/pages/[juego].astro`): /mega-millions/,
+     /lotto-america/ y /cash4life/, con resultado estático, cómo funciona,
+     cómo jugar, FAQ (con FAQPage JSON-LD) y enlaces cruzados. La página del
+     Powerball es la home (no crear /powerball/: canibalizaría el SEO).
+   - Todo el contenido por juego (reglas, precios, FAQs, colores, slug) vive
+     en `src/data/juegos.js`. Para agregar un juego nuevo: agregarlo a capa2,
+     a `JUEGOS` y a `OTROS_JUEGOS`, y sale solo en home + página propia.
 
 ## Tema visual (jul 2026)
 
@@ -128,11 +136,11 @@ git push origin main  # Deploy (CI/CD via git push)
 ## Pendiente
 
 - [ ] Lotto America: el backend aún no publica su JSON (falló el scrape inicial);
-      la tarjeta aparecerá sola cuando capa2 lo publique
-- [ ] Cash4Life: dataset de data.ny.gov atrasado (último sorteo feb 2026); la
-      tarjeta está oculta por `esVigente()` hasta que haya datos frescos
-- [ ] Páginas dedicadas por juego (/mega-millions/, /cash4life/…) para capturar
-      long-tail en español de esos sorteos
+      su página y tarjeta muestran placeholder hasta que capa2 lo publique
+- [ ] Cash4Life: dataset de data.ny.gov atrasado (último sorteo feb 2026); se
+      muestra con nota de "último resultado disponible" hasta que haya datos frescos
+- [ ] Historial por juego (/mega-millions/resultados/…) cuando el backend
+      acumule histórico de los demás juegos
 - [ ] Agregar los ~20 estados restantes (+ DC, Puerto Rico, Islas Vírgenes) en `src/data/estados.js`
 - [ ] Bloque de respuesta directa arriba en páginas de estado (precio, días y hora local del sorteo) — las queries tipo "cuándo se juega el powerball en california" ya rankean pos 9–12
 - [ ] Páginas informacionales: "¿A qué hora juega el Powerball?", "¿Cómo cobrar premios?" (98 consultas sin página en el reporte GSC)

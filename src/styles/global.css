@@ -116,6 +116,27 @@ body {
 
 .ball-red:hover { transform: scale(1.05); }
 
+/* Bola especial de otros juegos (Mega Ball, Star Ball, Cash Ball).
+   El color de fondo/texto lo ponen las clases Tailwind de juegos.js. */
+.ball-especial {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  font-weight: 700;
+  font-size: 1.75rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow:
+    0 4px 6px -1px rgba(15, 23, 42, 0.25),
+    inset 0 2px 4px 0 rgba(255, 255, 255, 0.3);
+  transition: transform var(--transition-fast);
+  will-change: transform;
+  flex-shrink: 0;
+}
+
+.ball-especial:hover { transform: scale(1.05); }
+
 /* ============================================
    CARDS Y EFECTOS
    ============================================ */
@@ -303,7 +324,7 @@ html {
     font-size: 1.25rem;
   }
 
-  .ball-red {
+  .ball-red, .ball-especial {
     width: 56px;
     height: 56px;
     font-size: 1.5rem;
@@ -397,7 +418,7 @@ a:focus-visible {
 
 @media (max-width: 375px) {
   .ball-white { width: 42px; height: 42px; font-size: 1.1rem; }
-  .ball-red   { width: 50px; height: 50px; font-size: 1.35rem; }
+  .ball-red, .ball-especial { width: 50px; height: 50px; font-size: 1.35rem; }
   #blancos { gap: 0.4rem !important; }
   #real-card, #skeleton-card { padding: 1.25rem !important; }
   #real-card .grid.grid-cols-2 { grid-template-columns: 1fr !important; gap: 0.5rem !important; }

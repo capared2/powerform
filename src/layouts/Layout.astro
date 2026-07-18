@@ -80,7 +80,7 @@ const {
           </button>
           <nav class="hidden lg:flex items-center gap-6">
             <a href="#resultados" class="text-slate-600 hover:text-blue-950 text-sm font-medium nav-link transition-colors">Resultados</a>
-            <a href="#otros-sorteos" class="text-slate-600 hover:text-blue-950 text-sm font-medium nav-link transition-colors">Otros Sorteos</a>
+            <a href="#sorteos" class="text-slate-600 hover:text-blue-950 text-sm font-medium nav-link transition-colors">Sorteos</a>
             <a href="#como-jugar" class="text-slate-600 hover:text-blue-950 text-sm font-medium nav-link transition-colors">Cómo Jugar</a>
             <a href="#premios" class="text-slate-600 hover:text-blue-950 text-sm font-medium nav-link transition-colors">Premios</a>
             <a href="#estados" class="text-slate-600 hover:text-blue-950 text-sm font-medium nav-link transition-colors">Estados</a>
@@ -101,8 +101,8 @@ const {
             <i data-lucide="home" class="w-4 h-4"></i>
             <span>Resultados</span>
           </a>
-          <a href="#otros-sorteos" class="flex items-center gap-2 px-4 py-3 bg-slate-100 text-slate-700 rounded-lg font-semibold hover:bg-slate-200 transition-all">
-            <span>Otros Sorteos</span>
+          <a href="#sorteos" class="flex items-center gap-2 px-4 py-3 bg-slate-100 text-slate-700 rounded-lg font-semibold hover:bg-slate-200 transition-all">
+            <span>Sorteos</span>
           </a>
           <a href="#como-jugar" class="flex items-center gap-2 px-4 py-3 bg-slate-100 text-slate-700 rounded-lg font-semibold hover:bg-slate-200 transition-all">
             <span>Cómo Jugar</span>
@@ -140,18 +140,21 @@ const {
             </div>
             <span class="font-display text-lg font-bold text-white">Result<span class="text-red-400">PB</span></span>
           </a>
-          <p class="text-blue-300 text-sm mt-1.5">Resultados del Powerball en español</p>
+          <p class="text-blue-300 text-sm mt-1.5">Loterías de USA en español: Powerball, Mega Millions y más</p>
         </div>
 
         {fullNav && (
           <nav class="grid grid-cols-2 sm:grid-cols-3 md:flex gap-x-4 gap-y-3 md:gap-6 text-sm text-center md:text-left">
             <a href="#resultados" class="text-blue-300 hover:text-white transition-colors">Resultados</a>
-            <a href="#otros-sorteos" class="text-blue-300 hover:text-white transition-colors">Otros Sorteos</a>
+            <a href="#sorteos" class="text-blue-300 hover:text-white transition-colors">Sorteos</a>
             <a href="#como-jugar" class="text-blue-300 hover:text-white transition-colors">Cómo Jugar</a>
             <a href="#premios" class="text-blue-300 hover:text-white transition-colors">Premios</a>
             <a href="#estados" class="text-blue-300 hover:text-white transition-colors">Estados</a>
             <a href="#faq" class="text-blue-300 hover:text-white transition-colors">FAQ</a>
             <a href="/resultados/" class="text-blue-300 hover:text-white transition-colors">Resultados anteriores</a>
+            <a href="/mega-millions/" class="text-blue-300 hover:text-white transition-colors">Mega Millions</a>
+            <a href="/lotto-america/" class="text-blue-300 hover:text-white transition-colors">Lotto America</a>
+            <a href="/cash4life/" class="text-blue-300 hover:text-white transition-colors">Cash4Life</a>
             <a href="/contacto/" class="text-blue-300 hover:text-white transition-colors">Contacto</a>
           </nav>
         )}
@@ -167,6 +170,12 @@ const {
         )}
 
         <div class="flex flex-wrap justify-center items-center gap-3 md:gap-4 text-xs text-blue-400">
+          <a href="/mega-millions/" class="hover:text-red-400 transition-colors">Mega Millions</a>
+          <span class="hidden sm:inline">•</span>
+          <a href="/lotto-america/" class="hover:text-red-400 transition-colors">Lotto America</a>
+          <span class="hidden sm:inline">•</span>
+          <a href="/cash4life/" class="hover:text-red-400 transition-colors">Cash4Life</a>
+          <span class="hidden sm:inline">•</span>
           <a href="/resultados/" class="hover:text-red-400 transition-colors">Resultados anteriores</a>
           <span class="hidden sm:inline">•</span>
           <a href="/terminos/" class={`hover:text-red-400 transition-colors ${activeFooterLink === 'terminos' ? 'text-red-400 font-semibold' : ''}`}>Términos</a>
