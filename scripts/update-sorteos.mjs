@@ -16,19 +16,24 @@ import { dirname, join } from 'node:path';
 const DATA_FILE = join(dirname(fileURLToPath(import.meta.url)), '..', 'src', 'data', 'sorteos.json');
 const API_URL = 'https://raw.githubusercontent.com/capared2/capa2/main/resultados_todos.json';
 
-const JUEGOS_VALIDOS = ['powerball', 'megamillions', 'lottoamerica', 'cash4life'];
+const JUEGOS_VALIDOS = ['powerball', 'megamillions', 'lottoamerica', 'cash4life', '2by2'];
 
 function esFechaValida(fecha) {
   return /^\d{4}-\d{2}-\d{2}$/.test(String(fecha || ''));
 }
 
 // Valida y limpia el registro de un juego; devuelve null si está incompleto.
+// El formato clásico es 5 blancas + bola especial; 2by2 usa 2 blancas + 2 rojas.
 function normalizar(id, juego) {
   const s = juego?.sorteo;
   if (!s || !esFechaValida(s.fecha)) return null;
-  if (!Array.isArray(s.blancos) || s.blancos.length !== 5 || s.blancos.some((n) => !Number.isInteger(n))) return null;
+  const esNumeros = (arr, n) => Array.isArray(arr) && arr.length === n && arr.every(Number.isInteger);
+  const blancosEsperados = id === '2by2' ? 2 : 5;
+  if (!esNumeros(s.blancos, blancosEsperados)) return null;
+  if (id === '2by2' && !esNumeros(s.rojos, 2)) return null;
 
   const sorteo = { fecha: s.fecha, blancos: s.blancos };
+  if (esNumeros(s.rojos, 2)) sorteo.rojos = s.rojos;
   // La bola especial y el multiplicador cambian de nombre según el juego
   // (powerball/powerplay, megaball/megaplier, star_ball/all_star_bonus, cash_ball).
   for (const campo of ['powerball', 'megaball', 'star_ball', 'cash_ball']) {

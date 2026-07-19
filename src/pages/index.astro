@@ -315,6 +315,9 @@ const faqs = [
                   <>
                     <p class="text-slate-500 text-xs mb-4">Sorteo del {fechaConDia(data.sorteo.fecha)}</p>
                     <div class="flex items-center gap-1.5 flex-wrap mb-3">
+                      {(data.sorteo.rojos ?? []).map((n) => (
+                        <span class={`inline-flex items-center justify-center w-9 h-9 rounded-full text-sm font-bold ${meta.rojasClases ?? 'bg-red-600 text-white'}`}>{n}</span>
+                      ))}
                       {data.sorteo.blancos.map((n) => (
                         <span class="inline-flex items-center justify-center w-9 h-9 bg-gray-200 text-gray-900 rounded-full text-sm font-bold">{n}</span>
                       ))}
@@ -323,7 +326,7 @@ const faqs = [
                       )}
                     </div>
                     <p class={`text-xs font-semibold uppercase tracking-widest mb-4 ${meta.acentoClases}`}>
-                      {meta.bolaEspecialNombre}
+                      {meta.bolaEspecialNombre ?? 'Rojas + Blancas'}
                       {mult ? ` · ${meta.multiplicadorNombre} ${mult}x` : ''}
                     </p>
                     {!vigente && (

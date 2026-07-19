@@ -66,7 +66,7 @@ public/
 5. Si `resultados.json` está vacío, la home cae al comportamiento skeleton+fetch y
    no se generan páginas de sorteo (getStaticPaths devuelve []).
 6. **Multi-juego (jul 2026):** el backend `capared2/capa2` scrapea Powerball
-   (+ Double Play), Mega Millions, Lotto America y Cash4Life y commitea
+   (+ Double Play), Mega Millions, Lotto America, Cash4Life y 2by2 y commitea
    `resultados_todos.json` a su main. `scripts/update-sorteos.mjs` lo baja de
    raw.githubusercontent.com → `src/data/sorteos.json`. El sitio ya NO es solo
    Powerball: cubre todos los sorteos.
@@ -76,12 +76,17 @@ public/
      con números si hay datos, placeholder si no hay, y nota ámbar si el
      último dato tiene más de 30 días (`esVigente()` en `src/data/juegos.js`).
    - **Páginas por sorteo** (`src/pages/[juego].astro`): /mega-millions/,
-     /lotto-america/ y /cash4life/, con resultado estático, cómo funciona,
+     /lotto-america/, /cash4life/ y /2by2/, con resultado estático, cómo funciona,
      cómo jugar, FAQ (con FAQPage JSON-LD) y enlaces cruzados. La página del
      Powerball es la home (no crear /powerball/: canibalizaría el SEO).
    - Todo el contenido por juego (reglas, precios, FAQs, colores, slug) vive
      en `src/data/juegos.js`. Para agregar un juego nuevo: agregarlo a capa2,
      a `JUEGOS` y a `OTROS_JUEGOS`, y sale solo en home + página propia.
+     2by2 es el único con formato distinto: 2 rojas + 2 blancas, sin bola
+     especial (campo `rojos` en sorteos.json).
+   - Del menú de juegos de powerball.com quedan fuera **Jackpot USA** y
+     **Millionaire for Life**: sus páginas no publican números de sorteo
+     (verificado con capa2/probe_juegos.py), no hay nada que extraer.
 
 ## Tema visual (jul 2026)
 
@@ -135,8 +140,6 @@ git push origin main  # Deploy (CI/CD via git push)
 
 ## Pendiente
 
-- [ ] Lotto America: el backend aún no publica su JSON (falló el scrape inicial);
-      su página y tarjeta muestran placeholder hasta que capa2 lo publique
 - [ ] Cash4Life: dataset de data.ny.gov atrasado (último sorteo feb 2026); se
       muestra con nota de "último resultado disponible" hasta que haya datos frescos
 - [ ] Historial por juego (/mega-millions/resultados/…) cuando el backend

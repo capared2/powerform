@@ -115,6 +115,55 @@ export const JUEGOS = {
       },
     ],
   },
+  '2by2': {
+    slug: '2by2',
+    nombre: '2by2',
+    // Formato especial: 2 bolas rojas + 2 blancas, sin bola extra
+    bolaEspecialKey: null,
+    bolaEspecialNombre: null,
+    multiplicadorKey: null,
+    multiplicadorNombre: null,
+    dias: 'Todos los días',
+    hora: '10:35 PM ET',
+    bolaClases: 'bg-red-600 text-white',
+    rojasClases: 'bg-red-600 text-white',
+    acentoClases: 'text-rose-700',
+    tagline: 'Gana hasta $22,000 cada noche por solo $1',
+    formato: 'Elige 2 números rojos del 1 al 26 + 2 números blancos del 1 al 26',
+    precio: '$1 por jugada',
+    premioMinimo: 'Premio mayor: $22,000',
+    donde: 'Kansas, Nebraska, North Dakota y Wyoming',
+    descripcion:
+      '2by2 es la lotería multiestatal más sencilla: eliges 2 números rojos y 2 números blancos (cada grupo del 1 al 26) por solo $1, con sorteos todos los días. El premio mayor es de $22,000 y las probabilidades de ganar algún premio son de las mejores que existen: 1 de cada 3.6 jugadas gana. Los martes, comprando 7 sorteos consecutivos, los premios se duplican.',
+    comoJugar: [
+      'Compra tu boleto por $1 en una tienda autorizada de Kansas, Nebraska, North Dakota o Wyoming.',
+      'Elige 2 números rojos del 1 al 26 y 2 números blancos del 1 al 26, o pide Quick Pick.',
+      'Los sorteos son todos los días por la noche (10:35 PM ET).',
+      'Acierta los 4 números y ganas el premio mayor de $22,000; hay premios desde $1 por acertar un solo grupo.',
+    ],
+    faqs: [
+      {
+        pregunta: '¿Cómo se juega 2by2?',
+        respuesta:
+          'Eliges 2 números rojos (del 1 al 26) y 2 números blancos (del 1 al 26). Cada jugada cuesta $1. Si aciertas los 4 números ganas el premio mayor de $22,000; también hay premios menores por acertar 1, 2 o 3 números.',
+      },
+      {
+        pregunta: '¿Dónde se juega 2by2?',
+        respuesta:
+          '2by2 se vende en 4 estados: Kansas, Nebraska, North Dakota y Wyoming. Los sorteos son nacionales y los números ganadores son los mismos en todos.',
+      },
+      {
+        pregunta: '¿Cuáles son las probabilidades de ganar 2by2?',
+        respuesta:
+          'La probabilidad de ganar el premio mayor es 1 en 105,625, muchísimo mejor que la de las loterías grandes. La probabilidad de ganar cualquier premio es 1 en 3.6, la mejor entre las loterías multiestatales.',
+      },
+      {
+        pregunta: '¿Qué es el 2by2 Tuesday?',
+        respuesta:
+          'Si compras 7 sorteos consecutivos en un mismo boleto, todos los premios que ganes en los sorteos de los martes se duplican automáticamente. El premio mayor pasa de $22,000 a $44,000.',
+      },
+    ],
+  },
   cash4life: {
     slug: 'cash4life',
     nombre: 'Cash4Life',
@@ -166,7 +215,7 @@ export const JUEGOS = {
 
 // Juegos con tarjeta propia en la home además del Powerball (que tiene la
 // tarjeta principal). El orden define el orden de las tarjetas.
-export const OTROS_JUEGOS = ['megamillions', 'lottoamerica', 'cash4life'];
+export const OTROS_JUEGOS = ['megamillions', 'lottoamerica', 'cash4life', '2by2'];
 
 // Juegos con página propia (/[slug]/). El Powerball no está: su página es la home.
 export const JUEGOS_CON_PAGINA = OTROS_JUEGOS;

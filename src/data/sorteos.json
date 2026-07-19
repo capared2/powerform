@@ -1,5 +1,5 @@
 {
-  "actualizado": "2026-07-19T15:15:55.967Z",
+  "actualizado": "2026-07-19T16:25:10.920Z",
   "juegos": {
     "powerball": {
       "juego": "powerball",
@@ -43,6 +43,27 @@
         "premio_efectivo": 307700000
       }
     },
+    "lottoamerica": {
+      "juego": "lottoamerica",
+      "nombre": "Lotto America",
+      "sorteo": {
+        "fecha": "2026-07-18",
+        "blancos": [
+          13,
+          17,
+          22,
+          28,
+          40
+        ],
+        "star_ball": 3,
+        "all_star_bonus": 2,
+        "jackpot_ganado": false
+      },
+      "proximo_sorteo": {
+        "fecha": "2026-07-20",
+        "premio_estimado": 2000000
+      }
+    },
     "cash4life": {
       "juego": "cash4life",
       "nombre": "Cash4Life",
@@ -60,6 +81,27 @@
       "proximo_sorteo": {
         "fecha": "2026-02-22",
         "premio_descripcion": "$1,000 al día de por vida"
+      }
+    },
+    "2by2": {
+      "juego": "2by2",
+      "nombre": "2by2",
+      "sorteo": {
+        "fecha": "2026-07-18",
+        "blancos": [
+          4,
+          15
+        ],
+        "rojos": [
+          14,
+          22
+        ],
+        "jackpot_ganado": false
+      },
+      "proximo_sorteo": {
+        "fecha": "2026-07-19",
+        "premio_estimado": 22000,
+        "premio_descripcion": "Premio mayor: $22,000"
       }
     }
   }

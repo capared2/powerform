@@ -119,6 +119,14 @@ const otrasPaginas = JUEGOS_CON_PAGINA.filter((j) => j !== id);
             <span class="text-sm font-medium">{fechaTarjeta(sorteo.fecha)}</span>
           </div>
           <div class="flex items-center justify-center gap-2 flex-wrap mb-2">
+            {sorteo.rojos && (
+              <>
+                <div class="flex gap-2 flex-wrap justify-center">
+                  {sorteo.rojos.map((n) => <div class={`ball-especial ${meta.rojasClases ?? 'bg-red-600 text-white'}`}>{n}</div>)}
+                </div>
+                <div class="w-px h-12 bg-slate-200 mx-1"></div>
+              </>
+            )}
             <div class="flex gap-2 flex-wrap justify-center">
               {sorteo.blancos.map((n) => <div class="ball-white">{n}</div>)}
             </div>
@@ -129,7 +137,7 @@ const otrasPaginas = JUEGOS_CON_PAGINA.filter((j) => j !== id);
               </>
             )}
           </div>
-          <p class={`text-center text-xs font-semibold uppercase tracking-widest mb-5 ${meta.acentoClases}`}>{meta.bolaEspecialNombre}</p>
+          <p class={`text-center text-xs font-semibold uppercase tracking-widest mb-5 ${meta.acentoClases}`}>{meta.bolaEspecialNombre ?? 'Números rojos + números blancos'}</p>
           {mult && (
             <div class="flex justify-center mb-5">
               <div class="bg-red-50 border border-red-200 text-red-600 text-sm font-semibold rounded-full px-5 py-1.5 flex items-center gap-2">
@@ -139,15 +147,17 @@ const otrasPaginas = JUEGOS_CON_PAGINA.filter((j) => j !== id);
             </div>
           )}
           {premio && (
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-3">
+            <div class={`grid grid-cols-1 gap-3 mb-3 ${premioEfectivo ? 'sm:grid-cols-2' : ''}`}>
               <div class="bg-slate-50 border border-slate-200 rounded-xl p-4 text-center">
                 <p class="text-slate-500 text-xs uppercase tracking-widest mb-1.5">Próximo premio *</p>
                 <p class="font-display text-xl font-bold text-amber-600">{premio}</p>
               </div>
-              <div class="bg-slate-50 border border-slate-200 rounded-xl p-4 text-center">
-                <p class="text-slate-500 text-xs uppercase tracking-widest mb-1.5">En efectivo *</p>
-                <p class="font-display text-xl font-bold text-emerald-600">{premioEfectivo ?? '—'}</p>
-              </div>
+              {premioEfectivo && (
+                <div class="bg-slate-50 border border-slate-200 rounded-xl p-4 text-center">
+                  <p class="text-slate-500 text-xs uppercase tracking-widest mb-1.5">En efectivo *</p>
+                  <p class="font-display text-xl font-bold text-emerald-600">{premioEfectivo}</p>
+                </div>
+              )}
             </div>
           )}
           {premio && (
