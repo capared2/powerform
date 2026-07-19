@@ -60,10 +60,10 @@ const {
     gtag('config', 'G-ZQ3EWYTH5G');
   </script>
 </head>
-<body class="bg-white min-h-screen">
+<body class="bg-white min-h-screen pt-[68px]">
 
-  <!-- HEADER -->
-  <header class="sticky top-0 z-50 border-b border-slate-200 bg-white/90 backdrop-blur-md">
+  <!-- HEADER (fijo en todas las páginas) -->
+  <header class="fixed top-0 inset-x-0 z-50 border-b border-slate-200 bg-white/95 backdrop-blur-md">
     <div class="h-1 bg-gradient-to-r from-red-600 via-white to-blue-900"></div>
     <div class="max-w-6xl mx-auto px-4 py-3.5 flex items-center justify-between">
       <a href="/" class="flex items-center gap-2.5">
@@ -73,52 +73,69 @@ const {
         <span class="font-display text-xl font-bold text-blue-950 tracking-tight">Result<span class="text-red-600">PB</span></span>
       </a>
 
-      {fullNav ? (
-        <>
-          <button id="menuBtn" class="lg:hidden flex items-center px-3 py-2 border-2 border-red-600 text-red-600 rounded hover:bg-red-50 transition-colors" aria-label="Menú">
-            <i data-lucide="menu" class="w-6 h-6"></i>
+      <button id="menuBtn" class="lg:hidden flex items-center px-3 py-2 border-2 border-red-600 text-red-600 rounded hover:bg-red-50 transition-colors" aria-label="Menú" aria-expanded="false">
+        <i data-lucide="menu" class="w-6 h-6"></i>
+      </button>
+
+      <nav class="hidden lg:flex items-center gap-6">
+        <a href="/#resultados" class="text-slate-600 hover:text-blue-950 text-sm font-medium nav-link transition-colors">Resultados</a>
+        <div class="relative" id="sorteosDropdown">
+          <button id="sorteosBtn" class="flex items-center gap-1 text-slate-600 hover:text-blue-950 text-sm font-medium transition-colors" aria-haspopup="true" aria-expanded="false">
+            Sorteos
+            <i data-lucide="chevron-down" class="w-4 h-4"></i>
           </button>
-          <nav class="hidden lg:flex items-center gap-6">
-            <a href="#resultados" class="text-slate-600 hover:text-blue-950 text-sm font-medium nav-link transition-colors">Resultados</a>
-            <a href="#sorteos" class="text-slate-600 hover:text-blue-950 text-sm font-medium nav-link transition-colors">Sorteos</a>
-            <a href="#como-jugar" class="text-slate-600 hover:text-blue-950 text-sm font-medium nav-link transition-colors">Cómo Jugar</a>
-            <a href="#premios" class="text-slate-600 hover:text-blue-950 text-sm font-medium nav-link transition-colors">Premios</a>
-            <a href="#estados" class="text-slate-600 hover:text-blue-950 text-sm font-medium nav-link transition-colors">Estados</a>
-            <a href="#faq" class="text-slate-600 hover:text-blue-950 text-sm font-medium nav-link transition-colors">FAQ</a>
-          </nav>
-        </>
-      ) : (
-        <nav class="flex items-center gap-6">
-          <a href="/" class="text-slate-600 hover:text-blue-950 text-sm font-medium transition-colors">Volver al inicio</a>
-        </nav>
-      )}
+          <div id="sorteosMenu" class="hidden absolute left-1/2 -translate-x-1/2 top-full pt-3 w-56">
+            <div class="bg-white border border-slate-200 rounded-xl shadow-xl py-2">
+              <a href="/" class="block px-4 py-2.5 text-sm font-medium text-slate-700 hover:bg-red-50 hover:text-red-600 transition-colors">Powerball</a>
+              <a href="/mega-millions/" class="block px-4 py-2.5 text-sm font-medium text-slate-700 hover:bg-red-50 hover:text-red-600 transition-colors">Mega Millions</a>
+              <a href="/lotto-america/" class="block px-4 py-2.5 text-sm font-medium text-slate-700 hover:bg-red-50 hover:text-red-600 transition-colors">Lotto America</a>
+              <a href="/cash4life/" class="block px-4 py-2.5 text-sm font-medium text-slate-700 hover:bg-red-50 hover:text-red-600 transition-colors">Cash4Life</a>
+              <div class="border-t border-slate-200 my-1"></div>
+              <a href="/resultados/" class="block px-4 py-2.5 text-sm font-medium text-slate-700 hover:bg-red-50 hover:text-red-600 transition-colors">Resultados anteriores</a>
+            </div>
+          </div>
+        </div>
+        <a href="/#como-jugar" class="text-slate-600 hover:text-blue-950 text-sm font-medium nav-link transition-colors">Cómo Jugar</a>
+        <a href="/#premios" class="text-slate-600 hover:text-blue-950 text-sm font-medium nav-link transition-colors">Premios</a>
+        <a href="/estados/" class="text-slate-600 hover:text-blue-950 text-sm font-medium nav-link transition-colors">Estados</a>
+        <a href="/#faq" class="text-slate-600 hover:text-blue-950 text-sm font-medium nav-link transition-colors">FAQ</a>
+      </nav>
     </div>
 
-    {fullNav && (
-      <div id="mobileMenu" class="hidden lg:hidden pb-4 px-4">
-        <div class="flex flex-col gap-2">
-          <a href="#resultados" class="flex items-center gap-2 px-4 py-3 bg-red-600 text-white rounded-lg font-semibold shadow-md">
-            <i data-lucide="home" class="w-4 h-4"></i>
-            <span>Resultados</span>
-          </a>
-          <a href="#sorteos" class="flex items-center gap-2 px-4 py-3 bg-slate-100 text-slate-700 rounded-lg font-semibold hover:bg-slate-200 transition-all">
-            <span>Sorteos</span>
-          </a>
-          <a href="#como-jugar" class="flex items-center gap-2 px-4 py-3 bg-slate-100 text-slate-700 rounded-lg font-semibold hover:bg-slate-200 transition-all">
-            <span>Cómo Jugar</span>
-          </a>
-          <a href="#premios" class="flex items-center gap-2 px-4 py-3 bg-slate-100 text-slate-700 rounded-lg font-semibold hover:bg-slate-200 transition-all">
-            <span>Premios</span>
-          </a>
-          <a href="#estados" class="flex items-center gap-2 px-4 py-3 bg-slate-100 text-slate-700 rounded-lg font-semibold hover:bg-slate-200 transition-all">
-            <span>Estados</span>
-          </a>
-          <a href="#faq" class="flex items-center gap-2 px-4 py-3 bg-slate-100 text-slate-700 rounded-lg font-semibold hover:bg-slate-200 transition-all">
-            <span>FAQ</span>
-          </a>
-        </div>
+    <div id="mobileMenu" class="hidden lg:hidden pb-4 px-4 max-h-[calc(100vh-80px)] overflow-y-auto bg-white/95">
+      <div class="flex flex-col gap-2">
+        <a href="/#resultados" class="flex items-center gap-2 px-4 py-3 bg-red-600 text-white rounded-lg font-semibold shadow-md">
+          <i data-lucide="home" class="w-4 h-4"></i>
+          <span>Resultados</span>
+        </a>
+        <p class="text-slate-500 text-xs font-semibold uppercase tracking-widest px-4 pt-2">Sorteos</p>
+        <a href="/" class="flex items-center gap-2 px-4 py-3 bg-slate-100 text-slate-700 rounded-lg font-semibold hover:bg-slate-200 transition-all">
+          <span>Powerball</span>
+        </a>
+        <a href="/mega-millions/" class="flex items-center gap-2 px-4 py-3 bg-slate-100 text-slate-700 rounded-lg font-semibold hover:bg-slate-200 transition-all">
+          <span>Mega Millions</span>
+        </a>
+        <a href="/lotto-america/" class="flex items-center gap-2 px-4 py-3 bg-slate-100 text-slate-700 rounded-lg font-semibold hover:bg-slate-200 transition-all">
+          <span>Lotto America</span>
+        </a>
+        <a href="/cash4life/" class="flex items-center gap-2 px-4 py-3 bg-slate-100 text-slate-700 rounded-lg font-semibold hover:bg-slate-200 transition-all">
+          <span>Cash4Life</span>
+        </a>
+        <p class="text-slate-500 text-xs font-semibold uppercase tracking-widest px-4 pt-2">Guía</p>
+        <a href="/#como-jugar" class="flex items-center gap-2 px-4 py-3 bg-slate-100 text-slate-700 rounded-lg font-semibold hover:bg-slate-200 transition-all">
+          <span>Cómo Jugar</span>
+        </a>
+        <a href="/#premios" class="flex items-center gap-2 px-4 py-3 bg-slate-100 text-slate-700 rounded-lg font-semibold hover:bg-slate-200 transition-all">
+          <span>Premios</span>
+        </a>
+        <a href="/estados/" class="flex items-center gap-2 px-4 py-3 bg-slate-100 text-slate-700 rounded-lg font-semibold hover:bg-slate-200 transition-all">
+          <span>Estados</span>
+        </a>
+        <a href="/#faq" class="flex items-center gap-2 px-4 py-3 bg-slate-100 text-slate-700 rounded-lg font-semibold hover:bg-slate-200 transition-all">
+          <span>FAQ</span>
+        </a>
       </div>
-    )}
+    </div>
   </header>
 
   <!-- PAGE CONTENT -->
@@ -130,62 +147,58 @@ const {
   </button>
 
   <!-- FOOTER -->
-  <footer class="py-8 md:py-10 px-4 bg-blue-950 border-t-4 border-red-600">
+  <footer class="px-4 pt-10 pb-6 bg-blue-950 border-t-4 border-red-600">
     <div class="max-w-5xl mx-auto">
-      <div class="flex flex-col items-center md:flex-row md:items-center md:justify-between gap-6 md:gap-8">
-        <div class="text-center md:text-left">
+      <div class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-10">
+        <div class="col-span-2 lg:col-span-1">
           <a href="/" class="inline-flex items-center gap-2">
             <div class="bg-red-600 rounded-lg p-1">
               <i data-lucide="star" class="w-4 h-4 text-white"></i>
             </div>
             <span class="font-display text-lg font-bold text-white">Result<span class="text-red-400">PB</span></span>
           </a>
-          <p class="text-blue-300 text-sm mt-1.5">Loterías de USA en español: Powerball, Mega Millions y más</p>
+          <p class="text-blue-300 text-sm mt-2 leading-relaxed">Resultados de las loterías de USA en español, actualizados después de cada sorteo.</p>
         </div>
 
-        {fullNav && (
-          <nav class="grid grid-cols-2 sm:grid-cols-3 md:flex gap-x-4 gap-y-3 md:gap-6 text-sm text-center md:text-left">
-            <a href="#resultados" class="text-blue-300 hover:text-white transition-colors">Resultados</a>
-            <a href="#sorteos" class="text-blue-300 hover:text-white transition-colors">Sorteos</a>
-            <a href="#como-jugar" class="text-blue-300 hover:text-white transition-colors">Cómo Jugar</a>
-            <a href="#premios" class="text-blue-300 hover:text-white transition-colors">Premios</a>
-            <a href="#estados" class="text-blue-300 hover:text-white transition-colors">Estados</a>
-            <a href="#faq" class="text-blue-300 hover:text-white transition-colors">FAQ</a>
-            <a href="/resultados/" class="text-blue-300 hover:text-white transition-colors">Resultados anteriores</a>
-            <a href="/mega-millions/" class="text-blue-300 hover:text-white transition-colors">Mega Millions</a>
-            <a href="/lotto-america/" class="text-blue-300 hover:text-white transition-colors">Lotto America</a>
-            <a href="/cash4life/" class="text-blue-300 hover:text-white transition-colors">Cash4Life</a>
-            <a href="/contacto/" class="text-blue-300 hover:text-white transition-colors">Contacto</a>
-          </nav>
-        )}
+        <nav aria-label="Sorteos">
+          <p class="text-white font-semibold text-xs uppercase tracking-widest mb-3">Sorteos</p>
+          <ul class="space-y-2.5 text-sm">
+            <li><a href="/" class="text-blue-300 hover:text-white transition-colors">Powerball</a></li>
+            <li><a href="/mega-millions/" class="text-blue-300 hover:text-white transition-colors">Mega Millions</a></li>
+            <li><a href="/lotto-america/" class="text-blue-300 hover:text-white transition-colors">Lotto America</a></li>
+            <li><a href="/cash4life/" class="text-blue-300 hover:text-white transition-colors">Cash4Life</a></li>
+          </ul>
+        </nav>
+
+        <nav aria-label="Powerball">
+          <p class="text-white font-semibold text-xs uppercase tracking-widest mb-3">Powerball</p>
+          <ul class="space-y-2.5 text-sm">
+            <li><a href="/#resultados" class="text-blue-300 hover:text-white transition-colors">Resultados de hoy</a></li>
+            <li><a href="/resultados/" class="text-blue-300 hover:text-white transition-colors">Resultados anteriores</a></li>
+            <li><a href="/#como-jugar" class="text-blue-300 hover:text-white transition-colors">Cómo jugar</a></li>
+            <li><a href="/#premios" class="text-blue-300 hover:text-white transition-colors">Premios</a></li>
+            <li><a href="/estados/" class="text-blue-300 hover:text-white transition-colors">Powerball por estado</a></li>
+          </ul>
+        </nav>
+
+        <nav aria-label="Sitio">
+          <p class="text-white font-semibold text-xs uppercase tracking-widest mb-3">Sitio</p>
+          <ul class="space-y-2.5 text-sm">
+            <li><a href="/#faq" class="text-blue-300 hover:text-white transition-colors">Preguntas frecuentes</a></li>
+            <li><a href="/contacto/" class={`text-blue-300 hover:text-white transition-colors ${activeFooterLink === 'contacto' ? 'text-white font-semibold' : ''}`}>Contacto</a></li>
+            <li><a href="/terminos/" class={`text-blue-300 hover:text-white transition-colors ${activeFooterLink === 'terminos' ? 'text-white font-semibold' : ''}`}>Términos</a></li>
+            <li><a href="/privacidad/" class={`text-blue-300 hover:text-white transition-colors ${activeFooterLink === 'privacidad' ? 'text-white font-semibold' : ''}`}>Privacidad</a></li>
+          </ul>
+        </nav>
       </div>
 
-      <div class="mt-6 md:mt-8 pt-6 border-t border-blue-900">
-        {fullNav && (
-          <p class="text-blue-400 text-xs text-center max-w-2xl mx-auto leading-relaxed px-2 mb-4">
-            ResultPowerball no está afiliado con la Multi-State Lottery Association (MUSL). Este sitio es solo para información. Los resultados oficiales están en
-            <a href="https://www.powerball.com" class="text-red-400 hover:underline" target="_blank" rel="noopener noreferrer">powerball.com</a>.
-            No promovemos ni alentamos las apuestas. Juega responsablemente.
-          </p>
-        )}
-
-        <div class="flex flex-wrap justify-center items-center gap-3 md:gap-4 text-xs text-blue-400">
-          <a href="/mega-millions/" class="hover:text-red-400 transition-colors">Mega Millions</a>
-          <span class="hidden sm:inline">•</span>
-          <a href="/lotto-america/" class="hover:text-red-400 transition-colors">Lotto America</a>
-          <span class="hidden sm:inline">•</span>
-          <a href="/cash4life/" class="hover:text-red-400 transition-colors">Cash4Life</a>
-          <span class="hidden sm:inline">•</span>
-          <a href="/resultados/" class="hover:text-red-400 transition-colors">Resultados anteriores</a>
-          <span class="hidden sm:inline">•</span>
-          <a href="/terminos/" class={`hover:text-red-400 transition-colors ${activeFooterLink === 'terminos' ? 'text-red-400 font-semibold' : ''}`}>Términos</a>
-          <span class="hidden sm:inline">•</span>
-          <a href="/privacidad/" class={`hover:text-red-400 transition-colors ${activeFooterLink === 'privacidad' ? 'text-red-400 font-semibold' : ''}`}>Privacidad</a>
-          <span class="hidden sm:inline">•</span>
-          <a href="/contacto/" class={`hover:text-red-400 transition-colors ${activeFooterLink === 'contacto' ? 'text-red-400 font-semibold' : ''}`}>Contacto</a>
-        </div>
-
-        <p class="text-blue-500 text-xs text-center mt-3 md:mt-4">
+      <div class="mt-10 pt-6 border-t border-blue-900">
+        <p class="text-blue-400 text-xs text-center max-w-2xl mx-auto leading-relaxed px-2">
+          ResultPowerball no está afiliado con la Multi-State Lottery Association (MUSL). Este sitio es solo para información. Los resultados oficiales están en
+          <a href="https://www.powerball.com" class="text-red-400 hover:underline" target="_blank" rel="noopener noreferrer">powerball.com</a>.
+          No promovemos ni alentamos las apuestas. Juega responsablemente.
+        </p>
+        <p class="text-blue-500 text-xs text-center mt-4">
           © <span id="current-year">2026</span> ResultPowerball. Todos los derechos reservados.
         </p>
       </div>

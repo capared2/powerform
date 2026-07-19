@@ -187,6 +187,40 @@ function initSmoothScroll() {
       if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
     });
   });
+  // Enlaces del header tipo "/#seccion": solo interceptar si ya estamos en la home
+  document.querySelectorAll('a[href^="/#"]').forEach(function(anchor) {
+    anchor.addEventListener('click', function(e) {
+      if (window.location.pathname !== '/') return;
+      var target = document.querySelector(this.getAttribute('href').slice(1));
+      if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+    });
+  });
+}
+
+// ============================================
+// DROPDOWN DE SORTEOS (header)
+// ============================================
+function initSorteosDropdown() {
+  var wrap = document.getElementById('sorteosDropdown');
+  var btn  = document.getElementById('sorteosBtn');
+  var menu = document.getElementById('sorteosMenu');
+  if (!wrap || !btn || !menu) return;
+
+  function abrir()  { menu.classList.remove('hidden'); btn.setAttribute('aria-expanded', 'true'); }
+  function cerrar() { menu.classList.add('hidden');    btn.setAttribute('aria-expanded', 'false'); }
+
+  btn.addEventListener('click', function(e) {
+    e.stopPropagation();
+    menu.classList.contains('hidden') ? abrir() : cerrar();
+  });
+  wrap.addEventListener('mouseenter', abrir);
+  wrap.addEventListener('mouseleave', cerrar);
+  document.addEventListener('click', function(e) {
+    if (!wrap.contains(e.target)) cerrar();
+  });
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') cerrar();
+  });
 }
 
 // ============================================
@@ -255,6 +289,7 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   initMobileMenu();
+  initSorteosDropdown();
   initSmoothScroll();
   initScrollToTop();
   initIntersectionObserver();
