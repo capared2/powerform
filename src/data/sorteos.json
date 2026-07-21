@@ -1,5 +1,5 @@
 {
-  "actualizado": "2026-07-21T07:09:36.216Z",
+  "actualizado": "2026-07-21T15:53:37.806Z",
   "juegos": {
     "powerball": {
       "juego": "powerball",
@@ -15,7 +15,6 @@
         ],
         "powerball": 8,
         "powerplay": 2,
-        "jackpot_ganado": false,
         "doble_jugada": {
           "blancos": [
             15,
@@ -28,9 +27,7 @@
         }
       },
       "proximo_sorteo": {
-        "fecha": "2026-07-22",
-        "premio_estimado": 567000000,
-        "premio_efectivo": 251800000
+        "fecha": "2026-07-22"
       }
     },
     "megamillions": {

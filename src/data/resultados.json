@@ -1,6 +1,18 @@
 {
-  "actualizado": "2026-07-19T15:15:55.698Z",
+  "actualizado": "2026-07-21T15:53:37.489Z",
   "sorteos": [
+    {
+      "fecha": "2026-07-20",
+      "blancos": [
+        2,
+        9,
+        44,
+        53,
+        59
+      ],
+      "powerball": 8,
+      "powerplay": 2
+    },
     {
       "fecha": "2026-07-18",
       "blancos": [
