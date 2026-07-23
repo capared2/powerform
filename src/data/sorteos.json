@@ -1,5 +1,5 @@
 {
-  "actualizado": "2026-07-22T15:52:27.751Z",
+  "actualizado": "2026-07-23T07:06:50.990Z",
   "juegos": {
     "powerball": {
       "juego": "powerball",
@@ -14,23 +14,10 @@
           59
         ],
         "powerball": 8,
-        "powerplay": 2,
-        "jackpot_ganado": false,
-        "doble_jugada": {
-          "blancos": [
-            15,
-            21,
-            39,
-            54,
-            67
-          ],
-          "powerball": 7
-        }
+        "powerplay": 2
       },
       "proximo_sorteo": {
-        "fecha": "2026-07-22",
-        "premio_estimado": 567000000,
-        "premio_efectivo": 251800000
+        "fecha": "2026-07-22"
       }
     },
     "megamillions": {
@@ -57,21 +44,21 @@
       "juego": "lottoamerica",
       "nombre": "Lotto America",
       "sorteo": {
-        "fecha": "2026-07-20",
+        "fecha": "2026-07-22",
         "blancos": [
-          23,
-          31,
-          34,
-          37,
-          52
+          1,
+          12,
+          14,
+          29,
+          33
         ],
-        "star_ball": 7,
+        "star_ball": 6,
         "all_star_bonus": 2,
         "jackpot_ganado": false
       },
       "proximo_sorteo": {
-        "fecha": "2026-07-22",
-        "premio_estimado": 2049999
+        "fecha": "2026-07-25",
+        "premio_estimado": 2100000
       }
     },
     "cash4life": {
@@ -97,19 +84,20 @@
       "juego": "2by2",
       "nombre": "2by2",
       "sorteo": {
-        "fecha": "2026-07-21",
+        "fecha": "2026-07-22",
         "blancos": [
-          21,
-          23
+          5,
+          6
         ],
         "rojos": [
-          2,
-          12
+          8,
+          20
         ],
-        "jackpot_ganado": false
+        "jackpot_ganado": true,
+        "ganador_estado": "KS"
       },
       "proximo_sorteo": {
-        "fecha": "2026-07-22",
+        "fecha": "2026-07-23",
         "premio_estimado": 22000,
         "premio_descripcion": "Premio mayor: $22,000"
       }
