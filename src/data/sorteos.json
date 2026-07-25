@@ -1,5 +1,5 @@
 {
-  "actualizado": "2026-07-24T15:44:35.384Z",
+  "actualizado": "2026-07-25T15:28:44.963Z",
   "juegos": {
     "powerball": {
       "juego": "powerball",
@@ -15,7 +15,6 @@
         ],
         "powerball": 1,
         "powerplay": 3,
-        "jackpot_ganado": false,
         "doble_jugada": {
           "blancos": [
             9,
@@ -28,29 +27,27 @@
         }
       },
       "proximo_sorteo": {
-        "fecha": "2026-07-25",
-        "premio_estimado": 600000000,
-        "premio_efectivo": 266399999
+        "fecha": "2026-07-25"
       }
     },
     "megamillions": {
       "juego": "megamillions",
       "nombre": "Mega Millions",
       "sorteo": {
-        "fecha": "2026-07-21",
+        "fecha": "2026-07-24",
         "blancos": [
-          25,
-          37,
-          59,
-          68,
-          70
+          2,
+          5,
+          42,
+          44,
+          60
         ],
-        "megaball": 10
+        "megaball": 1
       },
       "proximo_sorteo": {
-        "fecha": "2026-07-24",
-        "premio_estimado": 743000000,
-        "premio_efectivo": 323400000
+        "fecha": "2026-07-28",
+        "premio_estimado": 800000000,
+        "premio_efectivo": 344200000
       }
     },
     "lottoamerica": {
@@ -97,19 +94,19 @@
       "juego": "2by2",
       "nombre": "2by2",
       "sorteo": {
-        "fecha": "2026-07-23",
+        "fecha": "2026-07-24",
         "blancos": [
-          10,
-          23
+          6,
+          8
         ],
         "rojos": [
-          15,
-          26
+          10,
+          14
         ],
         "jackpot_ganado": false
       },
       "proximo_sorteo": {
-        "fecha": "2026-07-24",
+        "fecha": "2026-07-25",
         "premio_estimado": 22000,
         "premio_descripcion": "Premio mayor: $22,000"
       }
