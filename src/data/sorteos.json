@@ -1,5 +1,5 @@
 {
-  "actualizado": "2026-07-26T07:11:31.117Z",
+  "actualizado": "2026-07-26T15:30:00.861Z",
   "juegos": {
     "powerball": {
       "juego": "powerball",
@@ -15,17 +15,7 @@
         ],
         "powerball": 17,
         "powerplay": 4,
-        "jackpot_ganado": false,
-        "doble_jugada": {
-          "blancos": [
-            20,
-            21,
-            26,
-            28,
-            32
-          ],
-          "powerball": 10
-        }
+        "jackpot_ganado": false
       },
       "proximo_sorteo": {
         "fecha": "2026-07-27",
