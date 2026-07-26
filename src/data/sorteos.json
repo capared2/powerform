@@ -1,33 +1,36 @@
 {
-  "actualizado": "2026-07-25T15:28:44.963Z",
+  "actualizado": "2026-07-26T07:11:31.117Z",
   "juegos": {
     "powerball": {
       "juego": "powerball",
       "nombre": "Powerball",
       "sorteo": {
-        "fecha": "2026-07-22",
+        "fecha": "2026-07-25",
         "blancos": [
+          3,
           4,
-          5,
-          22,
-          50,
-          58
+          24,
+          36,
+          47
         ],
-        "powerball": 1,
-        "powerplay": 3,
+        "powerball": 17,
+        "powerplay": 4,
+        "jackpot_ganado": false,
         "doble_jugada": {
           "blancos": [
-            9,
-            51,
-            54,
-            60,
-            61
+            20,
+            21,
+            26,
+            28,
+            32
           ],
-          "powerball": 15
+          "powerball": 10
         }
       },
       "proximo_sorteo": {
-        "fecha": "2026-07-25"
+        "fecha": "2026-07-27",
+        "premio_estimado": 633000000,
+        "premio_efectivo": 277300000
       }
     },
     "megamillions": {
@@ -54,21 +57,21 @@
       "juego": "lottoamerica",
       "nombre": "Lotto America",
       "sorteo": {
-        "fecha": "2026-07-22",
+        "fecha": "2026-07-25",
         "blancos": [
-          1,
-          12,
-          14,
-          29,
-          33
+          2,
+          6,
+          37,
+          49,
+          52
         ],
-        "star_ball": 6,
-        "all_star_bonus": 2,
+        "star_ball": 3,
+        "all_star_bonus": 4,
         "jackpot_ganado": false
       },
       "proximo_sorteo": {
-        "fecha": "2026-07-25",
-        "premio_estimado": 2100000
+        "fecha": "2026-07-27",
+        "premio_estimado": 2150000
       }
     },
     "cash4life": {
@@ -94,19 +97,20 @@
       "juego": "2by2",
       "nombre": "2by2",
       "sorteo": {
-        "fecha": "2026-07-24",
+        "fecha": "2026-07-25",
         "blancos": [
-          6,
-          8
+          18,
+          26
         ],
         "rojos": [
-          10,
-          14
+          5,
+          22
         ],
-        "jackpot_ganado": false
+        "jackpot_ganado": true,
+        "ganador_estado": "ND"
       },
       "proximo_sorteo": {
-        "fecha": "2026-07-25",
+        "fecha": "2026-07-26",
         "premio_estimado": 22000,
         "premio_descripcion": "Premio mayor: $22,000"
       }
