@@ -1,5 +1,5 @@
 {
-  "actualizado": "2026-07-26T15:30:00.861Z",
+  "actualizado": "2026-07-27T16:34:45.110Z",
   "juegos": {
     "powerball": {
       "juego": "powerball",
@@ -15,7 +15,17 @@
         ],
         "powerball": 17,
         "powerplay": 4,
-        "jackpot_ganado": false
+        "jackpot_ganado": false,
+        "doble_jugada": {
+          "blancos": [
+            20,
+            21,
+            26,
+            28,
+            32
+          ],
+          "powerball": 10
+        }
       },
       "proximo_sorteo": {
         "fecha": "2026-07-27",
@@ -87,20 +97,19 @@
       "juego": "2by2",
       "nombre": "2by2",
       "sorteo": {
-        "fecha": "2026-07-25",
+        "fecha": "2026-07-26",
         "blancos": [
-          18,
-          26
+          12,
+          17
         ],
         "rojos": [
-          5,
-          22
+          4,
+          11
         ],
-        "jackpot_ganado": true,
-        "ganador_estado": "ND"
+        "jackpot_ganado": false
       },
       "proximo_sorteo": {
-        "fecha": "2026-07-26",
+        "fecha": "2026-07-27",
         "premio_estimado": 22000,
         "premio_descripcion": "Premio mayor: $22,000"
       }
