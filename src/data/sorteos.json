@@ -1,5 +1,5 @@
 {
-  "actualizado": "2026-08-01T15:20:49.694Z",
+  "actualizado": "2026-08-02T07:07:22.929Z",
   "juegos": {
     "powerball": {
       "juego": "powerball",
@@ -14,17 +14,7 @@
           57
         ],
         "powerball": 2,
-        "powerplay": 2,
-        "doble_jugada": {
-          "blancos": [
-            24,
-            37,
-            40,
-            51,
-            55
-          ],
-          "powerball": 5
-        }
+        "powerplay": 2
       },
       "proximo_sorteo": {
         "fecha": "2026-08-01"
@@ -54,21 +44,21 @@
       "juego": "lottoamerica",
       "nombre": "Lotto America",
       "sorteo": {
-        "fecha": "2026-07-29",
+        "fecha": "2026-08-01",
         "blancos": [
-          11,
-          12,
-          20,
-          26,
-          33
+          14,
+          17,
+          27,
+          33,
+          36
         ],
-        "star_ball": 8,
-        "all_star_bonus": 4,
+        "star_ball": 10,
+        "all_star_bonus": 5,
         "jackpot_ganado": false
       },
       "proximo_sorteo": {
-        "fecha": "2026-08-01",
-        "premio_estimado": 2250000
+        "fecha": "2026-08-03",
+        "premio_estimado": 2300000
       }
     },
     "cash4life": {
@@ -94,20 +84,19 @@
       "juego": "2by2",
       "nombre": "2by2",
       "sorteo": {
-        "fecha": "2026-07-31",
+        "fecha": "2026-08-01",
         "blancos": [
-          12,
+          5,
           14
         ],
         "rojos": [
-          9,
-          22
+          18,
+          26
         ],
-        "jackpot_ganado": true,
-        "ganador_estado": "ND"
+        "jackpot_ganado": false
       },
       "proximo_sorteo": {
-        "fecha": "2026-08-01",
+        "fecha": "2026-08-02",
         "premio_estimado": 22000,
         "premio_descripcion": "Premio mayor: $22,000"
       }
