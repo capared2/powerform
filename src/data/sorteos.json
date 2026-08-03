@@ -1,5 +1,5 @@
 {
-  "actualizado": "2026-08-02T15:28:03.224Z",
+  "actualizado": "2026-08-03T16:41:32.752Z",
   "juegos": {
     "powerball": {
       "juego": "powerball",
@@ -94,19 +94,19 @@
       "juego": "2by2",
       "nombre": "2by2",
       "sorteo": {
-        "fecha": "2026-08-01",
+        "fecha": "2026-08-02",
         "blancos": [
-          5,
-          14
+          6,
+          25
         ],
         "rojos": [
-          18,
-          26
+          2,
+          25
         ],
         "jackpot_ganado": false
       },
       "proximo_sorteo": {
-        "fecha": "2026-08-02",
+        "fecha": "2026-08-03",
         "premio_estimado": 22000,
         "premio_descripcion": "Premio mayor: $22,000"
       }
