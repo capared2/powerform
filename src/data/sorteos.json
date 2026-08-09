@@ -1,23 +1,36 @@
 {
-  "actualizado": "2026-08-09T05:28:58.762Z",
+  "actualizado": "2026-08-09T14:53:09.351Z",
   "juegos": {
     "powerball": {
       "juego": "powerball",
       "nombre": "Powerball",
       "sorteo": {
-        "fecha": "2026-08-05",
+        "fecha": "2026-08-08",
         "blancos": [
-          14,
-          20,
-          59,
-          60,
-          61
+          5,
+          9,
+          35,
+          54,
+          63
         ],
-        "powerball": 25,
-        "powerplay": 2
+        "powerball": 7,
+        "powerplay": 3,
+        "jackpot_ganado": false,
+        "doble_jugada": {
+          "blancos": [
+            14,
+            29,
+            46,
+            55,
+            59
+          ],
+          "powerball": 16
+        }
       },
       "proximo_sorteo": {
-        "fecha": "2026-08-08"
+        "fecha": "2026-08-10",
+        "premio_estimado": 905000000,
+        "premio_efectivo": 391900000
       }
     },
     "megamillions": {
