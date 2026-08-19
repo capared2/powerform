@@ -1,5 +1,5 @@
 {
-  "actualizado": "2026-08-18T05:02:30.154Z",
+  "actualizado": "2026-08-19T14:53:51.272Z",
   "juegos": {
     "powerball": {
       "juego": "powerball",
@@ -37,20 +37,20 @@
       "juego": "megamillions",
       "nombre": "Mega Millions",
       "sorteo": {
-        "fecha": "2026-08-14",
+        "fecha": "2026-08-18",
         "blancos": [
-          3,
-          23,
-          27,
-          46,
-          60
+          5,
+          19,
+          30,
+          38,
+          59
         ],
-        "megaball": 11
+        "megaball": 12
       },
       "proximo_sorteo": {
-        "fecha": "2026-08-18",
-        "premio_estimado": 100000000,
-        "premio_efectivo": 42800000
+        "fecha": "2026-08-21",
+        "premio_estimado": 113000000,
+        "premio_efectivo": 48300000
       }
     },
     "lottoamerica": {
@@ -98,20 +98,19 @@
       "juego": "2by2",
       "nombre": "2by2",
       "sorteo": {
-        "fecha": "2026-08-17",
+        "fecha": "2026-08-18",
         "blancos": [
-          1,
-          15
+          10,
+          26
         ],
         "rojos": [
           10,
-          16
+          11
         ],
-        "jackpot_ganado": true,
-        "ganador_estado": "KS"
+        "jackpot_ganado": false
       },
       "proximo_sorteo": {
-        "fecha": "2026-08-18",
+        "fecha": "2026-08-19",
         "premio_estimado": 22000,
         "premio_descripcion": "Premio mayor: $22,000"
       }
