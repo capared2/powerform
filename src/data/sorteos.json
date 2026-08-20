@@ -1,5 +1,5 @@
 {
-  "actualizado": "2026-08-19T14:53:51.272Z",
+  "actualizado": "2026-08-20T05:04:40.792Z",
   "juegos": {
     "powerball": {
       "juego": "powerball",
@@ -14,23 +14,10 @@
           65
         ],
         "powerball": 22,
-        "powerplay": 4,
-        "jackpot_ganado": false,
-        "doble_jugada": {
-          "blancos": [
-            13,
-            34,
-            39,
-            45,
-            56
-          ],
-          "powerball": 2
-        }
+        "powerplay": 4
       },
       "proximo_sorteo": {
-        "fecha": "2026-08-19",
-        "premio_estimado": 48000000,
-        "premio_efectivo": 20800000
+        "fecha": "2026-08-19"
       }
     },
     "megamillions": {
@@ -57,22 +44,22 @@
       "juego": "lottoamerica",
       "nombre": "Lotto America",
       "sorteo": {
-        "fecha": "2026-08-17",
+        "fecha": "2026-08-19",
         "blancos": [
-          5,
-          8,
-          10,
-          24,
-          27
+          23,
+          31,
+          40,
+          41,
+          45
         ],
-        "star_ball": 4,
-        "all_star_bonus": 2,
+        "star_ball": 1,
+        "all_star_bonus": 5,
         "jackpot_ganado": false
       },
       "proximo_sorteo": {
-        "fecha": "2026-08-19",
-        "premio_estimado": 2650000,
-        "premio_efectivo": 1140000
+        "fecha": "2026-08-22",
+        "premio_estimado": 2700000,
+        "premio_efectivo": 1170000
       }
     },
     "cash4life": {
@@ -98,19 +85,19 @@
       "juego": "2by2",
       "nombre": "2by2",
       "sorteo": {
-        "fecha": "2026-08-18",
+        "fecha": "2026-08-19",
         "blancos": [
-          10,
-          26
+          15,
+          17
         ],
         "rojos": [
-          10,
-          11
+          17,
+          21
         ],
         "jackpot_ganado": false
       },
       "proximo_sorteo": {
-        "fecha": "2026-08-19",
+        "fecha": "2026-08-20",
         "premio_estimado": 22000,
         "premio_descripcion": "Premio mayor: $22,000"
       }
