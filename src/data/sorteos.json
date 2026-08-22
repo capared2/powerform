@@ -1,5 +1,5 @@
 {
-  "actualizado": "2026-08-21T14:54:04.983Z",
+  "actualizado": "2026-08-22T14:39:02.295Z",
   "juegos": {
     "powerball": {
       "juego": "powerball",
@@ -15,42 +15,32 @@
         ],
         "powerball": 17,
         "powerplay": 2,
-        "jackpot_ganado": false,
-        "doble_jugada": {
-          "blancos": [
-            5,
-            18,
-            38,
-            56,
-            67
-          ],
-          "powerball": 7
-        }
+        "jackpot_ganado": false
       },
       "proximo_sorteo": {
         "fecha": "2026-08-22",
         "premio_estimado": 68000000,
-        "premio_efectivo": 29500000
+        "premio_efectivo": 29200000
       }
     },
     "megamillions": {
       "juego": "megamillions",
       "nombre": "Mega Millions",
       "sorteo": {
-        "fecha": "2026-08-18",
+        "fecha": "2026-08-21",
         "blancos": [
-          5,
-          19,
-          30,
-          38,
-          59
+          1,
+          25,
+          34,
+          48,
+          57
         ],
-        "megaball": 12
+        "megaball": 24
       },
       "proximo_sorteo": {
-        "fecha": "2026-08-21",
-        "premio_estimado": 113000000,
-        "premio_efectivo": 48300000
+        "fecha": "2026-08-25",
+        "premio_estimado": 130000000,
+        "premio_efectivo": 55500000
       }
     },
     "lottoamerica": {
@@ -72,7 +62,7 @@
       "proximo_sorteo": {
         "fecha": "2026-08-22",
         "premio_estimado": 2700000,
-        "premio_efectivo": 1170000
+        "premio_efectivo": 1150000
       }
     },
     "cash4life": {
@@ -98,19 +88,19 @@
       "juego": "2by2",
       "nombre": "2by2",
       "sorteo": {
-        "fecha": "2026-08-20",
+        "fecha": "2026-08-21",
         "blancos": [
-          2,
-          19
+          1,
+          16
         ],
         "rojos": [
-          13,
-          25
+          9,
+          19
         ],
         "jackpot_ganado": false
       },
       "proximo_sorteo": {
-        "fecha": "2026-08-21",
+        "fecha": "2026-08-22",
         "premio_estimado": 22000,
         "premio_descripcion": "Premio mayor: $22,000"
       }
