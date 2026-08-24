@@ -1,5 +1,5 @@
 {
-  "actualizado": "2026-08-23T14:40:58.210Z",
+  "actualizado": "2026-08-24T15:01:15.326Z",
   "juegos": {
     "powerball": {
       "juego": "powerball",
@@ -15,6 +15,7 @@
         ],
         "powerball": 23,
         "powerplay": 3,
+        "jackpot_ganado": false,
         "doble_jugada": {
           "blancos": [
             4,
@@ -27,7 +28,9 @@
         }
       },
       "proximo_sorteo": {
-        "fecha": "2026-08-24"
+        "fecha": "2026-08-24",
+        "premio_estimado": 81000000,
+        "premio_efectivo": 34800000
       }
     },
     "megamillions": {
@@ -95,19 +98,19 @@
       "juego": "2by2",
       "nombre": "2by2",
       "sorteo": {
-        "fecha": "2026-08-22",
+        "fecha": "2026-08-23",
         "blancos": [
-          6,
-          21
+          1,
+          18
         ],
         "rojos": [
           2,
-          23
+          9
         ],
         "jackpot_ganado": false
       },
       "proximo_sorteo": {
-        "fecha": "2026-08-23",
+        "fecha": "2026-08-24",
         "premio_estimado": 22000,
         "premio_descripcion": "Premio mayor: $22,000"
       }
