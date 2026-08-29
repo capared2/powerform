@@ -1,5 +1,5 @@
 {
-  "actualizado": "2026-08-28T23:33:25.086Z",
+  "actualizado": "2026-08-29T17:43:47.944Z",
   "juegos": {
     "powerball": {
       "juego": "powerball",
@@ -15,6 +15,7 @@
         ],
         "powerball": 2,
         "powerplay": 2,
+        "jackpot_ganado": false,
         "doble_jugada": {
           "blancos": [
             6,
@@ -27,27 +28,29 @@
         }
       },
       "proximo_sorteo": {
-        "fecha": "2026-08-29"
+        "fecha": "2026-08-29",
+        "premio_estimado": 119000000,
+        "premio_efectivo": 51600000
       }
     },
     "megamillions": {
       "juego": "megamillions",
       "nombre": "Mega Millions",
       "sorteo": {
-        "fecha": "2026-08-25",
+        "fecha": "2026-08-28",
         "blancos": [
-          7,
-          10,
-          47,
-          48,
-          50
+          8,
+          17,
+          29,
+          42,
+          55
         ],
-        "megaball": 14
+        "megaball": 2
       },
       "proximo_sorteo": {
-        "fecha": "2026-08-28",
-        "premio_estimado": 145000000,
-        "premio_efectivo": 61900000
+        "fecha": "2026-09-01",
+        "premio_estimado": 160000000,
+        "premio_efectivo": 68900000
       }
     },
     "lottoamerica": {
@@ -95,20 +98,20 @@
       "juego": "2by2",
       "nombre": "2by2",
       "sorteo": {
-        "fecha": "2026-08-27",
+        "fecha": "2026-08-28",
         "blancos": [
-          10,
-          19
+          15,
+          18
         ],
         "rojos": [
-          11,
-          26
+          16,
+          17
         ],
         "jackpot_ganado": true,
-        "ganador_estado": "NE"
+        "ganador_estado": "WY"
       },
       "proximo_sorteo": {
-        "fecha": "2026-08-28",
+        "fecha": "2026-08-29",
         "premio_estimado": 22000,
         "premio_descripcion": "Premio mayor: $22,000"
       }
