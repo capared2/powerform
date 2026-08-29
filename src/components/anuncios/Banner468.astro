@@ -1,0 +1,24 @@
+---
+/**
+ * Banner 468x60 (Adsterra iframe) — unidad in-content de mitad de página.
+ * Ver Leaderboard.astro para el porqué de `is:inline`.
+ * Solo debe existir UNA unidad de esta key por página.
+ */
+interface Props { class?: string }
+const { class: clase = '' } = Astro.props;
+---
+<div class={`flex flex-col items-center gap-1 ${clase}`}>
+  <span class="text-[10px] uppercase tracking-[0.12em] text-slate-400 leading-none">Publicidad</span>
+  <div class="anuncio-slot" style="width:468px;height:60px">
+    <script is:inline>
+      atOptions = {
+        'key' : '847d6c0094540c0a6f23337b806ffb33',
+        'format' : 'iframe',
+        'height' : 60,
+        'width' : 468,
+        'params' : {}
+      };
+    </script>
+    <script is:inline src="https://www.highrevenueformat.com/847d6c0094540c0a6f23337b806ffb33/invoke.js"></script>
+  </div>
+</div>

@@ -2,6 +2,8 @@
 import Layout from '../../layouts/Layout.astro';
 import resultadosData from '../../data/resultados.json';
 import { fechaLarga, fechaConDia, fechaTarjeta } from '../../utils/fechas.js';
+import Rectangulo from '../../components/anuncios/Rectangulo.astro';
+import Banner468 from '../../components/anuncios/Banner468.astro';
 
 export async function getStaticPaths() {
   const sorteos = resultadosData.sorteos || [];
@@ -141,6 +143,11 @@ const jsonLdBreadcrumb = {
     </div>
   </section>
 
+  <!-- ANUNCIO in-content: bajo los números del sorteo -->
+  <div class="px-4 py-8">
+    <Rectangulo />
+  </div>
+
   <!-- DETALLE EN TEXTO -->
   <section class="py-12 px-4">
     <div class="max-w-3xl mx-auto space-y-8">
@@ -166,6 +173,10 @@ const jsonLdBreadcrumb = {
           Ver tabla completa de premios
           <i data-lucide="arrow-right" class="w-4 h-4"></i>
         </a>
+      </div>
+
+      <div class="hidden sm:block">
+        <Banner468 />
       </div>
 
       <div class="bg-gradient-to-r from-red-50 to-white border border-red-200 rounded-2xl p-6 text-center">

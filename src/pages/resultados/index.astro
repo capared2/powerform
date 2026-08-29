@@ -2,6 +2,8 @@
 import Layout from '../../layouts/Layout.astro';
 import resultadosData from '../../data/resultados.json';
 import { fechaConDia, MESES } from '../../utils/fechas.js';
+import Rectangulo from '../../components/anuncios/Rectangulo.astro';
+import Banner468 from '../../components/anuncios/Banner468.astro';
 
 const sorteos = resultadosData.sorteos || [];
 
@@ -87,6 +89,11 @@ const jsonLdCollectionPage = {
     </div>
   </section>
 
+  <!-- ANUNCIO in-content: encabezando el historial -->
+  <div class="px-4 pt-8">
+    <Rectangulo />
+  </div>
+
   <section class="max-w-4xl mx-auto px-4 py-12">
     {sorteos.length === 0 ? (
       <div class="bg-white border border-slate-200 rounded-2xl p-10 text-center">
@@ -128,6 +135,10 @@ const jsonLdCollectionPage = {
         </div>
       ))
     )}
+
+    <div class="hidden sm:block mt-8">
+      <Banner468 />
+    </div>
 
     <div class="mt-4 bg-white border border-slate-200 rounded-2xl p-6">
       <h2 class="font-display text-lg font-bold text-blue-950 mb-3">Sobre este historial</h2>

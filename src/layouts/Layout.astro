@@ -1,5 +1,11 @@
 ---
 import '../styles/global.css';
+import Leaderboard from '../components/anuncios/Leaderboard.astro';
+import Nativo from '../components/anuncios/Nativo.astro';
+import MovilSticky from '../components/anuncios/MovilSticky.astro';
+import RailIzquierdo from '../components/anuncios/RailIzquierdo.astro';
+import RailDerecho from '../components/anuncios/RailDerecho.astro';
+import AnuncioGlobal from '../components/anuncios/Global.astro';
 
 interface Props {
   title: string;
@@ -47,6 +53,9 @@ const {
   <!-- Preconnect -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preconnect" href="https://www.highrevenueformat.com" crossorigin />
+  <link rel="preconnect" href="https://pl29624141.profitableratecpmnetwork.com" crossorigin />
+  <link rel="dns-prefetch" href="https://pl29624143.profitableratecpmnetwork.com" />
 
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet" />
@@ -60,7 +69,7 @@ const {
     gtag('config', 'G-ZQ3EWYTH5G');
   </script>
 </head>
-<body class="bg-white min-h-screen pt-[68px]">
+<body class="bg-white min-h-screen pt-[68px] pb-[64px] md:pb-0">
 
   <!-- HEADER (fijo en todas las páginas) -->
   <header class="fixed top-0 inset-x-0 z-50 border-b border-slate-200 bg-white/95 backdrop-blur-md">
@@ -138,11 +147,25 @@ const {
     </div>
   </header>
 
+  <!-- ANUNCIOS: rails laterales (solo ≥1536px, fuera del flujo del contenido) -->
+  <RailIzquierdo />
+  <RailDerecho />
+
+  <!-- ANUNCIO: leaderboard superior (solo desktop, encima del hero) -->
+  <div class="hidden md:block bg-white pt-4 pb-3">
+    <Leaderboard />
+  </div>
+
   <!-- PAGE CONTENT -->
   <slot />
 
+  <!-- ANUNCIO: native banner de cierre, antes del footer -->
+  <div class="px-4 py-10 bg-slate-50 border-t border-slate-200">
+    <Nativo />
+  </div>
+
   <!-- SCROLL TO TOP -->
-  <button id="scrollTop" class="fixed bottom-6 right-6 bg-red-600 text-white p-3 rounded-full shadow-lg opacity-0 pointer-events-none transition-opacity hover:bg-red-700 z-40">
+  <button id="scrollTop" class="fixed bottom-20 md:bottom-6 right-6 bg-red-600 text-white p-3 rounded-full shadow-lg opacity-0 pointer-events-none transition-opacity hover:bg-red-700 z-40">
     <i data-lucide="arrow-up" class="w-6 h-6"></i>
   </button>
 
@@ -205,9 +228,14 @@ const {
     </div>
   </footer>
 
+  <!-- ANUNCIO: barra fija inferior (solo móvil) -->
+  <MovilSticky />
+
   <!-- Lucide Icons CDN -->
   <script is:inline src="https://cdn.jsdelivr.net/npm/lucide@latest/dist/umd/lucide.js"></script>
   <!-- Main JS -->
   <script is:inline src="/main.js"></script>
+  <!-- ANUNCIOS: script global de la red (una sola vez por página) -->
+  <AnuncioGlobal />
 </body>
 </html>

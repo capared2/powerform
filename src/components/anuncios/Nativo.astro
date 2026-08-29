@@ -1,0 +1,15 @@
+---
+/**
+ * Native Banner (Monetag/profitableratecpmnetwork). A diferencia de las
+ * unidades `atOptions`, este script es `async` y se inyecta solo dentro del
+ * contenedor por id, así que no bloquea el parser y es responsive.
+ * El id es único: solo puede haber UNA unidad por página.
+ */
+interface Props { class?: string }
+const { class: clase = '' } = Astro.props;
+---
+<div class={`w-full max-w-3xl mx-auto ${clase}`}>
+  <span class="block text-[10px] uppercase tracking-[0.12em] text-slate-400 leading-none mb-2 text-center">Publicidad</span>
+  <script is:inline async data-cfasync="false" src="https://pl29624141.profitableratecpmnetwork.com/caab74139c2a4dfb8eabf58864b37dfa/invoke.js"></script>
+  <div id="container-caab74139c2a4dfb8eabf58864b37dfa"></div>
+</div>

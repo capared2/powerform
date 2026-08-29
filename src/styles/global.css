@@ -434,3 +434,30 @@ a:focus-visible {
   .max-w-5xl { max-width: 64rem !important; }
   .max-w-6xl { max-width: 72rem !important; }
 }
+
+/* ============================================
+   ANUNCIOS
+   ============================================
+   `.anuncio-slot` reserva el tamaño exacto de cada creativo para que la
+   inserción del iframe no mueva el layout (CLS = 0). `overflow:hidden` +
+   `max-width:100%` evitan scroll horizontal si un creativo se pasa del
+   contenedor en pantallas angostas. */
+.anuncio-slot {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  max-width: 100%;
+  flex: none;
+}
+
+.anuncio-slot iframe {
+  display: block;
+  border: 0;
+}
+
+/* El native banner sí es responsive: no lleva alto fijo, solo un mínimo
+   para que la sección no colapse mientras carga. */
+#container-caab74139c2a4dfb8eabf58864b37dfa {
+  min-height: 180px;
+}

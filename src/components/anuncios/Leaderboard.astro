@@ -1,0 +1,29 @@
+---
+/**
+ * Leaderboard 728x90 (Adsterra iframe).
+ *
+ * El par `atOptions` + `invoke.js` tiene que ejecutarse EN LÍNEA y EN ORDEN
+ * porque invoke.js escribe el iframe con document.write() en la posición del
+ * script. Por eso ambos llevan `is:inline` (si no, Astro los agrupa/mueve).
+ * El contenedor reserva 728x90 exactos para no generar CLS.
+ *
+ * Solo debe existir UNA unidad de esta key por página.
+ */
+interface Props { class?: string }
+const { class: clase = '' } = Astro.props;
+---
+<div class={`flex flex-col items-center gap-1 ${clase}`}>
+  <span class="text-[10px] uppercase tracking-[0.12em] text-slate-400 leading-none">Publicidad</span>
+  <div class="anuncio-slot" style="width:728px;height:90px">
+    <script is:inline>
+      atOptions = {
+        'key' : 'ba00f0e7f1210ae84a029fb612c5f1fb',
+        'format' : 'iframe',
+        'height' : 90,
+        'width' : 728,
+        'params' : {}
+      };
+    </script>
+    <script is:inline src="https://www.highrevenueformat.com/ba00f0e7f1210ae84a029fb612c5f1fb/invoke.js"></script>
+  </div>
+</div>

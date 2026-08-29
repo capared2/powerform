@@ -1,6 +1,8 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import { estados, OG_IMAGE } from '../../data/estados.js';
+import Rectangulo from '../../components/anuncios/Rectangulo.astro';
+import Banner468 from '../../components/anuncios/Banner468.astro';
 
 const siteUrl = 'https://resultpowerball.com';
 const canonicalUrl = `${siteUrl}/estados/`;
@@ -81,6 +83,11 @@ const jsonLdCollectionPage = {
   </section>
 
   <!-- GRID DE ESTADOS -->
+  <!-- ANUNCIO in-content: encabezando el listado de estados -->
+  <div class="px-4 pt-8">
+    <Rectangulo />
+  </div>
+
   <section class="max-w-5xl mx-auto px-4 py-12">
     <h2 class="font-display text-2xl font-bold text-blue-950 mb-8 flex items-center gap-2">
       <i data-lucide="list" class="w-6 h-6 text-red-600"></i>
@@ -121,6 +128,11 @@ const jsonLdCollectionPage = {
       ))}
     </div>
   </section>
+
+  <!-- ANUNCIO in-content: entre el grid de estados y la info general -->
+  <div class="hidden sm:block px-4 pb-8">
+    <Banner468 />
+  </div>
 
   <!-- INFO GENERAL -->
   <section class="max-w-5xl mx-auto px-4 pb-12">

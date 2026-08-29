@@ -1,0 +1,21 @@
+---
+/**
+ * Half-skyscraper 160x300 fijo al margen derecho. Mismo criterio de
+ * breakpoint que RailIzquierdo.astro (solo ≥1536px).
+ */
+---
+<aside class="hidden 2xl:block fixed right-4 top-1/2 -translate-y-1/2 z-30" aria-label="Publicidad">
+  <span class="block text-[10px] uppercase tracking-[0.12em] text-slate-400 leading-none mb-1 text-center">Publicidad</span>
+  <div class="anuncio-slot" style="width:160px;height:300px">
+    <script is:inline>
+      atOptions = {
+        'key' : '1c8d41be97dd1139ceb8c390ffb0cd41',
+        'format' : 'iframe',
+        'height' : 300,
+        'width' : 160,
+        'params' : {}
+      };
+    </script>
+    <script is:inline src="https://www.highrevenueformat.com/1c8d41be97dd1139ceb8c390ffb0cd41/invoke.js"></script>
+  </div>
+</aside>

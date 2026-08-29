@@ -4,6 +4,8 @@ import resultadosData from '../data/resultados.json';
 import sorteosData from '../data/sorteos.json';
 import { JUEGOS, OTROS_JUEGOS, esVigente, formatearDineroCorto } from '../data/juegos.js';
 import { fechaLarga, fechaConDia, fechaTarjeta } from '../utils/fechas.js';
+import Rectangulo from '../components/anuncios/Rectangulo.astro';
+import Banner468 from '../components/anuncios/Banner468.astro';
 
 // Último sorteo disponible en build-time (el JSON se actualiza 3x/semana vía GitHub Actions).
 // Si aún no hay datos, la página cae al comportamiento anterior (skeleton + fetch en cliente).
@@ -279,6 +281,9 @@ const faqs = [
           </a>
         </div>
 
+        <!-- ANUNCIO in-content: bajo los números ganadores -->
+        <Rectangulo class="mt-10" />
+
         <p class="text-slate-500 text-sm max-w-2xl mx-auto mt-10 leading-relaxed">
           En esta página encontrarás los <strong class="text-slate-500">resultados de las principales loterías de Estados Unidos</strong> actualizados después de cada sorteo:
           Powerball (con Power Play y montos del jackpot), <a href="/mega-millions/" class="text-red-600 hover:underline">Mega Millions</a>,
@@ -533,6 +538,11 @@ const faqs = [
         </div>
       </div>
     </section>
+
+    <!-- ANUNCIO in-content: corte entre Cómo Jugar y Premios -->
+    <div class="hidden sm:block px-4 pb-4">
+      <Banner468 />
+    </div>
 
     <!-- ======== TABLA DE PREMIOS ======== -->
     <section id="premios" class="py-16 px-4 bg-slate-50 border-t border-b border-slate-200">

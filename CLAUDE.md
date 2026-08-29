@@ -22,8 +22,10 @@ src/
     juegos.js            # Metadatos de presentación por juego + esVigente() + helpers
   utils/
     fechas.js            # Formateo de fechas en español compartido (home + /resultados/)
+  components/
+    anuncios/            # 1 archivo por unidad de anuncio (ver "Anuncios")
   layouts/
-    Layout.astro         # Layout global: head, header, footer (SIN anuncios)
+    Layout.astro         # Layout global: head, header, footer + anuncios globales
   pages/
     index.astro          # Home multi-sorteo: Powerball + tarjetas de todos los juegos
     [juego].astro        # 1 página por sorteo: /mega-millions/, /lotto-america/, /cash4life/
@@ -105,9 +107,11 @@ public/
 
 Basadas en el reporte de Search Console (feb–jul 2026: 9 clics, 2,588 impresiones):
 
-- **Anuncios eliminados por completo** (Monetag popunder/vignette/push + Adsterra).
-  El vignette era un interstitial de página completa (penalización de page experience).
-  No re-agregar anuncios intrusivos hasta tener tráfico estable.
+- **Anuncios re-activados (ago 2026)** por decisión del dueño, tras haberlos quitado
+  en jul 2026 por page experience. Ver la sección "Anuncios" más abajo: esta vez NO
+  hay vignette ni interstitial de página completa (eso era lo penalizado); lo más
+  intrusivo es una barra adhesiva de 50px en móvil, dentro de lo que Google acepta.
+  Si el tráfico vuelve a caer, el primer sospechoso es esta capa.
 - **Canonical = URL con barra final** en todas las páginas (`trailingSlash: 'always'`).
   Antes el canonical de /estados/* apuntaba sin barra y Google indexaba duplicados.
 - Título y description de la home son **dinámicos** con la fecha y números del último
@@ -117,6 +121,37 @@ Basadas en el reporte de Search Console (feb–jul 2026: 9 clics, 2,588 impresio
   "powerball ayer"). Lo que mejor rankea del sitio son las long-tail de estados
   (pos 5–15); las keywords head ("resultados powerball") están en pos 40+ por falta
   de autoridad del dominio.
+
+## Anuncios (ago 2026)
+
+Todas las unidades viven en `src/components/anuncios/`, una por archivo, y cada key
+aparece **una sola vez por página** (dos veces la misma key en un HTML hace que la
+segunda no renderice).
+
+| Componente | Formato | Dónde |
+|---|---|---|
+| `Leaderboard.astro` | 728x90 | Layout, bajo el header — solo `md:` (≥768px) |
+| `RailIzquierdo.astro` | 160x600 | Layout, fijo al margen izquierdo — solo `2xl:` (≥1536px) |
+| `RailDerecho.astro` | 160x300 | Layout, fijo al margen derecho — solo `2xl:` |
+| `Nativo.astro` | native banner | Layout, antes del footer — responsive, `async` |
+| `MovilSticky.astro` | 320x50 | Layout, barra fija inferior — solo móvil (`md:hidden`) |
+| `Global.astro` | script de red | Layout, final del `<body>` |
+| `Rectangulo.astro` | 300x250 | in-content, en cada página (bajo los números) |
+| `Banner468.astro` | 468x60 | in-content, corte de mitad de página — solo `sm:` (≥640px) |
+
+Detalles que importan si tocas esto:
+
+- Los pares `atOptions` + `invoke.js` van con **`is:inline`** obligatorio: `invoke.js`
+  escribe el iframe con `document.write()` en la posición del script, así que Astro no
+  puede moverlos ni agruparlos. Tampoco se les puede poner `async`/`defer`.
+- `.anuncio-slot` (en `global.css`) reserva el tamaño exacto de cada creativo → CLS 0.
+  Los breakpoints están elegidos para que ningún creativo desborde: 468 solo desde
+  640px, 728 desde 768px, y los rails desde 1536px (a esa anchura quedan 192px de
+  margen a cada lado del contenido `max-w-6xl`, y el rail mide 160px).
+- `body` lleva `pb-[64px] md:pb-0` y `#scrollTop` está en `bottom-20 md:bottom-6`
+  para que la barra adhesiva de móvil no tape ni el footer ni el botón de subir.
+- `privacidad.astro` y `terminos.astro` declaran las cookies publicitarias y las
+  redes de terceros. Si cambias de red, actualiza también esos textos.
 
 ## Comandos útiles
 

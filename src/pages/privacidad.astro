@@ -1,6 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import '../styles/global.css';
+import Rectangulo from '../components/anuncios/Rectangulo.astro';
 ---
 
 <Layout
@@ -11,6 +12,10 @@ import '../styles/global.css';
 >
   <main class="py-16 px-4">
     <div class="max-w-4xl mx-auto">
+      <div class="mb-8">
+        <Rectangulo />
+      </div>
+
       <div class="bg-white border border-slate-200 rounded-2xl p-8 md:p-12">
 
         <h1 class="font-display text-4xl font-bold text-blue-950 mb-4">Política de Privacidad</h1>
@@ -84,6 +89,16 @@ import '../styles/global.css';
             <p class="text-slate-600 text-sm mb-2">Nos ayudan a entender cómo los visitantes usan el sitio. La información es anónima y agregada.</p>
             <p class="text-slate-500 text-xs"><strong>Ejemplo:</strong> Google Analytics (opcional)</p>
           </div>
+          <div class="bg-slate-50 border border-slate-300 rounded-xl p-5 mb-4">
+            <h4 class="text-lg font-semibold text-blue-950 mb-2">🎯 Cookies Publicitarias</h4>
+            <p class="text-slate-600 text-sm mb-2">
+              Este sitio se financia con publicidad. Nuestras redes publicitarias y sus socios pueden usar cookies e
+              identificadores similares para medir impresiones, limitar la frecuencia con la que ves un mismo anuncio
+              y mostrarte publicidad más relevante. Estas cookies las coloca el tercero, no nosotros, y no tenemos
+              acceso a la información que recogen.
+            </p>
+            <p class="text-slate-500 text-xs"><strong>Ejemplo:</strong> Redes de anuncios display y nativos</p>
+          </div>
           <h3 class="text-xl font-semibold text-blue-950 mb-3">4.3 Cómo Gestionar las Cookies</h3>
           <ul class="list-disc list-inside text-slate-600 space-y-2 mb-4 ml-4">
             <li><strong class="text-blue-950">Chrome:</strong> Configuración → Privacidad y seguridad → Cookies</li>
@@ -97,6 +112,7 @@ import '../styles/global.css';
           <h2 class="text-2xl font-bold text-blue-950 mb-4">5. Compartir Información con Terceros</h2>
           <ul class="list-disc list-inside text-slate-600 space-y-2 mb-4 ml-4">
             <li><strong class="text-blue-950">Proveedores de servicios:</strong> Empresas que nos ayudan a operar el sitio (hosting, CDN, analytics).</li>
+            <li><strong class="text-blue-950">Redes publicitarias:</strong> Terceros que muestran los anuncios del sitio y que pueden recibir tu dirección IP, el navegador y la página que estás viendo para servir y medir esos anuncios. Se rigen por sus propias políticas de privacidad.</li>
             <li><strong class="text-blue-950">Requisitos legales:</strong> Si la ley lo requiere o para proteger nuestros derechos legales.</li>
             <li><strong class="text-blue-950">Transferencia de negocio:</strong> En caso de fusión, adquisición o venta de activos.</li>
           </ul>

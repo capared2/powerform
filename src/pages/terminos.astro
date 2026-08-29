@@ -1,6 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import '../styles/global.css';
+import Rectangulo from '../components/anuncios/Rectangulo.astro';
 ---
 
 <Layout
@@ -11,6 +12,10 @@ import '../styles/global.css';
 >
   <main class="py-16 px-4">
     <div class="max-w-4xl mx-auto">
+      <div class="mb-8">
+        <Rectangulo />
+      </div>
+
       <div class="bg-white border border-slate-200 rounded-2xl p-8 md:p-12">
 
         <h1 class="font-display text-4xl font-bold text-blue-950 mb-4">Términos y Condiciones</h1>
@@ -62,6 +67,7 @@ import '../styles/global.css';
             <li>Problemas técnicos, interrupciones del servicio o errores en el sitio web</li>
             <li>Decisiones de juego tomadas basándose en nuestra información</li>
             <li>Enlaces a sitios web de terceros</li>
+            <li>Publicidad servida por redes de anuncios externas</li>
           </ul>
           <p class="text-slate-600 leading-relaxed">El uso de este sitio es bajo tu <strong class="text-blue-950">propio riesgo</strong>.</p>
         </section>

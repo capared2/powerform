@@ -3,6 +3,8 @@ import Layout from '../layouts/Layout.astro';
 import sorteosData from '../data/sorteos.json';
 import { JUEGOS, JUEGOS_CON_PAGINA, esVigente, formatearDineroCorto } from '../data/juegos.js';
 import { fechaLarga, fechaConDia, fechaTarjeta } from '../utils/fechas.js';
+import Rectangulo from '../components/anuncios/Rectangulo.astro';
+import Banner468 from '../components/anuncios/Banner468.astro';
 
 export async function getStaticPaths() {
   return JUEGOS_CON_PAGINA.map((id) => ({
@@ -197,6 +199,11 @@ const otrasPaginas = JUEGOS_CON_PAGINA.filter((j) => j !== id);
     </div>
   </section>
 
+  <!-- ANUNCIO in-content: bajo el resultado del sorteo -->
+  <div class="px-4 py-8">
+    <Rectangulo />
+  </div>
+
   <!-- DATOS DEL JUEGO -->
   <section class="py-12 px-4 bg-slate-50 border-t border-b border-slate-200">
     <div class="max-w-4xl mx-auto">
@@ -248,6 +255,11 @@ const otrasPaginas = JUEGOS_CON_PAGINA.filter((j) => j !== id);
       </ol>
     </div>
   </section>
+
+  <!-- ANUNCIO in-content: antes del FAQ -->
+  <div class="hidden sm:block px-4 pb-8">
+    <Banner468 />
+  </div>
 
   <!-- FAQ -->
   <section class="py-12 px-4 bg-slate-50 border-t border-b border-slate-200">

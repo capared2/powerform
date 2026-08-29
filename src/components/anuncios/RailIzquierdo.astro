@@ -1,0 +1,25 @@
+---
+/**
+ * Skyscraper 160x600 fijo al margen izquierdo.
+ *
+ * Solo a partir de 2xl (1536px): el contenido más ancho del sitio es
+ * `max-w-6xl` (1152px), así que a 1536px quedan 192px libres por lado y el
+ * rail de 160px + 16px de margen entra sin tapar nada. Por debajo de eso
+ * no se renderiza visualmente (display:none del wrapper).
+ */
+---
+<aside class="hidden 2xl:block fixed left-4 top-1/2 -translate-y-1/2 z-30" aria-label="Publicidad">
+  <span class="block text-[10px] uppercase tracking-[0.12em] text-slate-400 leading-none mb-1 text-center">Publicidad</span>
+  <div class="anuncio-slot" style="width:160px;height:600px">
+    <script is:inline>
+      atOptions = {
+        'key' : '2f7633a5aaf88f6de3c9e87b43039bfb',
+        'format' : 'iframe',
+        'height' : 600,
+        'width' : 160,
+        'params' : {}
+      };
+    </script>
+    <script is:inline src="https://www.highrevenueformat.com/2f7633a5aaf88f6de3c9e87b43039bfb/invoke.js"></script>
+  </div>
+</aside>

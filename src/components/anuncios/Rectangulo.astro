@@ -1,0 +1,25 @@
+---
+/**
+ * Rectángulo 300x250 (Adsterra iframe) — la unidad principal in-content:
+ * cabe en móvil (300 < 320) y va justo debajo de los números ganadores.
+ * Ver Leaderboard.astro para el porqué de `is:inline`.
+ * Solo debe existir UNA unidad de esta key por página.
+ */
+interface Props { class?: string }
+const { class: clase = '' } = Astro.props;
+---
+<div class={`flex flex-col items-center gap-1 ${clase}`}>
+  <span class="text-[10px] uppercase tracking-[0.12em] text-slate-400 leading-none">Publicidad</span>
+  <div class="anuncio-slot" style="width:300px;height:250px">
+    <script is:inline>
+      atOptions = {
+        'key' : '258892b31cefe22b315f151059a3c503',
+        'format' : 'iframe',
+        'height' : 250,
+        'width' : 300,
+        'params' : {}
+      };
+    </script>
+    <script is:inline src="https://www.highrevenueformat.com/258892b31cefe22b315f151059a3c503/invoke.js"></script>
+  </div>
+</div>
