@@ -1,23 +1,33 @@
 {
-  "actualizado": "2026-08-30T10:03:36.526Z",
+  "actualizado": "2026-08-30T18:04:34.008Z",
   "juegos": {
     "powerball": {
       "juego": "powerball",
       "nombre": "Powerball",
       "sorteo": {
-        "fecha": "2026-08-26",
+        "fecha": "2026-08-29",
         "blancos": [
-          12,
-          32,
-          45,
-          50,
-          58
+          18,
+          56,
+          62,
+          65,
+          67
         ],
-        "powerball": 2,
-        "powerplay": 2
+        "powerball": 18,
+        "powerplay": 2,
+        "doble_jugada": {
+          "blancos": [
+            16,
+            27,
+            57,
+            58,
+            59
+          ],
+          "powerball": 7
+        }
       },
       "proximo_sorteo": {
-        "fecha": "2026-08-29"
+        "fecha": "2026-08-31"
       }
     },
     "megamillions": {
