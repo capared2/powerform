@@ -1,5 +1,5 @@
 {
-  "actualizado": "2026-09-02T17:54:39.380Z",
+  "actualizado": "2026-09-03T09:05:22.697Z",
   "juegos": {
     "powerball": {
       "juego": "powerball",
@@ -14,23 +14,10 @@
           49
         ],
         "powerball": 10,
-        "powerplay": 2,
-        "jackpot_ganado": false,
-        "doble_jugada": {
-          "blancos": [
-            4,
-            26,
-            28,
-            44,
-            67
-          ],
-          "powerball": 20
-        }
+        "powerplay": 2
       },
       "proximo_sorteo": {
-        "fecha": "2026-09-02",
-        "premio_estimado": 146000000,
-        "premio_efectivo": 63300000
+        "fecha": "2026-09-02"
       }
     },
     "megamillions": {
@@ -57,22 +44,22 @@
       "juego": "lottoamerica",
       "nombre": "Lotto America",
       "sorteo": {
-        "fecha": "2026-08-31",
+        "fecha": "2026-09-02",
         "blancos": [
-          8,
-          22,
-          27,
-          30,
-          34
+          2,
+          4,
+          16,
+          39,
+          45
         ],
-        "star_ball": 4,
-        "all_star_bonus": 4,
+        "star_ball": 6,
+        "all_star_bonus": 3,
         "jackpot_ganado": false
       },
       "proximo_sorteo": {
-        "fecha": "2026-09-02",
-        "premio_estimado": 3400000,
-        "premio_efectivo": 1470000
+        "fecha": "2026-09-05",
+        "premio_estimado": 3610000,
+        "premio_efectivo": 1560000
       }
     },
     "cash4life": {
@@ -98,19 +85,19 @@
       "juego": "2by2",
       "nombre": "2by2",
       "sorteo": {
-        "fecha": "2026-09-01",
+        "fecha": "2026-09-02",
         "blancos": [
-          16,
-          21
+          8,
+          13
         ],
         "rojos": [
-          6,
-          9
+          10,
+          20
         ],
         "jackpot_ganado": false
       },
       "proximo_sorteo": {
-        "fecha": "2026-09-02",
+        "fecha": "2026-09-03",
         "premio_estimado": 22000,
         "premio_descripcion": "Premio mayor: $22,000"
       }
