@@ -1,5 +1,5 @@
 {
-  "actualizado": "2026-09-09T17:50:34.809Z",
+  "actualizado": "2026-09-10T09:04:27.531Z",
   "juegos": {
     "powerball": {
       "juego": "powerball",
@@ -14,23 +14,10 @@
           56
         ],
         "powerball": 3,
-        "powerplay": 3,
-        "jackpot_ganado": false,
-        "doble_jugada": {
-          "blancos": [
-            20,
-            26,
-            49,
-            56,
-            65
-          ],
-          "powerball": 5
-        }
+        "powerplay": 3
       },
       "proximo_sorteo": {
-        "fecha": "2026-09-09",
-        "premio_estimado": 207000000,
-        "premio_efectivo": 89300000
+        "fecha": "2026-09-09"
       }
     },
     "megamillions": {
@@ -57,22 +44,22 @@
       "juego": "lottoamerica",
       "nombre": "Lotto America",
       "sorteo": {
-        "fecha": "2026-09-07",
+        "fecha": "2026-09-09",
         "blancos": [
-          1,
-          15,
-          24,
-          35,
-          42
+          3,
+          4,
+          44,
+          47,
+          49
         ],
-        "star_ball": 9,
-        "all_star_bonus": 3,
+        "star_ball": 4,
+        "all_star_bonus": 2,
         "jackpot_ganado": false
       },
       "proximo_sorteo": {
-        "fecha": "2026-09-09",
-        "premio_estimado": 3960000,
-        "premio_efectivo": 1700000
+        "fecha": "2026-09-12",
+        "premio_estimado": 4160000,
+        "premio_efectivo": 1790000
       }
     },
     "cash4life": {
@@ -98,19 +85,19 @@
       "juego": "2by2",
       "nombre": "2by2",
       "sorteo": {
-        "fecha": "2026-09-08",
+        "fecha": "2026-09-09",
         "blancos": [
-          2,
-          24
+          13,
+          18
         ],
         "rojos": [
-          20,
-          25
+          13,
+          22
         ],
         "jackpot_ganado": false
       },
       "proximo_sorteo": {
-        "fecha": "2026-09-09",
+        "fecha": "2026-09-10",
         "premio_estimado": 22000,
         "premio_descripcion": "Premio mayor: $22,000"
       }
