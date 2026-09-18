@@ -1,5 +1,5 @@
 {
-  "actualizado": "2026-09-17T18:15:18.027Z",
+  "actualizado": "2026-09-18T17:41:41.267Z",
   "juegos": {
     "powerball": {
       "juego": "powerball",
@@ -98,20 +98,19 @@
       "juego": "2by2",
       "nombre": "2by2",
       "sorteo": {
-        "fecha": "2026-09-16",
+        "fecha": "2026-09-17",
         "blancos": [
-          12,
+          13,
           25
         ],
         "rojos": [
-          2,
-          17
+          6,
+          23
         ],
-        "jackpot_ganado": true,
-        "ganador_estado": "WY"
+        "jackpot_ganado": false
       },
       "proximo_sorteo": {
-        "fecha": "2026-09-17",
+        "fecha": "2026-09-18",
         "premio_estimado": 22000,
         "premio_descripcion": "Premio mayor: $22,000"
       }
