@@ -1,5 +1,5 @@
 {
-  "actualizado": "2026-09-23T18:24:35.290Z",
+  "actualizado": "2026-09-24T09:26:35.776Z",
   "juegos": {
     "powerball": {
       "juego": "powerball",
@@ -14,23 +14,10 @@
           58
         ],
         "powerball": 20,
-        "powerplay": 2,
-        "jackpot_ganado": false,
-        "doble_jugada": {
-          "blancos": [
-            3,
-            9,
-            16,
-            26,
-            32
-          ],
-          "powerball": 2
-        }
+        "powerplay": 2
       },
       "proximo_sorteo": {
-        "fecha": "2026-09-23",
-        "premio_estimado": 332000000,
-        "premio_efectivo": 141700000
+        "fecha": "2026-09-23"
       }
     },
     "megamillions": {
@@ -57,22 +44,22 @@
       "juego": "lottoamerica",
       "nombre": "Lotto America",
       "sorteo": {
-        "fecha": "2026-09-21",
+        "fecha": "2026-09-23",
         "blancos": [
-          22,
-          23,
-          33,
-          45,
-          49
+          13,
+          24,
+          32,
+          41,
+          48
         ],
-        "star_ball": 9,
-        "all_star_bonus": 4,
+        "star_ball": 5,
+        "all_star_bonus": 2,
         "jackpot_ganado": false
       },
       "proximo_sorteo": {
-        "fecha": "2026-09-23",
-        "premio_estimado": 5100000,
-        "premio_efectivo": 2170000
+        "fecha": "2026-09-26",
+        "premio_estimado": 5320000,
+        "premio_efectivo": 2270000
       }
     },
     "cash4life": {
@@ -98,19 +85,19 @@
       "juego": "2by2",
       "nombre": "2by2",
       "sorteo": {
-        "fecha": "2026-09-22",
+        "fecha": "2026-09-23",
         "blancos": [
-          1,
-          14
+          18,
+          24
         ],
         "rojos": [
-          10,
-          13
+          14,
+          21
         ],
         "jackpot_ganado": false
       },
       "proximo_sorteo": {
-        "fecha": "2026-09-23",
+        "fecha": "2026-09-24",
         "premio_estimado": 22000,
         "premio_descripcion": "Premio mayor: $22,000"
       }
