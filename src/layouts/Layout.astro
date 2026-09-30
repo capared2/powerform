@@ -6,6 +6,11 @@ import MovilSticky from '../components/anuncios/MovilSticky.astro';
 import RailIzquierdo from '../components/anuncios/RailIzquierdo.astro';
 import RailDerecho from '../components/anuncios/RailDerecho.astro';
 import AnuncioGlobal from '../components/anuncios/Global.astro';
+import Icon from '../components/Icon.astro';
+import BarraPestanas from '../components/app/BarraPestanas.astro';
+import Hoja from '../components/app/Hoja.astro';
+import ChipsSorteos from '../components/app/ChipsSorteos.astro';
+import { JUEGOS_NAV, seccionDe, pantallaDe } from '../data/navegacion.js';
 
 interface Props {
   title: string;
@@ -24,13 +29,20 @@ const {
   fullNav = false,
   activeFooterLink,
 } = Astro.props;
+
+// Interfaz tipo app en móvil: pestaña activa, título de la app bar y destino
+// del botón "Volver" se calculan a partir de la URL.
+const pathname = Astro.url.pathname.endsWith('/') ? Astro.url.pathname : `${Astro.url.pathname}/`;
+const seccion = seccionDe(pathname);
+const { titulo: tituloPantalla, atras } = pantallaDe(pathname);
+const mostrarChips = pathname === '/' || JUEGOS_NAV.some((j) => j.href === pathname);
 ---
 
 <!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
 
   <title>{title}</title>
   <meta name="description" content={description} />
@@ -46,6 +58,17 @@ const {
 
   <!-- Favicon -->
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%23DC2626'/><circle cx='16' cy='16' r='9' fill='white'/><text x='16' y='21' text-anchor='middle' font-size='13' font-weight='bold' fill='%23DC2626'>PB</text></svg>" />
+
+  <!-- PWA: instalable como app (manifest + íconos + barra de estado) -->
+  <link rel="manifest" href="/manifest.json" />
+  <meta name="theme-color" content="#ffffff" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="ResultPB" />
+  <meta name="application-name" content="ResultPB" />
+  <meta name="format-detection" content="telephone=no" />
 
   <!-- Page-specific head content (JSON-LD, OG, Twitter, keywords, etc.) -->
   <slot name="head" />
@@ -69,21 +92,32 @@ const {
     gtag('config', 'G-ZQ3EWYTH5G');
   </script>
 </head>
-<body class="bg-white min-h-screen pt-[68px] pb-[64px] md:pb-0">
+<body class="bg-white min-h-screen">
 
-  <!-- HEADER (fijo en todas las páginas) -->
-  <header class="fixed top-0 inset-x-0 z-50 border-b border-slate-200 bg-white/95 backdrop-blur-md">
+  <!-- HEADER (fijo). En móvil funciona como app bar: logo en la home; en las
+       demás páginas, botón "Volver" + título de la pantalla. -->
+  <header id="appHeader" class="app-header fixed top-0 inset-x-0 z-50 border-b border-slate-200 bg-white/95 backdrop-blur-md">
     <div class="h-1 bg-gradient-to-r from-red-600 via-white to-blue-900"></div>
-    <div class="max-w-6xl mx-auto px-4 py-3.5 flex items-center justify-between">
-      <a href="/" class="flex items-center gap-2.5">
+    <div class="app-header-barra max-w-6xl mx-auto px-2 lg:px-4 h-14 lg:h-16 flex items-center justify-between gap-1">
+      {atras && (
+        <a href={atras} id="btnAtras" class="app-icon-btn inline-flex lg:hidden text-blue-950" aria-label="Volver">
+          <Icon name="chevron-left" class="w-7 h-7" />
+        </a>
+      )}
+
+      <a href="/" class={`items-center gap-2.5 pl-2 lg:pl-0 ${tituloPantalla ? 'hidden lg:flex' : 'flex'}`}>
         <div class="bg-red-600 rounded-lg p-1.5">
-          <i data-lucide="star" class="w-5 h-5 text-white"></i>
+          <Icon name="star" class="w-5 h-5 text-white" />
         </div>
         <span class="font-display text-xl font-bold text-blue-950 tracking-tight">Result<span class="text-red-600">PB</span></span>
       </a>
 
-      <button id="menuBtn" class="lg:hidden flex items-center px-3 py-2 border-2 border-red-600 text-red-600 rounded hover:bg-red-50 transition-colors" aria-label="Menú" aria-expanded="false">
-        <i data-lucide="menu" class="w-6 h-6"></i>
+      {tituloPantalla && (
+        <p class="lg:hidden flex-1 min-w-0 truncate font-display text-lg font-semibold text-blue-950 tracking-tight">{tituloPantalla}</p>
+      )}
+
+      <button type="button" id="btnCompartir" class="app-icon-btn inline-flex lg:hidden text-blue-950 ml-auto" aria-label="Compartir esta página">
+        <Icon name="share" class="w-[22px] h-[22px]" />
       </button>
 
       <nav class="hidden lg:flex items-center gap-6">
@@ -95,10 +129,9 @@ const {
           </button>
           <div id="sorteosMenu" class="hidden absolute left-1/2 -translate-x-1/2 top-full pt-3 w-56">
             <div class="bg-white border border-slate-200 rounded-xl shadow-xl py-2">
-              <a href="/" class="block px-4 py-2.5 text-sm font-medium text-slate-700 hover:bg-red-50 hover:text-red-600 transition-colors">Powerball</a>
-              <a href="/mega-millions/" class="block px-4 py-2.5 text-sm font-medium text-slate-700 hover:bg-red-50 hover:text-red-600 transition-colors">Mega Millions</a>
-              <a href="/lotto-america/" class="block px-4 py-2.5 text-sm font-medium text-slate-700 hover:bg-red-50 hover:text-red-600 transition-colors">Lotto America</a>
-              <a href="/cash4life/" class="block px-4 py-2.5 text-sm font-medium text-slate-700 hover:bg-red-50 hover:text-red-600 transition-colors">Cash4Life</a>
+              {JUEGOS_NAV.map((j) => (
+                <a href={j.href} class="block px-4 py-2.5 text-sm font-medium text-slate-700 hover:bg-red-50 hover:text-red-600 transition-colors">{j.nombre}</a>
+              ))}
               <div class="border-t border-slate-200 my-1"></div>
               <a href="/resultados/" class="block px-4 py-2.5 text-sm font-medium text-slate-700 hover:bg-red-50 hover:text-red-600 transition-colors">Resultados anteriores</a>
             </div>
@@ -109,41 +142,6 @@ const {
         <a href="/estados/" class="text-slate-600 hover:text-blue-950 text-sm font-medium nav-link transition-colors">Estados</a>
         <a href="/#faq" class="text-slate-600 hover:text-blue-950 text-sm font-medium nav-link transition-colors">FAQ</a>
       </nav>
-    </div>
-
-    <div id="mobileMenu" class="hidden lg:hidden pb-4 px-4 max-h-[calc(100vh-80px)] overflow-y-auto bg-white/95">
-      <div class="flex flex-col gap-2">
-        <a href="/#resultados" class="flex items-center gap-2 px-4 py-3 bg-red-600 text-white rounded-lg font-semibold shadow-md">
-          <i data-lucide="home" class="w-4 h-4"></i>
-          <span>Resultados</span>
-        </a>
-        <p class="text-slate-500 text-xs font-semibold uppercase tracking-widest px-4 pt-2">Sorteos</p>
-        <a href="/" class="flex items-center gap-2 px-4 py-3 bg-slate-100 text-slate-700 rounded-lg font-semibold hover:bg-slate-200 transition-all">
-          <span>Powerball</span>
-        </a>
-        <a href="/mega-millions/" class="flex items-center gap-2 px-4 py-3 bg-slate-100 text-slate-700 rounded-lg font-semibold hover:bg-slate-200 transition-all">
-          <span>Mega Millions</span>
-        </a>
-        <a href="/lotto-america/" class="flex items-center gap-2 px-4 py-3 bg-slate-100 text-slate-700 rounded-lg font-semibold hover:bg-slate-200 transition-all">
-          <span>Lotto America</span>
-        </a>
-        <a href="/cash4life/" class="flex items-center gap-2 px-4 py-3 bg-slate-100 text-slate-700 rounded-lg font-semibold hover:bg-slate-200 transition-all">
-          <span>Cash4Life</span>
-        </a>
-        <p class="text-slate-500 text-xs font-semibold uppercase tracking-widest px-4 pt-2">Guía</p>
-        <a href="/#como-jugar" class="flex items-center gap-2 px-4 py-3 bg-slate-100 text-slate-700 rounded-lg font-semibold hover:bg-slate-200 transition-all">
-          <span>Cómo Jugar</span>
-        </a>
-        <a href="/#premios" class="flex items-center gap-2 px-4 py-3 bg-slate-100 text-slate-700 rounded-lg font-semibold hover:bg-slate-200 transition-all">
-          <span>Premios</span>
-        </a>
-        <a href="/estados/" class="flex items-center gap-2 px-4 py-3 bg-slate-100 text-slate-700 rounded-lg font-semibold hover:bg-slate-200 transition-all">
-          <span>Estados</span>
-        </a>
-        <a href="/#faq" class="flex items-center gap-2 px-4 py-3 bg-slate-100 text-slate-700 rounded-lg font-semibold hover:bg-slate-200 transition-all">
-          <span>FAQ</span>
-        </a>
-      </div>
     </div>
   </header>
 
@@ -156,6 +154,9 @@ const {
     <Leaderboard />
   </div>
 
+  <!-- MÓVIL: chips para saltar entre juegos (home + páginas de cada juego) -->
+  {mostrarChips && <ChipsSorteos actual={pathname} />}
+
   <!-- PAGE CONTENT -->
   <slot />
 
@@ -164,13 +165,13 @@ const {
     <Nativo />
   </div>
 
-  <!-- SCROLL TO TOP -->
-  <button id="scrollTop" class="fixed bottom-20 md:bottom-6 right-6 bg-red-600 text-white p-3 rounded-full shadow-lg opacity-0 pointer-events-none transition-opacity hover:bg-red-700 z-40">
+  <!-- SCROLL TO TOP (solo desktop: en móvil se sube tocando la pestaña activa) -->
+  <button id="scrollTop" class="hidden lg:block fixed bottom-6 right-6 bg-red-600 text-white p-3 rounded-full shadow-lg opacity-0 pointer-events-none transition-opacity hover:bg-red-700 z-40">
     <i data-lucide="arrow-up" class="w-6 h-6"></i>
   </button>
 
   <!-- FOOTER -->
-  <footer class="px-4 pt-10 pb-6 bg-blue-950 border-t-4 border-red-600">
+  <footer id="footer" class="px-4 pt-10 pb-6 bg-blue-950 border-t-4 border-red-600">
     <div class="max-w-5xl mx-auto">
       <div class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-10">
         <div class="col-span-2 lg:col-span-1">
@@ -186,10 +187,9 @@ const {
         <nav aria-label="Sorteos">
           <p class="text-white font-semibold text-xs uppercase tracking-widest mb-3">Sorteos</p>
           <ul class="space-y-2.5 text-sm">
-            <li><a href="/" class="text-blue-300 hover:text-white transition-colors">Powerball</a></li>
-            <li><a href="/mega-millions/" class="text-blue-300 hover:text-white transition-colors">Mega Millions</a></li>
-            <li><a href="/lotto-america/" class="text-blue-300 hover:text-white transition-colors">Lotto America</a></li>
-            <li><a href="/cash4life/" class="text-blue-300 hover:text-white transition-colors">Cash4Life</a></li>
+            {JUEGOS_NAV.map((j) => (
+              <li><a href={j.href} class="text-blue-300 hover:text-white transition-colors">{j.nombre}</a></li>
+            ))}
           </ul>
         </nav>
 
@@ -228,8 +228,75 @@ const {
     </div>
   </footer>
 
-  <!-- ANUNCIO: barra fija inferior (solo móvil) -->
+  <!-- ANUNCIO: barra fija inferior (solo móvil, encima de la barra de pestañas) -->
   <MovilSticky />
+
+  <!-- ============ INTERFAZ TIPO APP (móvil y tablet, < lg) ============ -->
+  <BarraPestanas seccion={seccion} actual={pathname} />
+
+  <Hoja id="hojaSorteos" titulo="Sorteos">
+    <ul class="lista-app">
+      {JUEGOS_NAV.map((j) => (
+        <li>
+          <a href={j.href} class="fila-app" aria-current={pathname === j.href ? 'page' : undefined}>
+            <span class={`fila-icono bola text-[11px] font-bold ${j.bolaClases}`}>{j.abrev}</span>
+            <span class="flex-1 min-w-0">
+              <span class="block font-semibold text-blue-950">{j.nombre}</span>
+              <span class="block text-xs text-slate-500 truncate">{j.dias} · {j.hora}</span>
+            </span>
+            <Icon name="chevron-right" class="w-5 h-5 text-slate-400 shrink-0" />
+          </a>
+        </li>
+      ))}
+    </ul>
+    <ul class="lista-app mt-4">
+      <li>
+        <a href="/resultados/" class="fila-app">
+          <span class="fila-icono bg-blue-900 text-white"><Icon name="history" class="w-[18px] h-[18px]" /></span>
+          <span class="flex-1 font-semibold text-blue-950">Resultados anteriores</span>
+          <Icon name="chevron-right" class="w-5 h-5 text-slate-400 shrink-0" />
+        </a>
+      </li>
+    </ul>
+  </Hoja>
+
+  <Hoja id="hojaMenu" titulo="Más">
+    <div id="bloqueInstalar" class="mb-1" hidden>
+      <button type="button" id="btnInstalar" class="w-full flex items-center gap-3 bg-red-600 active:bg-red-700 text-white rounded-2xl px-4 py-3.5 text-left presionable">
+        <span class="fila-icono bg-white/20"><Icon name="download" class="w-[18px] h-[18px]" /></span>
+        <span class="flex-1 min-w-0">
+          <span class="block font-semibold">Instalar la app</span>
+          <span class="block text-xs text-red-100">Resultados a un toque desde tu pantalla de inicio</span>
+        </span>
+      </button>
+      <p id="ayudaIos" class="text-sm text-slate-600 bg-white rounded-2xl px-4 py-3 mt-2 leading-relaxed" hidden>
+        En iPhone: toca <Icon name="share" class="inline w-4 h-4 -mt-1 text-blue-600" /> <strong>Compartir</strong> en Safari y luego
+        <Icon name="square-plus" class="inline w-4 h-4 -mt-1 text-blue-600" /> <strong>Agregar a inicio</strong>.
+      </p>
+    </div>
+
+    <p class="lista-app-titulo">Powerball</p>
+    <ul class="lista-app">
+      <li><a href="/#resultados" class="fila-app"><span class="fila-icono bg-red-600 text-white"><Icon name="calendar-days" class="w-[18px] h-[18px]" /></span><span class="flex-1 font-medium text-blue-950">Resultados de hoy</span><Icon name="chevron-right" class="w-5 h-5 text-slate-400 shrink-0" /></a></li>
+      <li><a href="/#como-jugar" class="fila-app"><span class="fila-icono bg-blue-900 text-white"><Icon name="book-open" class="w-[18px] h-[18px]" /></span><span class="flex-1 font-medium text-blue-950">Cómo jugar</span><Icon name="chevron-right" class="w-5 h-5 text-slate-400 shrink-0" /></a></li>
+      <li><a href="/#premios" class="fila-app"><span class="fila-icono bg-amber-500 text-white"><Icon name="trophy" class="w-[18px] h-[18px]" /></span><span class="flex-1 font-medium text-blue-950">Premios</span><Icon name="chevron-right" class="w-5 h-5 text-slate-400 shrink-0" /></a></li>
+      <li><a href="/#faq" class="fila-app"><span class="fila-icono bg-emerald-600 text-white"><Icon name="circle-help" class="w-[18px] h-[18px]" /></span><span class="flex-1 font-medium text-blue-950">Preguntas frecuentes</span><Icon name="chevron-right" class="w-5 h-5 text-slate-400 shrink-0" /></a></li>
+    </ul>
+
+    <p class="lista-app-titulo">Sitio</p>
+    <ul class="lista-app">
+      <li><a href="/contacto/" class="fila-app" aria-current={pathname === '/contacto/' ? 'page' : undefined}><span class="fila-icono bg-slate-500 text-white"><Icon name="mail" class="w-[18px] h-[18px]" /></span><span class="flex-1 font-medium text-blue-950">Contacto</span><Icon name="chevron-right" class="w-5 h-5 text-slate-400 shrink-0" /></a></li>
+      <li><a href="/terminos/" class="fila-app" aria-current={pathname === '/terminos/' ? 'page' : undefined}><span class="fila-icono bg-slate-500 text-white"><Icon name="file-text" class="w-[18px] h-[18px]" /></span><span class="flex-1 font-medium text-blue-950">Términos</span><Icon name="chevron-right" class="w-5 h-5 text-slate-400 shrink-0" /></a></li>
+      <li><a href="/privacidad/" class="fila-app" aria-current={pathname === '/privacidad/' ? 'page' : undefined}><span class="fila-icono bg-slate-500 text-white"><Icon name="shield" class="w-[18px] h-[18px]" /></span><span class="flex-1 font-medium text-blue-950">Privacidad</span><Icon name="chevron-right" class="w-5 h-5 text-slate-400 shrink-0" /></a></li>
+    </ul>
+
+    <p class="text-xs text-slate-500 text-center mt-5 px-4 leading-relaxed">
+      No afiliado con la Multi-State Lottery Association. Juega responsablemente.
+    </p>
+  </Hoja>
+
+  <!-- Aviso breve tipo snackbar (p. ej. "Enlace copiado") -->
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
 
   <!-- Lucide Icons CDN -->
   <script is:inline src="https://cdn.jsdelivr.net/npm/lucide@latest/dist/umd/lucide.js"></script>

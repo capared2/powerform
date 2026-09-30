@@ -81,7 +81,7 @@ const jsonLdBreadcrumb = {
     <script type="application/ld+json" set:html={JSON.stringify(jsonLdBreadcrumb)} />
   </Fragment>
 
-  <section class="hero-bg pt-12 pb-14 px-4">
+  <section class="hero-bg pt-6 md:pt-12 pb-14 px-4">
     <div class="max-w-3xl mx-auto">
       <!-- Breadcrumb -->
       <nav class="flex items-center justify-center gap-2 text-xs text-slate-500 mb-8 flex-wrap">
@@ -101,7 +101,7 @@ const jsonLdBreadcrumb = {
       </p>
 
       <!-- TARJETA DE NÚMEROS -->
-      <div class="bg-white border border-slate-200 rounded-2xl p-8 card-glow max-w-2xl mx-auto">
+      <div class="bg-white border border-slate-200 rounded-2xl p-4 sm:p-8 card-glow max-w-2xl mx-auto">
         <div class="flex items-center justify-center gap-2 flex-wrap mb-2">
           <div class="flex gap-2 flex-wrap justify-center">
             {sorteo.blancos.map((n) => <div class="ball-white">{n}</div>)}

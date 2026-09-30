@@ -1,0 +1,43 @@
+---
+/**
+ * Barra de pestañas inferior estilo app nativa — solo < lg (1024px).
+ *
+ * "Sorteos" y "Más" abren hojas inferiores (ver Hoja.astro). Son enlaces con
+ * destino real (/#sorteos y #footer) para que sigan funcionando sin JS;
+ * main.js intercepta el clic y abre la hoja.
+ * Tocar la pestaña de la pantalla actual sube al inicio (como en iOS/Android);
+ * en una subpágina (p. ej. /estados/texas/) la pestaña lleva a su raíz.
+ */
+import Icon from '../Icon.astro';
+
+interface Props {
+  seccion: 'inicio' | 'sorteos' | 'historial' | 'estados' | 'mas';
+  actual: string; // pathname de la página (con barra final)
+}
+
+const { seccion, actual } = Astro.props;
+
+const pestanas = [
+  { id: 'inicio', texto: 'Inicio', icono: 'house', href: '/' },
+  { id: 'sorteos', texto: 'Sorteos', icono: 'ticket', href: '/#sorteos', hoja: 'hojaSorteos' },
+  { id: 'historial', texto: 'Historial', icono: 'history', href: '/resultados/' },
+  { id: 'estados', texto: 'Estados', icono: 'map-pin', href: '/estados/' },
+  { id: 'mas', texto: 'Más', icono: 'menu', href: '#footer', hoja: 'hojaMenu' },
+] as const;
+---
+<nav id="tabBar" class="tabbar flex lg:hidden" aria-label="Navegación principal">
+  {pestanas.map((t) => (
+    <a
+      href={t.href}
+      class="tab"
+      data-activo={seccion === t.id ? '' : undefined}
+      aria-current={actual === t.href ? 'page' : undefined}
+      data-hoja={'hoja' in t ? t.hoja : undefined}
+      aria-controls={'hoja' in t ? t.hoja : undefined}
+      aria-haspopup={'hoja' in t ? 'dialog' : undefined}
+    >
+      <span class="tab-icono"><Icon name={t.icono} class="w-[22px] h-[22px]" /></span>
+      <span class="tab-texto">{t.texto}</span>
+    </a>
+  ))}
+</nav>

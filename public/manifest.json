@@ -1,20 +1,61 @@
 {
-  "name": "ResultPowerball - Resultados Powerball en Español",
+  "id": "/",
+  "name": "ResultPowerball - Resultados de Loterías USA en Español",
   "short_name": "ResultPB",
-  "description": "Resultados del Powerball en español. Números ganadores actualizados cada sorteo.",
-  "start_url": "/",
+  "description": "Resultados del Powerball, Mega Millions, Lotto America, Cash4Life y 2by2 en español. Números ganadores actualizados después de cada sorteo.",
+  "start_url": "/?utm_source=pwa",
   "scope": "/",
   "display": "standalone",
+  "orientation": "portrait",
   "background_color": "#FFFFFF",
-  "theme_color": "#DC2626",
+  "theme_color": "#FFFFFF",
   "lang": "es",
   "dir": "ltr",
+  "categories": ["entertainment", "news"],
   "icons": [
+    {
+      "src": "/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
     {
       "src": "/logo.svg",
       "sizes": "any",
       "type": "image/svg+xml",
-      "purpose": "any maskable"
+      "purpose": "any"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Resultados Powerball",
+      "short_name": "Powerball",
+      "url": "/?utm_source=pwa",
+      "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192", "type": "image/png" }]
+    },
+    {
+      "name": "Resultados Mega Millions",
+      "short_name": "Mega Millions",
+      "url": "/mega-millions/?utm_source=pwa",
+      "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192", "type": "image/png" }]
+    },
+    {
+      "name": "Historial de sorteos",
+      "short_name": "Historial",
+      "url": "/resultados/?utm_source=pwa",
+      "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192", "type": "image/png" }]
     }
   ]
 }

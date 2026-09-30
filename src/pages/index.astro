@@ -80,11 +80,6 @@ const faqs = [
   <!-- Page-specific head: keywords, OG, Twitter, JSON-LD, geo -->
   <Fragment slot="head">
     <meta name="keywords" content="resultados powerball hoy, números ganadores powerball, powerball en español, loteria powerball resultados, powerball estados unidos, powerball california, powerball texas, powerball florida, powerball nueva york, powerball puerto rico, como jugar powerball, jackpot powerball hoy, powerball esta semana, verificar powerball, powerball premio estimado, powerball ganadores hoy, powerball último sorteo, números calientes powerball, números fríos powerball, estadísticas powerball, power play que es, cuanto cuesta powerball, donde comprar powerball, como cobrar powerball, probabilidades powerball, premio en efectivo powerball, powerball millones, mega millions vs powerball, powerball online, consultar powerball, sorteo powerball en vivo, powerball latinos, powerball hispanos, powerball mexicanos en usa, powerball dominicanos, powerball salvadoreños, powerball guatemaltecos, powerball hondureños en usa, powerball colombia, powerball venezuela, powerball argentina, powerball chile, powerball peru, powerball ecuador, powerball latinoamerica, powerball español usa, loteria americana en español, cuando juega powerball hoy, a que hora es el sorteo powerball, numeros ganadores powerball ayer, powerball cuanto esta hoy, resultado loteria powerball, powerball en vivo, resultados mega millions hoy, mega millions en español, numeros ganadores mega millions, resultados lotto america, lotto america en español, resultados cash4life, cash4life en español, loterias de estados unidos en español, resultados loterias usa" />
-    <meta name="theme-color" content="#DC2626" />
-    <link rel="manifest" href="/manifest.json" />
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-    <meta name="apple-mobile-web-app-title" content="ResultPB" />
     <meta name="geo.region" content="US" />
     <meta name="geo.placename" content="United States, California, Texas, Florida, New York, Puerto Rico, Arizona, Georgia, Illinois, North Carolina, Pennsylvania" />
     <meta name="geo.position" content="37.0902;-95.7129" />
@@ -165,7 +160,7 @@ const faqs = [
   <main>
 
     <!-- ======== HERO + RESULTADOS ======== -->
-    <section id="resultados" class="hero-bg pt-14 pb-16 px-4">
+    <section id="resultados" class="hero-bg pt-6 md:pt-14 pb-16 px-4">
       <div class="max-w-4xl mx-auto text-center">
 
         <div class="inline-flex items-center gap-2 bg-white border border-slate-300 rounded-full px-4 py-1.5 mb-6 badge-pulse">
@@ -173,10 +168,10 @@ const faqs = [
           <span class="text-sm text-slate-700" id="proximo-sorteo">Sorteos: lunes, miércoles y sábado · 10:59 PM ET</span>
         </div>
 
-        <h1 class="font-display text-4xl md:text-5xl font-bold text-blue-950 mb-2 tracking-tight leading-tight">
+        <h1 class="font-display text-3xl sm:text-4xl md:text-5xl font-bold text-blue-950 mb-2 tracking-tight leading-tight">
           Resultados del <span class="text-red-600">Powerball</span> y Loterías USA
         </h1>
-        <p class="text-slate-500 mb-10 text-base max-w-xl mx-auto">
+        <p class="text-slate-500 mb-6 md:mb-10 text-base max-w-xl mx-auto">
           Powerball · Mega Millions · Lotto America · Cash4Life — números ganadores actualizados después de cada sorteo
         </p>
 
@@ -205,7 +200,7 @@ const faqs = [
           <!-- RESULTADOS: renderizados en build-time y refrescados en cliente si hay datos más nuevos -->
           <div
             id="real-card"
-            class={`${ultimo ? '' : 'hidden '}bg-white border border-slate-200 rounded-2xl p-8 card-glow`}
+            class={`${ultimo ? '' : 'hidden '}bg-white border border-slate-200 rounded-2xl p-4 sm:p-8 card-glow`}
             data-static={ultimo ? '1' : undefined}
           >
             <div class="flex items-center justify-center gap-2 text-slate-500 mb-6">

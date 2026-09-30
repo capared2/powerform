@@ -1,0 +1,34 @@
+---
+/**
+ * Hoja inferior (bottom sheet) estilo app nativa. Se abre desde la barra de
+ * pestañas con `data-hoja="<id>"` y se cierra con el fondo, la X, Escape o
+ * arrastrando el asa hacia abajo. Toda la lógica está en public/main.js.
+ * Cerrada queda con `visibility:hidden`: fuera del orden de tabulación y del
+ * árbol de accesibilidad.
+ */
+import Icon from '../Icon.astro';
+
+interface Props {
+  id: string;
+  titulo: string;
+}
+
+const { id, titulo } = Astro.props;
+---
+<div id={id} class="hoja lg:hidden" role="dialog" aria-modal="true" aria-labelledby={`${id}-titulo`}>
+  <div class="hoja-fondo" data-cerrar-hoja></div>
+  <div class="hoja-panel">
+    <div class="hoja-arrastre">
+      <div class="hoja-asa" aria-hidden="true"></div>
+      <div class="flex items-center justify-between px-5 pb-3">
+        <p id={`${id}-titulo`} class="font-display text-xl font-bold text-blue-950">{titulo}</p>
+        <button type="button" class="app-icon-btn inline-flex bg-slate-200/70 text-slate-600 !w-8 !h-8" data-cerrar-hoja aria-label="Cerrar">
+          <Icon name="x" class="w-4 h-4" />
+        </button>
+      </div>
+    </div>
+    <div class="hoja-contenido">
+      <slot />
+    </div>
+  </div>
+</div>

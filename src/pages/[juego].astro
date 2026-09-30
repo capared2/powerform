@@ -99,7 +99,7 @@ const otrasPaginas = JUEGOS_CON_PAGINA.filter((j) => j !== id);
   </Fragment>
 
   <!-- HERO + RESULTADO -->
-  <section class="hero-bg pt-12 pb-14 px-4">
+  <section class="hero-bg pt-6 md:pt-12 pb-14 px-4">
     <div class="max-w-3xl mx-auto">
       <nav class="flex items-center justify-center gap-2 text-xs text-slate-500 mb-8 flex-wrap">
         <a href="/" class="hover:text-red-600 transition-colors">Inicio</a>
@@ -115,7 +115,7 @@ const otrasPaginas = JUEGOS_CON_PAGINA.filter((j) => j !== id);
       </p>
 
       {sorteo ? (
-        <div class="bg-white border border-slate-200 rounded-2xl p-8 card-glow max-w-2xl mx-auto">
+        <div class="bg-white border border-slate-200 rounded-2xl p-4 sm:p-8 card-glow max-w-2xl mx-auto">
           <div class="flex items-center justify-center gap-2 text-slate-500 mb-6">
             <i data-lucide="calendar" class="w-4 h-4"></i>
             <span class="text-sm font-medium">{fechaTarjeta(sorteo.fecha)}</span>

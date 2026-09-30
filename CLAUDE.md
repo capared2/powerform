@@ -20,9 +20,15 @@ src/
     resultados.json      # Sorteos del Powerball (lo actualiza GitHub Actions 3x/semana)
     sorteos.json         # Último sorteo de cada juego del backend capa2 (multi-juego)
     juegos.js            # Metadatos de presentación por juego + esVigente() + helpers
+    navegacion.js        # JUEGOS_NAV (menús), pestaña activa y título/atrás de cada pantalla
   utils/
     fechas.js            # Formateo de fechas en español compartido (home + /resultados/)
   components/
+    Icon.astro           # Íconos Lucide incrustados (SVG) para la interfaz tipo app
+    app/                 # Interfaz tipo app en móvil (ver "Interfaz tipo app")
+      BarraPestanas.astro  # Barra de pestañas inferior
+      Hoja.astro           # Hoja inferior (bottom sheet) genérica
+      ChipsSorteos.astro   # Chips deslizables para saltar entre juegos
     anuncios/            # 1 archivo por unidad de anuncio (ver "Anuncios")
   layouts/
     Layout.astro         # Layout global: head, header, footer + anuncios globales
@@ -44,7 +50,12 @@ scripts/
 .github/workflows/
   update-resultados.yml  # Cron 3x/semana + respaldo diario: actualiza datos y pushea a main
 public/
-  main.js                # JS del cliente (Lucide, scroll, FAQ, refresco de resultados)
+  main.js                # JS del cliente (Lucide, scroll, refresco de resultados, interfaz tipo app)
+  sw.js                  # Service worker: modo offline (red primero)
+  offline.html           # Página sin conexión (la sirve sw.js)
+  manifest.json          # Manifest PWA (instalable como app)
+  apple-touch-icon.png   # Ícono de inicio en iOS (180x180)
+  icons/                 # Íconos PWA 192/512 + maskable (generados con sharp desde logo.svg)
   robots.txt
   powerball-estados.jpg  # Imagen OG local, 1200x630, 91KB (billboard Powerball, CC)
 ```
@@ -103,6 +114,41 @@ public/
   usan chips `bg-gray-200 text-gray-900` (blancas) + color por juego
   (`bolaClases` en juegos.js).
 
+## Interfaz tipo app nativa en móvil (sep 2026)
+
+Por debajo de `lg` (1024px) el sitio se comporta como una app; en escritorio
+no cambia nada (header con nav + dropdown, FAB de subir).
+
+- **App bar** (header): en la home muestra el logo; en las demás páginas,
+  botón "Volver" + título de la pantalla (`pantallaDe()` en navegacion.js).
+  "Volver" hace `history.back()` si se llegó desde el sitio; si no (entrada
+  desde Google), va al padre lógico (`/estados/`, `/resultados/` o `/`).
+  A la derecha, "Compartir" (Web Share API; si no hay, copia el enlace).
+- **Barra de pestañas** inferior: Inicio · Sorteos · Historial · Estados · Más.
+  Sorteos y Más abren **hojas inferiores** (`Hoja.astro`); son enlaces reales
+  (`/#sorteos`, `#footer`) para que funcionen sin JS. Tocar la pestaña de la
+  pantalla actual sube al inicio (reemplaza al FAB `#scrollTop` en móvil).
+- Las hojas se cierran con el fondo, la X, Escape o arrastrando el asa, y
+  **empujan una entrada al historial**: el "atrás" de Android cierra la hoja
+  en lugar de salir. Al tocar un enlace dentro de una hoja, `main.js` primero
+  saca esa entrada del historial y luego navega (`navegarDesdeHoja`).
+- **Chips de juegos** bajo el header en la home y en las páginas de juego.
+- **Transiciones entre páginas** con View Transitions de CSS (`@view-transition`),
+  solo < lg y sin `prefers-reduced-motion`. No se usa el `<ClientRouter />` de
+  Astro: rompería los anuncios (`document.write`) y la inicialización de main.js.
+- Alturas de las barras en variables CSS (`--appbar-h`, `--tabbar-h`, `--adbar-h`,
+  `--safe-top/bottom` con `viewport-fit=cover`); el `body` reserva ese espacio
+  arriba y abajo. Si cambias la altura de una barra, cambia la variable.
+- Las clases de estas piezas (`.tabbar`, `.hoja`, `.app-icon-btn`…) van en
+  global.css **fuera** de `@layer` y **sin `display`** en elementos con
+  `lg:hidden` (el CSS propio va después de las utilidades y lo pisaría).
+- **PWA**: manifest + íconos + meta de Apple en el Layout (todas las páginas).
+  `sw.js` usa **red primero** para páginas y archivos propios (con conexión
+  siempre se ve lo último), caché primero solo para `/_astro/*` (con hash), y
+  no toca otros dominios (anuncios, Analytics, CDN) ni `/api/`. Para invalidar
+  la caché de todos los usuarios, sube `VERSION` en sw.js. "Instalar la app"
+  aparece en la hoja "Más" (diálogo nativo en Chrome/Android; instrucciones en iOS).
+
 ## SEO — decisiones tomadas (jul 2026)
 
 Basadas en el reporte de Search Console (feb–jul 2026: 9 clics, 2,588 impresiones):
@@ -134,7 +180,7 @@ segunda no renderice).
 | `RailIzquierdo.astro` | 160x600 | Layout, fijo al margen izquierdo — solo `2xl:` (≥1536px) |
 | `RailDerecho.astro` | 160x300 | Layout, fijo al margen derecho — solo `2xl:` |
 | `Nativo.astro` | native banner | Layout, antes del footer — responsive, `async` |
-| `MovilSticky.astro` | 320x50 | Layout, barra fija inferior — solo móvil (`md:hidden`) |
+| `MovilSticky.astro` | 320x50 | Layout, barra fija encima de la barra de pestañas — solo móvil (`md:hidden`) |
 | `Global.astro` | script de red | Layout, final del `<body>` |
 | `Rectangulo.astro` | 300x250 | in-content, en cada página (bajo los números) |
 | `Banner468.astro` | 468x60 | in-content, corte de mitad de página — solo `sm:` (≥640px) |
@@ -148,8 +194,9 @@ Detalles que importan si tocas esto:
   Los breakpoints están elegidos para que ningún creativo desborde: 468 solo desde
   640px, 728 desde 768px, y los rails desde 1536px (a esa anchura quedan 192px de
   margen a cada lado del contenido `max-w-6xl`, y el rail mide 160px).
-- `body` lleva `pb-[64px] md:pb-0` y `#scrollTop` está en `bottom-20 md:bottom-6`
-  para que la barra adhesiva de móvil no tape ni el footer ni el botón de subir.
+- La barra adhesiva de móvil va apilada sobre la barra de pestañas
+  (`.barra-anuncio-movil` en global.css) y el `body` reserva ambas alturas
+  (`--adbar-h` + `--tabbar-h`), así que no tapa el footer.
 - `privacidad.astro` y `terminos.astro` declaran las cookies publicitarias y las
   redes de terceros. Si cambias de red, actualiza también esos textos.
 

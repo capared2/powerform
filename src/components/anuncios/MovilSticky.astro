@@ -3,12 +3,13 @@
  * Barra fija inferior 320x50 (Adsterra iframe) — SOLO móvil (<768px).
  *
  * Es el slot con más viewability en móvil. Ocupa 50px de alto: dentro de lo
- * que Google considera aceptable para un banner adhesivo (no es intersticial),
- * y `body` lleva `pb-[64px] md:pb-0` para que nunca tape contenido real.
- * El botón #scrollTop sube a `bottom-20` en móvil para no solaparse.
+ * que Google considera aceptable para un banner adhesivo (no es intersticial).
+ * Va apilada justo encima de la barra de pestañas de la interfaz tipo app
+ * (clase `.barra-anuncio-movil` en global.css), como los banners de las apps
+ * nativas; el `padding-bottom` del body reserva el alto de ambas barras.
  */
 ---
-<div class="md:hidden fixed bottom-0 inset-x-0 z-40 flex justify-center items-center bg-white/95 backdrop-blur-sm border-t border-slate-200 py-1.5">
+<div class="barra-anuncio-movil md:hidden fixed inset-x-0 z-40 flex justify-center items-center bg-white/95 backdrop-blur-sm border-t border-slate-200 py-1.5">
   <div class="anuncio-slot" style="width:320px;height:50px">
     <script is:inline>
       atOptions = {

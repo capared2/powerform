@@ -14,6 +14,22 @@
   --skel-shine: #CBD5E1;
   --transition-fast: 150ms;
   --transition-normal: 300ms;
+
+  /* Interfaz tipo app: alturas de las barras fijas + zonas seguras (notch,
+     indicador de inicio). El body reserva estos altos arriba y abajo. */
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --appbar-h: 61px;  /* franja 4px + barra 56px + borde 1px */
+  --tabbar-h: 56px;  /* barra de pestañas (< lg) */
+  --adbar-h: 64px;   /* banner adhesivo 320x50 + padding + borde (< md) */
+}
+
+@media (min-width: 768px) {
+  :root { --adbar-h: 0px; }
+}
+
+@media (min-width: 1024px) {
+  :root { --appbar-h: 69px; --tabbar-h: 0px; }
 }
 
 /* ============================================
@@ -29,6 +45,16 @@ html, body {
   overflow-x: hidden;
   max-width: 100vw;
   width: 100%;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  padding-top: calc(var(--appbar-h) + var(--safe-top));
+  padding-bottom: calc(var(--tabbar-h) + var(--adbar-h) + var(--safe-bottom));
 }
 
 main, section {
@@ -92,7 +118,9 @@ body {
   flex-shrink: 0;
 }
 
-.ball-white:hover { transform: scale(1.05); }
+@media (hover: hover) {
+  .ball-white:hover { transform: scale(1.05); }
+}
 
 .ball-red {
   width: 64px;
@@ -114,7 +142,9 @@ body {
   flex-shrink: 0;
 }
 
-.ball-red:hover { transform: scale(1.05); }
+@media (hover: hover) {
+  .ball-red:hover { transform: scale(1.05); }
+}
 
 /* Bola especial de otros juegos (Mega Ball, Star Ball, Cash Ball).
    El color de fondo/texto lo ponen las clases Tailwind de juegos.js. */
@@ -135,7 +165,9 @@ body {
   flex-shrink: 0;
 }
 
-.ball-especial:hover { transform: scale(1.05); }
+@media (hover: hover) {
+  .ball-especial:hover { transform: scale(1.05); }
+}
 
 /* ============================================
    CARDS Y EFECTOS
@@ -149,12 +181,14 @@ body {
   max-width: 100%;
 }
 
-.card-glow:hover {
-  box-shadow:
-    0 0 0 1px rgba(220, 38, 38, 0.25),
-    0 20px 25px -5px rgba(15, 23, 42, 0.12),
-    0 8px 10px -6px rgba(15, 23, 42, 0.08);
-  transform: translateY(-2px);
+@media (hover: hover) {
+  .card-glow:hover {
+    box-shadow:
+      0 0 0 1px rgba(220, 38, 38, 0.25),
+      0 20px 25px -5px rgba(15, 23, 42, 0.12),
+      0 8px 10px -6px rgba(15, 23, 42, 0.08);
+    transform: translateY(-2px);
+  }
 }
 
 /* ============================================
@@ -204,9 +238,11 @@ body {
 .step-card:nth-child(3).animate-in { animation-delay: 0.3s; }
 .step-card:nth-child(4).animate-in { animation-delay: 0.4s; }
 
-.step-card:hover {
-  transform: translateY(-4px);
-  border-color: var(--red-primary);
+@media (hover: hover) {
+  .step-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--red-primary);
+  }
 }
 
 /* ============================================
@@ -293,7 +329,7 @@ body {
    ============================================ */
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: 84px; /* compensa el header fijo al saltar a anclas */
+  scroll-padding-top: calc(var(--appbar-h) + var(--safe-top) + 16px); /* compensa el header fijo al saltar a anclas */
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -340,8 +376,8 @@ html {
    PRINT STYLES
    ============================================ */
 @media print {
-  #scrollTop, header, footer, #mobileMenu { display: none !important; }
-  body { background: white !important; color: black !important; }
+  #scrollTop, header, footer, .tabbar, .hoja, .toast, .barra-anuncio-movil { display: none !important; }
+  body { background: white !important; color: black !important; padding: 0 !important; }
 }
 
 /* ============================================
@@ -418,13 +454,18 @@ a:focus-visible {
 }
 
 @media (max-width: 375px) {
-  .ball-white { width: 42px; height: 42px; font-size: 1.1rem; }
-  .ball-red, .ball-especial { width: 50px; height: 50px; font-size: 1.35rem; }
   #blancos { gap: 0.4rem !important; }
   #real-card, #skeleton-card { padding: 1.25rem !important; }
   #real-card .grid.grid-cols-2 { grid-template-columns: 1fr !important; gap: 0.5rem !important; }
   .px-4 { padding-left: 0.75rem !important; padding-right: 0.75rem !important; }
   .step-card { padding: 1rem !important; }
+}
+
+/* Teléfonos: bolas con tamaño fluido para que los 5 números + la bola
+   especial quepan siempre en una sola fila (de 320px a 480px de ancho). */
+@media (max-width: 480px) {
+  .ball-white { width: min(42px, 10vw); height: min(42px, 10vw); font-size: min(1.15rem, 4.4vw); }
+  .ball-red, .ball-especial { width: min(50px, 12vw); height: min(50px, 12vw); font-size: min(1.35rem, 5.2vw); }
 }
 
 .max-w-4xl, .max-w-5xl, .max-w-6xl { max-width: 100% !important; }
@@ -460,4 +501,320 @@ a:focus-visible {
    para que la sección no colapse mientras carga. */
 #container-caab74139c2a4dfb8eabf58864b37dfa {
   min-height: 180px;
+}
+
+/* ============================================
+   INTERFAZ TIPO APP NATIVA (móvil y tablet, < lg)
+   ============================================
+   App bar arriba, barra de pestañas abajo, hojas inferiores (bottom sheets)
+   para Sorteos y Más, chips de juegos y snackbar. La lógica está en
+   public/main.js (clases .abierta, .arrastrando, .con-sombra, .mostrar).
+   OJO: estas reglas no llevan `display` en elementos que usan `lg:hidden`
+   (este CSS va después de las utilidades de Tailwind y lo pisaría). */
+
+a, button {
+  -webkit-tap-highlight-color: transparent;
+}
+
+.presionable {
+  transition: transform var(--transition-fast);
+}
+
+.presionable:active {
+  transform: scale(0.97);
+}
+
+/* ---- App bar ---- */
+.app-header {
+  padding-top: var(--safe-top);
+  transition: box-shadow var(--transition-normal);
+}
+
+.app-header.con-sombra {
+  box-shadow: 0 6px 20px -12px rgba(15, 23, 42, 0.35);
+}
+
+.app-icon-btn {
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: 44px;
+  height: 44px;
+  border-radius: 999px;
+  transition: background-color var(--transition-fast), transform var(--transition-fast);
+}
+
+.app-icon-btn:active {
+  background-color: #f1f5f9;
+  transform: scale(0.92);
+}
+
+/* ---- Barra de pestañas ---- */
+.tabbar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 50;
+  height: calc(var(--tabbar-h) + var(--safe-bottom));
+  padding: 0 env(safe-area-inset-right, 0px) var(--safe-bottom) env(safe-area-inset-left, 0px);
+  background: rgba(255, 255, 255, 0.96);
+  -webkit-backdrop-filter: saturate(180%) blur(16px);
+  backdrop-filter: saturate(180%) blur(16px);
+  border-top: 1px solid #e2e8f0;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+}
+
+.tab {
+  flex: 1 1 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  color: #64748b;
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: 0.01em;
+}
+
+.tab-icono {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 28px;
+  border-radius: 999px;
+  transition: background-color 200ms ease, transform var(--transition-fast);
+}
+
+.tab[data-activo] { color: var(--red-primary); }
+.tab[data-activo] .tab-icono { background-color: #fee2e2; }
+.tab:active .tab-icono { transform: scale(0.88); }
+
+/* El banner adhesivo de móvil va apilado encima de la barra de pestañas */
+.barra-anuncio-movil {
+  bottom: calc(var(--tabbar-h) + var(--safe-bottom));
+}
+
+/* ---- Chips de juegos ---- */
+.chips-sorteos {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding: 10px 16px;
+  scroll-snap-type: x proximity;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+.chips-sorteos::-webkit-scrollbar { display: none; }
+
+.chip-sorteo {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 14px;
+  border: 1px solid #e2e8f0;
+  border-radius: 999px;
+  background: #fff;
+  color: #334155;
+  font-size: 14px;
+  font-weight: 600;
+  white-space: nowrap;
+  scroll-snap-align: start;
+  transition: transform var(--transition-fast), background-color var(--transition-fast);
+}
+
+.chip-sorteo:active { transform: scale(0.95); }
+
+.chip-sorteo[aria-current="page"] {
+  background: var(--blue-navy);
+  border-color: var(--blue-navy);
+  color: #fff;
+}
+
+/* ---- Hojas inferiores (bottom sheets) ---- */
+.hoja {
+  position: fixed;
+  inset: 0;
+  z-index: 70;
+  visibility: hidden;
+  pointer-events: none;
+  transition: visibility 0s linear 320ms;
+}
+
+.hoja.abierta {
+  visibility: visible;
+  pointer-events: auto;
+  transition-delay: 0s;
+}
+
+.hoja-fondo {
+  position: absolute;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.45);
+  opacity: 0;
+  transition: opacity 320ms ease;
+  touch-action: none;
+}
+
+.hoja.abierta .hoja-fondo { opacity: 1; }
+
+.hoja-panel {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  max-height: calc(100vh - 48px);
+  max-height: calc(100dvh - var(--safe-top) - 48px);
+  padding-bottom: var(--safe-bottom);
+  background: #f1f5f9;
+  border-radius: 20px 20px 0 0;
+  box-shadow: 0 -10px 40px rgba(15, 23, 42, 0.18);
+  transform: translateY(100%);
+  transition: transform 320ms cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+.hoja.abierta .hoja-panel { transform: translateY(0); }
+.hoja-panel.arrastrando { transition: none; }
+
+/* En tablet el contenido de la hoja no se estira a todo el ancho */
+.hoja-panel > * {
+  width: 100%;
+  max-width: 560px;
+  margin-inline: auto;
+}
+
+.hoja-arrastre {
+  flex: none;
+  touch-action: none;
+  cursor: grab;
+}
+
+.hoja-asa {
+  width: 40px;
+  height: 5px;
+  margin: 8px auto 10px;
+  border-radius: 999px;
+  background: #cbd5e1;
+}
+
+.hoja-contenido {
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  padding: 0 16px 20px;
+}
+
+html.hoja-abierta { overflow: hidden; }
+
+/* Listas agrupadas estilo iOS dentro de las hojas */
+.lista-app {
+  background: #fff;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.lista-app > li { position: relative; }
+
+.lista-app > li + li::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 58px;
+  right: 0;
+  height: 1px;
+  background: #e2e8f0;
+}
+
+.lista-app-titulo {
+  padding: 18px 14px 6px;
+  color: #64748b;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.fila-app {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 52px;
+  padding: 10px 14px;
+  transition: background-color var(--transition-fast);
+}
+
+.fila-app:active { background-color: #f1f5f9; }
+.fila-app[aria-current="page"] { background-color: #fef2f2; }
+
+.fila-icono {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 9px;
+}
+
+.fila-icono.bola { border-radius: 999px; }
+
+/* ---- Snackbar ---- */
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: calc(var(--tabbar-h) + var(--adbar-h) + var(--safe-bottom) + 12px);
+  z-index: 80;
+  max-width: calc(100vw - 32px);
+  padding: 10px 18px;
+  border-radius: 999px;
+  background: var(--blue-navy);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 500;
+  box-shadow: 0 10px 25px rgba(15, 23, 42, 0.25);
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50%, 16px);
+  transition: opacity 200ms ease, transform 200ms ease;
+}
+
+.toast.mostrar {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+/* ---- Transiciones entre páginas (View Transitions entre documentos) ----
+   Solo en móvil/tablet y si el usuario no pidió reducir movimiento. Header
+   y pestañas tienen nombre propio: se quedan quietos mientras el contenido
+   cambia, como en una app. Navegadores sin soporte navegan normal. */
+@media (prefers-reduced-motion: no-preference) and (max-width: 1023.98px) {
+  @view-transition { navigation: auto; }
+}
+
+.app-header { view-transition-name: app-header; }
+.tabbar { view-transition-name: app-tabbar; }
+
+::view-transition-old(root) {
+  animation: 140ms ease-in both vt-salida;
+}
+
+::view-transition-new(root) {
+  animation: 220ms cubic-bezier(0.2, 0.8, 0.2, 1) both vt-entrada;
+}
+
+@keyframes vt-salida {
+  to { opacity: 0; }
+}
+
+@keyframes vt-entrada {
+  from { opacity: 0; transform: translateY(10px); }
 }

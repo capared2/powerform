@@ -1,0 +1,24 @@
+---
+/**
+ * Selector horizontal de juegos (chips deslizables) — solo < lg.
+ * Se muestra en la home y en las páginas de cada juego para saltar entre
+ * sorteos con un toque, como las pestañas superiores de una app.
+ */
+import { JUEGOS_NAV } from '../../data/navegacion.js';
+
+interface Props {
+  actual: string; // pathname de la página
+}
+
+const { actual } = Astro.props;
+---
+<nav class="lg:hidden bg-white border-b border-slate-200" aria-label="Sorteos">
+  <div id="chipsSorteos" class="chips-sorteos">
+    {JUEGOS_NAV.map((j) => (
+      <a href={j.href} class="chip-sorteo" aria-current={actual === j.href ? 'page' : undefined}>
+        <span class={`w-2.5 h-2.5 rounded-full ${j.bolaClases}`} aria-hidden="true"></span>
+        {j.nombre}
+      </a>
+    ))}
+  </div>
+</nav>
