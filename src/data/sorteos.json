@@ -1,5 +1,5 @@
 {
-  "actualizado": "2026-09-30T19:21:55.133Z",
+  "actualizado": "2026-10-01T11:06:50.239Z",
   "juegos": {
     "powerball": {
       "juego": "powerball",
@@ -14,23 +14,10 @@
           49
         ],
         "powerball": 7,
-        "powerplay": 3,
-        "jackpot_ganado": false,
-        "doble_jugada": {
-          "blancos": [
-            11,
-            20,
-            26,
-            43,
-            46
-          ],
-          "powerball": 18
-        }
+        "powerplay": 3
       },
       "proximo_sorteo": {
-        "fecha": "2026-09-30",
-        "premio_estimado": 409000000,
-        "premio_efectivo": 170200000
+        "fecha": "2026-09-30"
       }
     },
     "megamillions": {
@@ -57,22 +44,22 @@
       "juego": "lottoamerica",
       "nombre": "Lotto America",
       "sorteo": {
-        "fecha": "2026-09-28",
+        "fecha": "2026-09-30",
         "blancos": [
-          7,
-          12,
+          16,
+          23,
+          38,
           39,
-          45,
-          47
+          48
         ],
-        "star_ball": 9,
+        "star_ball": 2,
         "all_star_bonus": 3,
         "jackpot_ganado": false
       },
       "proximo_sorteo": {
-        "fecha": "2026-09-30",
-        "premio_estimado": 5820000,
-        "premio_efectivo": 2420000
+        "fecha": "2026-10-03",
+        "premio_estimado": 6050000,
+        "premio_efectivo": 2510000
       }
     },
     "cash4life": {
@@ -98,19 +85,20 @@
       "juego": "2by2",
       "nombre": "2by2",
       "sorteo": {
-        "fecha": "2026-09-29",
+        "fecha": "2026-09-30",
         "blancos": [
-          12,
-          26
+          3,
+          10
         ],
         "rojos": [
-          11,
-          24
+          6,
+          20
         ],
-        "jackpot_ganado": false
+        "jackpot_ganado": true,
+        "ganador_estado": "WY"
       },
       "proximo_sorteo": {
-        "fecha": "2026-09-30",
+        "fecha": "2026-10-01",
         "premio_estimado": 22000,
         "premio_descripcion": "Premio mayor: $22,000"
       }
