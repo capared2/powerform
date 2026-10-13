@@ -1,5 +1,5 @@
 {
-  "actualizado": "2026-10-13T12:03:14.944Z",
+  "actualizado": "2026-10-13T20:15:23.322Z",
   "juegos": {
     "powerball": {
       "juego": "powerball",
@@ -15,7 +15,17 @@
         ],
         "powerball": 9,
         "powerplay": 3,
-        "jackpot_ganado": false
+        "jackpot_ganado": false,
+        "doble_jugada": {
+          "blancos": [
+            23,
+            25,
+            51,
+            53,
+            54
+          ],
+          "powerball": 16
+        }
       },
       "proximo_sorteo": {
         "fecha": "2026-10-14",
