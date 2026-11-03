@@ -1,5 +1,5 @@
 {
-  "actualizado": "2026-11-02T22:47:02.641Z",
+  "actualizado": "2026-11-03T12:12:49.448Z",
   "juegos": {
     "powerball": {
       "juego": "powerball",
@@ -14,23 +14,10 @@
           56
         ],
         "powerball": 20,
-        "powerplay": 3,
-        "jackpot_ganado": false,
-        "doble_jugada": {
-          "blancos": [
-            16,
-            52,
-            55,
-            58,
-            67
-          ],
-          "powerball": 24
-        }
+        "powerplay": 3
       },
       "proximo_sorteo": {
-        "fecha": "2026-11-02",
-        "premio_estimado": 793000000,
-        "premio_efectivo": 339900000
+        "fecha": "2026-11-02"
       }
     },
     "megamillions": {
@@ -57,22 +44,22 @@
       "juego": "lottoamerica",
       "nombre": "Lotto America",
       "sorteo": {
-        "fecha": "2026-10-31",
+        "fecha": "2026-11-02",
         "blancos": [
-          2,
-          11,
-          23,
-          35,
-          42
+          4,
+          20,
+          47,
+          48,
+          50
         ],
-        "star_ball": 6,
-        "all_star_bonus": 3,
+        "star_ball": 9,
+        "all_star_bonus": 4,
         "jackpot_ganado": false
       },
       "proximo_sorteo": {
-        "fecha": "2026-11-02",
-        "premio_estimado": 2600000,
-        "premio_efectivo": 1110000
+        "fecha": "2026-11-04",
+        "premio_estimado": 2650000,
+        "premio_efectivo": 1130000
       }
     },
     "cash4life": {
@@ -98,19 +85,19 @@
       "juego": "2by2",
       "nombre": "2by2",
       "sorteo": {
-        "fecha": "2026-11-01",
+        "fecha": "2026-11-02",
         "blancos": [
-          5,
+          1,
           17
         ],
         "rojos": [
-          10,
-          18
+          6,
+          25
         ],
         "jackpot_ganado": false
       },
       "proximo_sorteo": {
-        "fecha": "2026-11-02",
+        "fecha": "2026-11-03",
         "premio_estimado": 22000,
         "premio_descripcion": "Premio mayor: $22,000"
       }
