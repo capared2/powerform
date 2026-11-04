@@ -1,5 +1,5 @@
 {
-  "actualizado": "2026-11-03T20:30:28.889Z",
+  "actualizado": "2026-11-04T20:49:31.435Z",
   "juegos": {
     "powerball": {
       "juego": "powerball",
@@ -15,7 +15,6 @@
         ],
         "powerball": 23,
         "powerplay": 4,
-        "jackpot_ganado": false,
         "doble_jugada": {
           "blancos": [
             20,
@@ -28,29 +27,27 @@
         }
       },
       "proximo_sorteo": {
-        "fecha": "2026-11-04",
-        "premio_estimado": 835000000,
-        "premio_efectivo": 357900000
+        "fecha": "2026-11-04"
       }
     },
     "megamillions": {
       "juego": "megamillions",
       "nombre": "Mega Millions",
       "sorteo": {
-        "fecha": "2026-10-30",
+        "fecha": "2026-11-03",
         "blancos": [
-          5,
-          10,
-          38,
-          49,
-          68
+          4,
+          24,
+          31,
+          62,
+          70
         ],
-        "megaball": 17
+        "megaball": 3
       },
       "proximo_sorteo": {
-        "fecha": "2026-11-03",
-        "premio_estimado": 482000000,
-        "premio_efectivo": 203600000
+        "fecha": "2026-11-06",
+        "premio_estimado": 505000000,
+        "premio_efectivo": 213300000
       }
     },
     "lottoamerica": {
@@ -98,19 +95,19 @@
       "juego": "2by2",
       "nombre": "2by2",
       "sorteo": {
-        "fecha": "2026-11-02",
+        "fecha": "2026-11-03",
         "blancos": [
-          1,
-          17
+          9,
+          15
         ],
         "rojos": [
-          6,
-          25
+          8,
+          20
         ],
         "jackpot_ganado": false
       },
       "proximo_sorteo": {
-        "fecha": "2026-11-03",
+        "fecha": "2026-11-04",
         "premio_estimado": 22000,
         "premio_descripcion": "Premio mayor: $22,000"
       }
