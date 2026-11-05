@@ -1,5 +1,5 @@
 {
-  "actualizado": "2026-11-05T12:39:20.600Z",
+  "actualizado": "2026-11-05T21:05:32.312Z",
   "juegos": {
     "powerball": {
       "juego": "powerball",
@@ -28,9 +28,9 @@
         }
       },
       "proximo_sorteo": {
-        "fecha": "2026-11-04",
-        "premio_estimado": 835000000,
-        "premio_efectivo": 357900000
+        "fecha": "2026-11-07",
+        "premio_estimado": 20000000,
+        "premio_efectivo": 8600000
       }
     },
     "megamillions": {
