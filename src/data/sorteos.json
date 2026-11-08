@@ -1,5 +1,5 @@
 {
-  "actualizado": "2026-11-07T18:48:38.860Z",
+  "actualizado": "2026-11-08T11:27:03.574Z",
   "juegos": {
     "powerball": {
       "juego": "powerball",
@@ -14,23 +14,10 @@
           56
         ],
         "powerball": 21,
-        "powerplay": 2,
-        "jackpot_ganado": false,
-        "doble_jugada": {
-          "blancos": [
-            3,
-            6,
-            23,
-            58,
-            65
-          ],
-          "powerball": 15
-        }
+        "powerplay": 2
       },
       "proximo_sorteo": {
-        "fecha": "2026-11-07",
-        "premio_estimado": 20000000,
-        "premio_efectivo": 8600000
+        "fecha": "2026-11-07"
       }
     },
     "megamillions": {
@@ -57,22 +44,22 @@
       "juego": "lottoamerica",
       "nombre": "Lotto America",
       "sorteo": {
-        "fecha": "2026-11-04",
+        "fecha": "2026-11-07",
         "blancos": [
+          2,
           10,
-          25,
-          28,
-          42,
-          45
+          16,
+          20,
+          35
         ],
-        "star_ball": 7,
-        "all_star_bonus": 3,
+        "star_ball": 1,
+        "all_star_bonus": 2,
         "jackpot_ganado": false
       },
       "proximo_sorteo": {
-        "fecha": "2026-11-07",
-        "premio_estimado": 2700000,
-        "premio_efectivo": 1160000
+        "fecha": "2026-11-09",
+        "premio_estimado": 2750000,
+        "premio_efectivo": 1180000
       }
     },
     "cash4life": {
@@ -98,19 +85,19 @@
       "juego": "2by2",
       "nombre": "2by2",
       "sorteo": {
-        "fecha": "2026-11-06",
+        "fecha": "2026-11-07",
         "blancos": [
-          4,
-          25
+          20,
+          26
         ],
         "rojos": [
-          12,
-          21
+          1,
+          12
         ],
         "jackpot_ganado": false
       },
       "proximo_sorteo": {
-        "fecha": "2026-11-07",
+        "fecha": "2026-11-08",
         "premio_estimado": 22000,
         "premio_descripcion": "Premio mayor: $22,000"
       }
