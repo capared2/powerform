@@ -1,6 +1,18 @@
 {
-  "actualizado": "2026-11-10T12:53:23.655Z",
+  "actualizado": "2026-11-12T13:05:51.339Z",
   "sorteos": [
+    {
+      "fecha": "2026-11-11",
+      "blancos": [
+        8,
+        42,
+        45,
+        51,
+        57
+      ],
+      "powerball": 17,
+      "powerplay": 3
+    },
     {
       "fecha": "2026-11-09",
       "blancos": [
