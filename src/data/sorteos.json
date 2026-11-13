@@ -1,5 +1,5 @@
 {
-  "actualizado": "2026-11-12T13:05:51.576Z",
+  "actualizado": "2026-11-13T20:54:23.899Z",
   "juegos": {
     "powerball": {
       "juego": "powerball",
@@ -15,7 +15,6 @@
         ],
         "powerball": 17,
         "powerplay": 3,
-        "jackpot_ganado": false,
         "doble_jugada": {
           "blancos": [
             15,
@@ -28,9 +27,7 @@
         }
       },
       "proximo_sorteo": {
-        "fecha": "2026-11-14",
-        "premio_estimado": 63000000,
-        "premio_efectivo": 27100000
+        "fecha": "2026-11-14"
       }
     },
     "megamillions": {
@@ -72,7 +69,7 @@
       "proximo_sorteo": {
         "fecha": "2026-11-14",
         "premio_estimado": 2930000,
-        "premio_efectivo": 1260000
+        "premio_efectivo": 1220000
       }
     },
     "cash4life": {
@@ -98,20 +95,19 @@
       "juego": "2by2",
       "nombre": "2by2",
       "sorteo": {
-        "fecha": "2026-11-11",
+        "fecha": "2026-11-12",
         "blancos": [
-          5,
-          25
+          10,
+          22
         ],
         "rojos": [
-          18,
-          23
+          2,
+          20
         ],
-        "jackpot_ganado": true,
-        "ganador_estado": "ND"
+        "jackpot_ganado": false
       },
       "proximo_sorteo": {
-        "fecha": "2026-11-12",
+        "fecha": "2026-11-13",
         "premio_estimado": 22000,
         "premio_descripcion": "Premio mayor: $22,000"
       }
