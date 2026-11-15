@@ -1,23 +1,36 @@
 {
-  "actualizado": "2026-11-15T12:09:38.268Z",
+  "actualizado": "2026-11-15T19:47:02.426Z",
   "juegos": {
     "powerball": {
       "juego": "powerball",
       "nombre": "Powerball",
       "sorteo": {
-        "fecha": "2026-11-11",
+        "fecha": "2026-11-14",
         "blancos": [
-          8,
-          42,
-          45,
+          9,
+          44,
+          49,
           51,
-          57
+          68
         ],
-        "powerball": 17,
-        "powerplay": 3
+        "powerball": 4,
+        "powerplay": 2,
+        "jackpot_ganado": false,
+        "doble_jugada": {
+          "blancos": [
+            15,
+            25,
+            30,
+            32,
+            67
+          ],
+          "powerball": 1
+        }
       },
       "proximo_sorteo": {
-        "fecha": "2026-11-14"
+        "fecha": "2026-11-16",
+        "premio_estimado": 76000000,
+        "premio_efectivo": 31800000
       }
     },
     "megamillions": {
