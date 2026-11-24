@@ -1,5 +1,5 @@
 {
-  "actualizado": "2026-11-22T20:44:05.800Z",
+  "actualizado": "2026-11-24T01:41:17.792Z",
   "juegos": {
     "powerball": {
       "juego": "powerball",
@@ -98,20 +98,19 @@
       "juego": "2by2",
       "nombre": "2by2",
       "sorteo": {
-        "fecha": "2026-11-21",
+        "fecha": "2026-11-22",
         "blancos": [
-          14,
-          21
+          16,
+          24
         ],
         "rojos": [
-          3,
-          20
+          1,
+          7
         ],
-        "jackpot_ganado": true,
-        "ganador_estado": "KS"
+        "jackpot_ganado": false
       },
       "proximo_sorteo": {
-        "fecha": "2026-11-22",
+        "fecha": "2026-11-23",
         "premio_estimado": 22000,
         "premio_descripcion": "Premio mayor: $22,000"
       }
